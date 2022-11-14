@@ -14,6 +14,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
+      - name: Cahce node modules
+        uses: ctions/cache@v3
+        with:
+          path: ~/.npm ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
