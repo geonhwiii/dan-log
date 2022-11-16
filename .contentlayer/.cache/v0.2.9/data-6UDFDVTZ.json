@@ -1,0 +1,27 @@
+{
+  "cacheItemsMap": {
+    "first.mdx": {
+      "document": {
+        "title": "Dan Log",
+        "date": "2022-11-17",
+        "description": "Description",
+        "body": {
+          "raw": "\n## Title\n\n- Contents\n",
+          "code": "var Component=(()=>{var d=Object.create;var s=Object.defineProperty;var m=Object.getOwnPropertyDescriptor;var x=Object.getOwnPropertyNames;var h=Object.getPrototypeOf,j=Object.prototype.hasOwnProperty;var _=(n,t)=>()=>(t||n((t={exports:{}}).exports,t),t.exports),f=(n,t)=>{for(var o in t)s(n,o,{get:t[o],enumerable:!0})},c=(n,t,o,i)=>{if(t&&typeof t==\"object\"||typeof t==\"function\")for(let r of x(t))!j.call(n,r)&&r!==o&&s(n,r,{get:()=>t[r],enumerable:!(i=m(t,r))||i.enumerable});return n};var g=(n,t,o)=>(o=n!=null?d(h(n)):{},c(t||!n||!n.__esModule?s(o,\"default\",{value:n,enumerable:!0}):o,n)),p=n=>c(s({},\"__esModule\",{value:!0}),n);var l=_((F,a)=>{a.exports=_jsx_runtime});var b={};f(b,{default:()=>M,frontmatter:()=>D});var e=g(l()),D={title:\"Dan Log\",date:new Date(16686432e5),description:\"Description\"};function u(n){let t=Object.assign({h2:\"h2\",ul:\"ul\",li:\"li\"},n.components);return(0,e.jsxs)(e.Fragment,{children:[(0,e.jsx)(t.h2,{children:\"Title\"}),`\n`,(0,e.jsxs)(t.ul,{children:[`\n`,(0,e.jsx)(t.li,{children:\"Contents\"}),`\n`]})]})}function C(n={}){let{wrapper:t}=n.components||{};return t?(0,e.jsx)(t,Object.assign({},n,{children:(0,e.jsx)(u,n)})):u(n)}var M=C;return p(b);})();\n;return Component;"
+        },
+        "_id": "first.mdx",
+        "_raw": {
+          "sourceFilePath": "first.mdx",
+          "sourceFileName": "first.mdx",
+          "sourceFileDir": ".",
+          "contentType": "mdx",
+          "flattenedPath": "first"
+        },
+        "type": "Post"
+      },
+      "documentHash": "1668613759978",
+      "hasWarnings": false,
+      "documentTypeName": "Post"
+    }
+  }
+}
