@@ -9,20 +9,20 @@ export const SITE: Site = {
 
 // Work Page
 export const WORK: Page = {
-  TITLE: 'Work',
-  DESCRIPTION: 'Places I have worked.',
+  TITLE: 'Profile',
+  DESCRIPTION: '프로필 및 경력',
 };
 
 // Blog Page
 export const BLOG: Page = {
-  TITLE: 'Blog',
-  DESCRIPTION: 'Writing on topics I am passionate about.',
+  TITLE: '블로그',
+  DESCRIPTION: '단의 블로그 글 목록',
 };
 
 // Search Page
 export const SEARCH: Page = {
-  TITLE: 'Search',
-  DESCRIPTION: 'Search all posts and projects by keyword.',
+  TITLE: '검색',
+  DESCRIPTION: '단로그의 글 목록 검색',
 };
 
 // Links
