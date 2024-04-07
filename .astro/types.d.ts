@@ -180,50 +180,8 @@ declare module 'astro:content' {
 } & { render(): Render[".md"] };
 };
 "legal": {
-"privacy.md": {
-	id: "privacy.md";
-  slug: "privacy";
-  body: string;
-  collection: "legal";
-  data: InferEntrySchema<"legal">
-} & { render(): Render[".md"] };
-"terms.md": {
-	id: "terms.md";
-  slug: "terms";
-  body: string;
-  collection: "legal";
-  data: InferEntrySchema<"legal">
-} & { render(): Render[".md"] };
 };
 "projects": {
-"project-1/index.md": {
-	id: "project-1/index.md";
-  slug: "project-1";
-  body: string;
-  collection: "projects";
-  data: InferEntrySchema<"projects">
-} & { render(): Render[".md"] };
-"project-2/index.md": {
-	id: "project-2/index.md";
-  slug: "project-2";
-  body: string;
-  collection: "projects";
-  data: InferEntrySchema<"projects">
-} & { render(): Render[".md"] };
-"project-3/index.md": {
-	id: "project-3/index.md";
-  slug: "project-3";
-  body: string;
-  collection: "projects";
-  data: InferEntrySchema<"projects">
-} & { render(): Render[".md"] };
-"project-4/index.md": {
-	id: "project-4/index.md";
-  slug: "project-4";
-  body: string;
-  collection: "projects";
-  data: InferEntrySchema<"projects">
-} & { render(): Render[".md"] };
 };
 "work": {
 "apple.md": {
