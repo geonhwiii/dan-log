@@ -28,20 +28,19 @@ export const SEARCH: Page = {
 // Links
 export const LINKS: Links = [
   {
-    TEXT: 'Home',
+    TEXT: '홈',
     HREF: '/',
   },
   {
-    TEXT: 'Work',
-    HREF: '/work',
+    TEXT: '블로그',
+    HREF: '/blog',
   },
   {
-    TEXT: 'Blog',
-    HREF: '/blog',
+    TEXT: '프로필',
+    HREF: '/work',
   },
 ];
 
-// Socials
 export const SOCIALS: Socials = [
   {
     NAME: 'Email',
