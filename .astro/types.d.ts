@@ -136,44 +136,9 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"blog": {
-"01-astro-sphere-file-structure/index.md": {
-	id: "01-astro-sphere-file-structure/index.md";
-  slug: "01-astro-sphere-file-structure";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"02-astro-sphere-getting-started/index.md": {
-	id: "02-astro-sphere-getting-started/index.md";
-  slug: "02-astro-sphere-getting-started";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"03-astro-sphere-add-new-post-or-projects/index.md": {
-	id: "03-astro-sphere-add-new-post-or-projects/index.md";
-  slug: "03-astro-sphere-add-new-post-or-projects";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"04-astro-sphere-writing-markdown/index.md": {
-	id: "04-astro-sphere-writing-markdown/index.md";
-  slug: "04-astro-sphere-writing-markdown";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".md"] };
-"05-astro-sphere-writing-mdx/index.mdx": {
-	id: "05-astro-sphere-writing-mdx/index.mdx";
-  slug: "05-astro-sphere-writing-mdx";
-  body: string;
-  collection: "blog";
-  data: InferEntrySchema<"blog">
-} & { render(): Render[".mdx"] };
-"06-astro-sphere-social-links/index.md": {
-	id: "06-astro-sphere-social-links/index.md";
-  slug: "06-astro-sphere-social-links";
+"array.with()가-뭘까/index.md": {
+	id: "array.with()가-뭘까/index.md";
+  slug: "arraywith가-뭘까";
   body: string;
   collection: "blog";
   data: InferEntrySchema<"blog">
