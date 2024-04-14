@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://danlog.vercel.app/sitemap-index.xml
