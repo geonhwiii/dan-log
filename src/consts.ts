@@ -9,7 +9,7 @@ export const SITE: Site = {
 
 // Work Page
 export const WORK: Page = {
-  TITLE: 'Profile',
+  TITLE: '프로필',
   DESCRIPTION: '프로필 및 경력',
 };
 
@@ -60,10 +60,4 @@ export const SOCIALS: Socials = [
     TEXT: 'gunwww',
     HREF: 'https://www.linkedin.com/in/gunwww/',
   },
-  // {
-  //   NAME: 'Twitter',
-  //   ICON: 'twitter-x',
-  //   TEXT: 'geonhwiii',
-  //   HREF: 'https://twitter.com/geonhwiii',
-  // },
 ];
