@@ -1,5 +1,5 @@
 ---
-title: 'tailwind 어디까지 써봤어?'
+title: 'tailwind3.4 활용하기'
 summary: 'tailwindcss v3.4 기능 활용하기'
 date: '05 01 2024'
 draft: false
