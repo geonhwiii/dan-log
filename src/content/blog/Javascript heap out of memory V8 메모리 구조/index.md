@@ -1,6 +1,6 @@
 ---
-title: 'Javascript heap out of memory 오류와 V8 엔진 메모리 구조'
-summary: 'Javascript heap out of memory 오류와 V8 엔진 메모리 구조'
+title: 'Javascript heap out of memory & V8 메모리 구조'
+summary: 'Javascript heap out of memory & V8 메모리 구조'
 date: '06 23 2024'
 draft: false
 tags:
@@ -45,7 +45,7 @@ tags:
 ![](https://i.imgur.com/UpLgi07.png)
 (\* 출처 : https://deepu.tech/memory-management-in-v8/)
 
-#### 1. Heap Memory
+### 1. Heap Memory
 
 V8 엔진의 메모리 구조에서 가장 큰 부분을 차지하며, 모든 객체와 함수가 저장되는 공간입니다.
 
@@ -55,7 +55,7 @@ V8 엔진의 메모리 구조에서 가장 큰 부분을 차지하며, 모든 �
 
 - Old Space: `Old Generation`이라고도 하며, `Young Space`에서 살아남은 오래된 객체가 저장되는 영역입니다. 이 영역의 객체들은 비교적 수명이 길며, `Young Space`보다 덜 빈번하게 가비지 컬렉션이 수행됩니다. `Old Space`의 크기는 `--initial_old_space_size`(초기값)와 `max_old_space_size`(최대값)을 사용해 조정할 수 있습니다.
 
-#### 2. Stack
+### 2. Stack
 
 스택은 메서드와 함수 프레임, 원시 값, 객체 포인터를 포함한 정적 데이터가 저장되는 곳입니다.
 
@@ -63,7 +63,7 @@ V8 엔진의 메모리 구조에서 가장 큰 부분을 차지하며, 모든 �
 
 메모리 할당과 해제가 매우 빠르며, 주로 짧은 수명의 데이터가 저장됩니다.
 
-#### 3. 가비지 컬렉션 (GC)
+### 3. 가비지 컬렉션 (GC)
 
 프로그램이 사용가능한 것보다 더 많은 메모리를 힙 메모리에 할당하면 메모리 부족 오류가 발생합니다.
 
@@ -73,7 +73,7 @@ V8 엔진은 가비지 컬렉션을 사용해 힙 메모리를 관리합니다. 
 
 `Old Space`에서는 앞서 설명한 `Mark and Sweep` 방식이 사용됩니다. 이 방식은 더 큰 메모리 영역을 다루며, 상대적으로 빈번하게 가비지 컬렉션이 발생하지 않습니다.
 
-#### 4. Mark And Sweep
+### 4. Mark And Sweep
 
 앞서, script에서 `max_old_space_size=4096`과 같이 옵션을 주었었는데,
 
@@ -87,7 +87,7 @@ V8 엔진은 가비지 컬렉션을 사용해 힙 메모리를 관리합니다. 
 
 가비지 컬렉터(GC)는 반복적으로 루트로부터 확인하며 사용하지 않는 객체를 `Sweep`하여 메모리를 확보합니다.
 
-#### 5. --max-old-space-size
+### 5. --max-old-space-size
 
 가비지 컬렉션이 동작하면서 `Young Space` 를 살아남은 `Old Space`의 객체들이 많아지면
 
