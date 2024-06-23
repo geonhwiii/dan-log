@@ -1,13 +1,12 @@
 ---
-title: Javascript heap out of memory 오류와 V8 엔진 메모리 구조
-summary: javascript heap out of memory 오류와 V8 엔진 메모리 구조
-date: 06 23 2024
+title: 'Javascript heap out of memory 오류와 V8 엔진 메모리 구조'
+summary: 'Javascript heap out of memory 오류와 V8 엔진 메모리 구조'
+date: '06 23 2024'
 draft: false
 tags:
   - Javascript
-	- Memory
-	- V8
-	- GC
+  - Memory
+  - GC
 ---
 
 ## Heap Out Of Memory?
