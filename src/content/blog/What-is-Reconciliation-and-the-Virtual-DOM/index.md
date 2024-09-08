@@ -1,5 +1,5 @@
 ---
-title: '번역 - What is Reconciliation and the Virtual DOM (VDOM)?'
+title: '[번역] What is Reconciliation and the Virtual DOM (VDOM)?'
 summary: 'Reconciliation and the Virtual DOM'
 date: '08 01 2024'
 draft: false
