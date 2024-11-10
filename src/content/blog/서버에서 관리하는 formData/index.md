@@ -208,4 +208,3 @@ function QuestionComponent({ question }: Props) {
 중요한 것은 프론트엔드와 백엔드간의 소통을 통한 `formData` 설계라고 생각합니다.
 
 긴 글 읽어주셔서 감사합니다 :)
-
