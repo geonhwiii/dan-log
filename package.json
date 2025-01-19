@@ -1,36 +1,39 @@
 {
-  "name": "astro-sphere",
-  "type": "module",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "astro dev",
-    "dev:network": "astro dev --host",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "preview:network": "astro dev --host",
-    "astro": "astro",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
-  },
-  "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.0.6",
-    "@astrojs/rss": "^4.0.11",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/solid-js": "^5.0.3",
-    "@astrojs/tailwind": "^5.1.4",
-    "@astrojs/vercel": "^8.0.2",
-    "@tailwindcss/typography": "^0.5.10",
-    "@vercel/analytics": "^1.2.2",
-    "@vercel/speed-insights": "^1.0.10",
-    "astro": "^5.1.7",
-    "clsx": "^2.1.0",
-    "fuse.js": "^7.0.0",
-    "sharp": "^0.33.2",
-    "solid-js": "^1.8.15",
-    "tailwind-merge": "^2.2.1",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3"
-  }
+	"name": "astro-sphere",
+	"type": "module",
+	"version": "1.0.0",
+	"scripts": {
+		"dev": "astro dev",
+		"dev:network": "astro dev --host",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"preview:network": "astro dev --host",
+		"astro": "astro",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.9.4",
+		"@astrojs/mdx": "^4.0.6",
+		"@astrojs/rss": "^4.0.11",
+		"@astrojs/sitemap": "^3.2.1",
+		"@astrojs/solid-js": "^5.0.3",
+		"@astrojs/tailwind": "^5.1.4",
+		"@astrojs/vercel": "^8.0.2",
+		"@tailwindcss/typography": "^0.5.10",
+		"@vercel/analytics": "^1.2.2",
+		"@vercel/speed-insights": "^1.0.10",
+		"astro": "^5.1.7",
+		"clsx": "^2.1.0",
+		"fuse.js": "^7.0.0",
+		"sharp": "^0.33.2",
+		"solid-js": "^1.8.15",
+		"tailwind-merge": "^2.2.1",
+		"tailwindcss": "^3.4.1",
+		"typescript": "^5.3.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4"
+	}
 }

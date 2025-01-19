@@ -10,21 +10,21 @@ const collection = await getCollection('work');
 collection.sort((a, b) => new Date(b.data.dateStart).getTime() - new Date(a.data.dateStart).getTime());
 
 const work = await Promise.all(
-  collection.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
-  })
+	collection.map(async (item) => {
+		const { Content } = await item.render();
+		return { ...item, Content };
+	}),
 );
 
 function formatWorkDate(input: Date | string) {
-  if (typeof input === 'string') return input;
+	if (typeof input === 'string') return input;
 
-  const month = input.toLocaleDateString('ko-KR', {
-    month: 'short',
-  });
+	const month = input.toLocaleDateString('ko-KR', {
+		month: 'short',
+	});
 
-  const year = new Date(input).getFullYear();
-  return `${year}년 ${month}`;
+	const year = new Date(input).getFullYear();
+	return `${year}년 ${month}`;
 }
 ---
 

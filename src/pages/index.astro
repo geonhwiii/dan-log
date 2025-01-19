@@ -7,9 +7,9 @@ import TwinklingStars from '@components/TwinklingStars.astro';
 import MeteorShower from '@components/MeteorShower.astro';
 
 const posts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+	.slice(0, 3);
 ---
 
 <PageLayout title="홈" description={SITE.DESCRIPTION}>

@@ -1,6 +1,6 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import SpeedInsights from '@vercel/speed-insights/astro';
+import { ClientRouter } from "astro:transitions";
+import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
   title: string;
@@ -10,7 +10,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/open-graph.jpg' } = Astro.props;
+const { title, description, image = "/open-graph.jpg" } = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -19,11 +19,29 @@ const { title, description, image = '/open-graph.jpg' } = Astro.props;
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
-<link rel="preload" href="/fonts/Pretendard-Regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/Pretendard-Bold.woff" as="font" type="font/woff" crossorigin />
+<link
+  rel="preload"
+  href="/fonts/Pretendard-Regular.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="/fonts/Pretendard-Bold.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
 
-<meta name="naver-site-verification" content="72dec9077a2d48501bd2ef0a64a0453d77fbc28c" />
-<meta name="google-site-verification" content="PMWfcNgHDSLg5aOHSAKjAYx_W0ISc-VgBOWq0PEG7P4" />
+<meta
+  name="naver-site-verification"
+  content="72dec9077a2d48501bd2ef0a64a0453d77fbc28c"
+/>
+<meta
+  name="google-site-verification"
+  content="PMWfcNgHDSLg5aOHSAKjAYx_W0ISc-VgBOWq0PEG7P4"
+/>
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
@@ -50,19 +68,28 @@ const { title, description, image = '/open-graph.jpg' } = Astro.props;
 <link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- RSS Feed -->
-<link rel="alternate" type="application/rss+xml" title={title} href={`${Astro.site}rss.xml`} />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={title}
+  href={`${Astro.site}rss.xml`}
+/>
 
 <!-- Global Scripts -->
 <script is:inline src="/js/theme.js"></script>
 <script is:inline src="/js/scroll.js"></script>
 <script is:inline src="/js/animate.js"></script>
 
-<ViewTransitions />
+<ClientRouter />
 <SpeedInsights />
 
 <script>
-  import type { TransitionBeforeSwapEvent } from 'astro:transitions/client';
-  document.addEventListener('astro:before-swap', (e) =>
-    [...(e as TransitionBeforeSwapEvent).newDocument.head.querySelectorAll('link[as="font"]')].forEach((link) => link.remove())
+  import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+  document.addEventListener("astro:before-swap", (e) =>
+    [
+      ...(e as TransitionBeforeSwapEvent).newDocument.head.querySelectorAll(
+        'link[as="font"]',
+      ),
+    ].forEach((link) => link.remove()),
   );
 </script>
