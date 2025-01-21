@@ -66,6 +66,14 @@ article {
 	@apply prose dark:prose-invert max-w-full pb-12;
 }
 
+article :not(pre) > code {
+  @apply mx-0.5 px-1.5 py-0.5 rounded-lg;
+  @apply bg-gray-50 dark:bg-white/5;
+  @apply text-gray-900 dark:text-gray-100;
+  @apply font-mono text-[0.8em];
+  @apply border border-gray-200 dark:border-gray-100/30;
+}
+
 .page-heading {
 	@apply font-semibold text-black dark:text-white;
 }

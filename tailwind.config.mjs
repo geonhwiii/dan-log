@@ -13,6 +13,12 @@ export default {
 				DEFAULT: {
 					css: {
 						maxWidth: 'full',
+						'code::before': {
+							content: 'none'
+						},
+						'code::after': {
+							content: 'none'
+						},
 					},
 				},
 			},
