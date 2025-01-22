@@ -15,7 +15,10 @@ export default defineConfig({
 	integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false })],
 	markdown: {
 		shikiConfig: {
-			theme: 'night-owl',
+			themes: {
+				light: 'github-light',
+				dark: 'aurora-x',
+			},
 		},
 	},
 });
