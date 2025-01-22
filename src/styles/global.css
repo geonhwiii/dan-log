@@ -67,11 +67,27 @@ article {
 }
 
 article :not(pre) > code {
-  @apply mx-0.5 px-1.5 py-0.5 rounded-lg;
-  @apply bg-gray-50 dark:bg-white/5;
-  @apply text-gray-900 dark:text-gray-100;
-  @apply font-mono text-[0.8em];
-  @apply border border-gray-200 dark:border-gray-100/30;
+	@apply mx-0.5 px-1.5 py-0.5 rounded-lg;
+	@apply bg-gray-50 dark:bg-white/5;
+	@apply text-gray-900 dark:text-gray-100;
+	@apply font-mono text-[0.8em];
+	@apply border border-gray-200 dark:border-gray-100/30;
+}
+
+/* number of lines */ 
+code {
+	counter-reset: step;
+	counter-increment: step 0;
+}
+
+code .line::before {
+	content: counter(step);
+	counter-increment: step;
+	width: 1rem;
+	margin-right: 1.5rem;
+	display: inline-block;
+	text-align: right;
+	color: rgba(115, 138, 148, 0.4);
 }
 
 .page-heading {
