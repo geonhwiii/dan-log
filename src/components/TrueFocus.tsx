@@ -1,5 +1,5 @@
 import { cn } from '@lib/utils';
-import { createEffect, createSignal, onCleanup, type Component } from 'solid-js';
+import { createEffect, createSignal, type Component } from 'solid-js';
 import { Motion } from 'solid-motionone';
 
 interface TrueFocusProps {
@@ -22,7 +22,6 @@ const TrueFocus: Component<TrueFocusProps> = ({
 	const [lastActiveIndex, setLastActiveIndex] = createSignal<number | null>(null);
 	let wordRefs: (HTMLSpanElement | undefined)[] = [];
 	let containerRef: HTMLDivElement | undefined;
-	let intervalId: number;
 
 	const [focusRect, setFocusRect] = createSignal({
 		x: 0,
@@ -30,12 +29,6 @@ const TrueFocus: Component<TrueFocusProps> = ({
 		width: 0,
 		height: 0,
 		opacity: 0,
-	});
-
-	onCleanup(() => {
-		if (intervalId) {
-			clearInterval(intervalId);
-		}
 	});
 
 	createEffect(() => {
