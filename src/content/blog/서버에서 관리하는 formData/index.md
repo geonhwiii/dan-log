@@ -110,7 +110,7 @@ type QuestionResult = {
 	// 임시저장된 응답
 	answer: Record<string, string>,
 	// 질문의 각 validation을 담당
-    validation: Record<string, object>[],
+   validation: Record<string, object>[],
 }
 ```
 
@@ -126,8 +126,8 @@ const method = useForm({
 	mode: 'onSubmit',
 	resolver: zodResolver(schema),
 	defaultValues: {
-	// 임시저장된 데이터를 그대로 전달
-	...answer,
+		// 임시저장된 데이터를 그대로 전달
+		...answer,
 	},
 });
 ...
@@ -136,7 +136,7 @@ const method = useForm({
 schema 변환은 간단하게 보여드리면,
 
 ```tsx
-// validatio을 zodSchema로 변환합니다.
+// validation을 zodSchema로 변환합니다.
 export const useCreateValidationSchema = (
 	validations: Validation[],
 ) => {

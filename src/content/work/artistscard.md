@@ -9,28 +9,49 @@ dateEnd: '12/31/2022'
 
 - 앨범 및 포토카드 등의 굿즈 E-commerce 서비스
 - React, Apollo, GraphQL, Mux 사용
+  - Apollo Client를 이용해 network cache 적극 활용
+  - GraphQL Generator를 이용해 type을 자동 생성
 - Admin 시스템 개발 (상품 등록, 배너, 메뉴, 관리 기능)
+  - 기획자가 없었고, 개발자가 직접 필요한 기능을 디자인 없이 개발
+  - 실제 필요한 기능들을 커뮤니케이션을 통해 요구사항을 정리
 - 상품 구매 및 판매 기능 추가
+  - 유저들이 직접 판매를 올릴 수 있도록 셀러 기능 추가
+  - 실제 구매할 수 있는 상품과 연동되도록 서비스 개발
+  - URL 기반의 복잡한 필터 기능 검색 개발 -> <a target="_blank" href="https://kr.artistscard.com/search?keyword=%EC%A0%95%EA%B5%AD&category=Collection&type=Post+Card&artist=61026">링크</a>
 - 즉시 배송, 나중 배송 기능 개발
+  - 저렴한 상품들을 배송비를 절약하여 한번에 받을 수 있도록 나중 배송을 개발팀에서 기획
+  - 실제로 결제한 상품들의 상태를 관리하고, 추가로 배송비 결제를 통해 배송 상태로 변경
 - Payletter 결제 시스템 연동
-- 라이브 콘서트 플레이어 개발 (Mux기반 Live Streaming, 멀티뷰 화면, 실시간 채팅 서비스)
+- 라이브 콘서트 플레이어 개발 
+  - Mux기반 Live Streaming 서비스
+  - 멀티뷰 화면 (세 개의 화면을 전달받아 화면을 분할하여 3가지 구도로 콘서트 장면을 보여줌)
+  - 스트리밍을 위한 어드민 서비스 개발 (OBS KEY 연동 및 스트림 상태 제어)
+  - 실시간 채팅 서비스 개발 (채팅, 좋아요, 유저 밴 기능)
 - 이벤트 기획 및 개발 (쇼츠, 럭키드로우, 랜덤팩 등)
+  - 유튜브 업로드 컨테츠를 이용해 직접 기획하여 유튜브 쇼츠와 같은 쇼츠 서비스 개발
+  - 개발팀에서 기획한 럭키드로우 기능 개발 (잘 팔리지 않던 재고를 포함한 럭키드로우 포토카드 100% 판매성공)
+  - 특정 시점에 열릴 수 있도록 어드민에서 이벤트 생성, 시간 설정, 상품 등록, 수정, 삭제 기능 추가
 - https://artistscard.com
 
 #### 2. **CoverLala & Studio**
 
 - SoundCloud와 비슷한 음원 업로드 및 음원 듣기 서비스
-- Radio, Video Streaming 서비스 개발
-- React, GraphQL, HLS.js, Mux (Streaming) 사용
 - 음원 플레이어 및 라이브 스트리밍 플레이어 개발
-- 유저 커뮤니티 서비스 개발 (글 업로드, 댓글, 대댓글, 수정 등의 기능)
-- 실시간 채팅 서비스 개발
+  - React, GraphQL, HLS.js, Mux (Streaming) 사용
+  - Mux기반 Radio, Video Streaming 서비스 개발
+  - 유저 커뮤니티 서비스 개발 (글 업로드, 댓글, 대댓글, 수정 등의 기능)
+  - 실시간 채팅 서비스 개발
+  - 반응형 웹 구현 (Mobile, PC)
 - Admin 시스템 개발 (아티스트 음원 업로드 및 관리자 기능)
-- https://coverlala.com [서비스 종료]
+- https://coverlala.com [서비스 종료] -> <a target="_blank" href="http://www.kdpress.co.kr/news/articleView.html?idxno=106174">관련 기사</a>
 
 #### 3. **DMS (Data Management System)**
 
 - Data management system 개발 및 유지보수
 - React, Graphql 사용
 - 앨범, 트랙, 상품 데이터 등의 원본 데이터 생성, 편집, 삭제 기능 개발
+  - 데이터가 80만개가 넘어, 검색 및 필터링 시스템 추가
+  - 다중 업데이트를 위한 편집 기능 개발
+  - 멀티 업로드 기능 개발 (음원, 이미지 등)
 - 계정 별 접근 및 사용 권한 별도 부여 기능 개발
+  - RWX 권한과 비슷하게 4+2+1 조합을 이용해 각 data 별 접근권한을 계정에 부여할 수 있도록 개발
