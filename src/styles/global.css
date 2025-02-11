@@ -74,7 +74,7 @@ article :not(pre) > code {
 	@apply border border-gray-200 dark:border-gray-100/30;
 }
 
-/* number of lines */ 
+/* number of lines */
 code {
 	counter-reset: step;
 	counter-increment: step 0;
@@ -92,28 +92,27 @@ code .line::before {
 
 /* light & dark code theme */
 .astro-code {
-  color: var(--shiki-light) !important;
-  background-color: var(--shiki-light-bg) !important;
-  border: 1px solid rgb(226,232,240) !important;
-  /* Optional, if you also want font styles */
-  font-style: var(--shiki-light-font-style) !important;
-  font-weight: var(--shiki-light-font-weight) !important;
-  text-decoration: var(--shiki-light-text-decoration) !important;
+	color: var(--shiki-light) !important;
+	background-color: var(--shiki-light-bg) !important;
+	border: 1px solid rgb(226, 232, 240) !important;
+	/* Optional, if you also want font styles */
+	font-style: var(--shiki-light-font-style) !important;
+	font-weight: var(--shiki-light-font-weight) !important;
+	text-decoration: var(--shiki-light-text-decoration) !important;
 }
 
 html.dark .astro-code {
-	border: 1px solid hsla(0,0%,18%,1) !important;
+	border: 1px solid hsla(0, 0%, 18%, 1) !important;
 }
 html.dark .astro-code,
 html.dark .astro-code span {
-  color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
-  /* Optional, if you also want font styles */
-  font-style: var(--shiki-dark-font-style) !important;
-  font-weight: var(--shiki-dark-font-weight) !important;
-  text-decoration: var(--shiki-dark-text-decoration) !important;
+	color: var(--shiki-dark) !important;
+	background-color: var(--shiki-dark-bg) !important;
+	/* Optional, if you also want font styles */
+	font-style: var(--shiki-dark-font-style) !important;
+	font-weight: var(--shiki-dark-font-weight) !important;
+	text-decoration: var(--shiki-dark-text-decoration) !important;
 }
-
 
 .page-heading {
 	@apply font-semibold text-black dark:text-white;

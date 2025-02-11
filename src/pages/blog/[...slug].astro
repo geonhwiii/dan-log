@@ -21,7 +21,7 @@ const post = Astro.props;
 const { title, summary } = post.data;
 ---
 
-<PageLayout title={title} description={summary}>
+<PageLayout slug={post.slug} title={title} description={summary}>
   <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={post} />

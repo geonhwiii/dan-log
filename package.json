@@ -11,7 +11,8 @@
 		"preview:network": "astro dev --host",
 		"astro": "astro",
 		"lint": "eslint .",
-		"lint:fix": "eslint . --fix"
+		"lint:fix": "eslint . --fix",
+		"format": "biome format --write ./src"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",
@@ -25,8 +26,10 @@
 		"@vercel/analytics": "^1.4.1",
 		"@vercel/speed-insights": "^1.1.0",
 		"astro": "^5.1.7",
+		"astro-seo-schema": "^5.0.0",
 		"clsx": "^2.1.0",
 		"fuse.js": "^7.0.0",
+		"schema-dts": "^1.1.2",
 		"sharp": "^0.33.2",
 		"solid-js": "^1.9.4",
 		"solid-motionone": "^1.0.3",

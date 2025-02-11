@@ -4,7 +4,8 @@ import BaseHead from '@components/BaseHead.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import Drawer from '@components/Drawer.astro';
-const { title, description } = Astro.props;
+import { Schema } from 'astro-seo-schema';
+const { title, description, date, slug } = Astro.props;
 import { SITE } from '@consts';
 ---
 
@@ -12,6 +13,20 @@ import { SITE } from '@consts';
 <html lang="en">
   <head>
     <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
+    <Schema
+      item={{
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        description: description,
+        datePublished: date,
+        url: `https://danlog.vercel.app/blog/${slug}`,
+        author: {
+          "@type": "Person",
+          name: "Dan",
+        },
+      }}
+    />
   </head>
   <body>
     <Header />
