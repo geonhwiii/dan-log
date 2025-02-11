@@ -56,6 +56,7 @@ const { title, description, image = '/open-graph.jpg' } = Astro.props;
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:site_name" content={title} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -88,8 +89,8 @@ const { title, description, image = '/open-graph.jpg' } = Astro.props;
   document.addEventListener("astro:before-swap", (e) =>
     [
       ...(e as TransitionBeforeSwapEvent).newDocument.head.querySelectorAll(
-        'link[as="font"]',
+        'link[as="font"]'
       ),
-    ].forEach((link) => link.remove()),
+    ].forEach((link) => link.remove())
   );
 </script>
