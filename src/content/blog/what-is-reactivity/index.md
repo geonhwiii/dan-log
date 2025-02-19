@@ -3,6 +3,7 @@ title: '[번역] What is Reactivity?'
 summary: 'React Beyond the Render - What is Reactivity?'
 date: '07 24 2024'
 draft: false
+image: 'https://playfulprogramming.com/generated/what-is-reactivity.twitter-preview.jpg'
 tags:
   - 번역
   - React

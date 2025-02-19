@@ -3,6 +3,7 @@ title: '[번역] Zustand and React Context'
 summary: 'Zustand와 React 컨텍스트'
 date: '04 21 2024'
 draft: false
+image: 'https://tkdodo.eu/blog/static/f18038b8566526e3d3dfcf7c3b807b2a/bbe0c/zustand-context.jpg'
 tags:
   - 번역
   - zustand

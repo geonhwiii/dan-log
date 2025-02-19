@@ -3,6 +3,7 @@ title: 'firebase auth로 간단하게 로그인 구현하기'
 summary: 'firebase auth 로그인'
 date: '12 26 2023'
 draft: false
+image: 'https://i.imgur.com/8ARBbAx.png'
 tags:
   - React
   - firebase

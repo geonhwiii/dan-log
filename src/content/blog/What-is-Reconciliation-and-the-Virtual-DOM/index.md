@@ -3,6 +3,7 @@ title: '[번역] What is Reconciliation and the Virtual DOM (VDOM)?'
 summary: 'Reconciliation and the Virtual DOM'
 date: '08 01 2024'
 draft: false
+image: 'https://playfulprogramming.com/generated/what-is-reconciliation-and-the-vdom.twitter-preview.jpg'
 tags:
   - 번역
   - React

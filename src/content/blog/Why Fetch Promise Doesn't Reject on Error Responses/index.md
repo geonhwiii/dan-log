@@ -3,6 +3,7 @@ title: '[번역] Why Fetch Promise Doesn`t Reject on Error Responses'
 summary: '오류 응답에서 fetch가 거부되지 않는 이유'
 date: '01 02 2024'
 draft: false
+image: 'https://i.imgur.com/ahP0JC8.png'
 tags:
   - 번역
   - fetch

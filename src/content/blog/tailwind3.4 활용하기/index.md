@@ -1,8 +1,9 @@
 ---
-title: 'tailwind3.4 활용하기'
-summary: 'tailwindcss v3.4 기능 활용하기'
-date: '05 01 2024'
+title: "tailwind3.4 활용하기"
+summary: "tailwindcss v3.4 기능 활용하기"
+date: "05 01 2024"
 draft: false
+image: "https://tailwindcss.com/_next/static/media/card.a1cd9cff.jpg"
 tags:
   - React
   - tailwindcss
@@ -14,7 +15,7 @@ tags:
 
 ## 1. dvh (Dynamic Viewport Height)
 
-최신 모바일 브라우저에서는 스크롤에 따라 상하단 메뉴 막대가 생겼다가 사라졌다가 합니다.
+최신 모바일 브라우저에서는 스크롤에 따라 상하단 메뉴 막대가 생겼다가 사라졌다가 합니다.
 
 이로 인해 `100vh`는 뷰포트의 높이를 동적으로 지원하지는 않습니다.
 

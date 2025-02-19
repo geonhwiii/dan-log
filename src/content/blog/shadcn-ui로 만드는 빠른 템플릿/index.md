@@ -3,6 +3,7 @@ title: 'shadcn-ui로 만드는 빠른 템플릿'
 summary: 'shadcn-ui 시작하기'
 date: '01 15 2024'
 draft: false
+image: 'https://i.imgur.com/MhDG4uR.png'
 tags:
   - React
   - shadcn-ui
