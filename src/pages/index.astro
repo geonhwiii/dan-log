@@ -1,16 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
-import PageLayout from '@layouts/PageLayout.astro';
-import ArrowCard from '@components/solid/ArrowCard';
-import { SITE } from '@consts';
-import TwinklingStars from '@components/TwinklingStars.astro';
-import MeteorShower from '@components/MeteorShower.astro';
-import TrueFocus from '@components/solid/TrueFocus';
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/solid/ArrowCard";
+import { SITE } from "@consts";
+import TwinklingStars from "@components/TwinklingStars.astro";
+import MeteorShower from "@components/MeteorShower.astro";
+import TrueFocus from "@components/react/TrueFocus";
 
-const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft)
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-	.slice(0, 3);
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
 
 <PageLayout title="홈" description={SITE.DESCRIPTION}>
@@ -71,6 +71,7 @@ const posts = (await getCollection('blog'))
             client:load
             className="text-2xl md:text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-gray-400 dark:from-gray-500 via-white-00 to-gray-600 dark:to-gray-100 inline-block text-transparent bg-clip-text"
             sentence="Frontend Engineer"
+            manualMode={true}
             blurAmount={5}
             borderColor="#9ca3af"
             animationDuration={2}

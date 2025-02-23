@@ -1,7 +1,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { createEffect, createSignal } from 'solid-js';
 import Fuse from 'fuse.js';
-import ArrowCard from '@components/ArrowCard';
+import ArrowCard from '@components/solid/ArrowCard';
 
 type Props = {
 	data: CollectionEntry<'blog'>[];
