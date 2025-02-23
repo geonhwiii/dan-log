@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
 import TopLayout from '@layouts/TopLayout.astro';
 import BottomLayout from '@layouts/BottomLayout.astro';
-import Blog from '@components/Blog';
+import Blog from '@components/solid/Blog';
 import { BLOG } from '@consts';
 
 const posts = (await getCollection('blog'))

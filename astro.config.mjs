@@ -5,6 +5,8 @@ import tailwind from '@astrojs/tailwind';
 import solidJs from '@astrojs/solid-js';
 import vercel from '@astrojs/vercel';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
 	output: 'static',
@@ -12,7 +14,17 @@ export default defineConfig({
 	adapter: vercel({
 		webAnalytics: { enabled: true },
 	}),
-	integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false })],
+	integrations: [
+		mdx(),
+		sitemap(),
+		solidJs({
+			include: ['**/solid/*'],
+		}),
+		react({
+			include: ['**/react/*'],
+		}),
+		tailwind({ applyBaseStyles: false }),
+	],
 	markdown: {
 		shikiConfig: {
 			themes: {

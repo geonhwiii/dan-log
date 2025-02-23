@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '@layouts/PageLayout.astro';
-import ArrowCard from '@components/ArrowCard';
+import ArrowCard from '@components/solid/ArrowCard';
 import { SITE } from '@consts';
 import TwinklingStars from '@components/TwinklingStars.astro';
 import MeteorShower from '@components/MeteorShower.astro';
-import TrueFocus from '@components/TrueFocus';
+import TrueFocus from '@components/solid/TrueFocus';
 
 const posts = (await getCollection('blog'))
 	.filter((post) => !post.data.draft)

@@ -101,7 +101,7 @@ code .line::before {
 	text-decoration: var(--shiki-light-text-decoration) !important;
 	/* grid background */
 	background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
-	background-repeat: repeat !important;;
+	background-repeat: repeat !important;
 }
 
 html.dark .astro-code {
