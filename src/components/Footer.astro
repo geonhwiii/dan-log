@@ -1,9 +1,9 @@
 ---
-import { SITE, SOCIALS } from '@consts';
-import Container from '@components/Container.astro';
+import { SITE, SOCIALS } from "@consts";
+import Container from "@components/Container.astro";
 ---
 
-<footer class="relative bg-white dark:bg-black">
+<footer class="relative bg-transparent">
   <div class="animate">
     <section class="py-5">
       <Container size="md">
@@ -31,10 +31,14 @@ import Container from '@components/Container.astro';
                 y2="12"
                 class="scale-x-0 group-hover:scale-x-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300 ease-in-out"
               ></line>
-              <polyline points="12 19 5 12 12 5" class="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-in-out"
+              <polyline
+                points="12 19 5 12 12 5"
+                class="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-in-out"
               ></polyline>
             </svg>
-            <div class="w-full group-hover:text-black group-hover:dark:text-white transition-colors duration-300 ease-in-out">
+            <div
+              class="w-full group-hover:text-black group-hover:dark:text-white transition-colors duration-300 ease-in-out"
+            >
               Back to top
             </div>
           </button>
@@ -42,10 +46,14 @@ import Container from '@components/Container.astro';
       </Container>
     </section>
 
-    <section class="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25">
+    <section
+      class="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25"
+    >
       <Container size="md">
         <div class="h-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="order-2 sm:order-1 flex flex-col items-center justify-center sm:items-start">
+          <div
+            class="order-2 sm:order-1 flex flex-col items-center justify-center sm:items-start"
+          >
             <div class="text-sm mt-2">&copy; 2024 | Dan</div>
           </div>
 
@@ -78,15 +86,15 @@ import Container from '@components/Container.astro';
     event.preventDefault();
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }
 
   function inintializeBackToTop() {
-    const backToTop = document.getElementById('back-to-top');
-    backToTop?.addEventListener('click', goBackToTop);
+    const backToTop = document.getElementById("back-to-top");
+    backToTop?.addEventListener("click", goBackToTop);
   }
 
-  document.addEventListener('astro:after-swap', inintializeBackToTop);
+  document.addEventListener("astro:after-swap", inintializeBackToTop);
   inintializeBackToTop();
 </script>

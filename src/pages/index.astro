@@ -7,6 +7,8 @@ import TwinklingStars from "@components/TwinklingStars.astro";
 import MeteorShower from "@components/MeteorShower.astro";
 import TrueFocus from "@components/react/TrueFocus";
 import { SpinningText } from "@components/react/SpinningText";
+import { GridPattern } from "@components/react/GridPattern";
+import { cn } from "@lib/utils";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -51,7 +53,7 @@ const posts = (await getCollection("blog"))
       >
         <div
           id="planet"
-          class="w-full h-full bg-white dark:bg-black rounded-full p-[1px] overflow-hidden flex justify-center"
+          class="w-full h-full bg-gradient-to-b from-white dark:from-black from-[30%] to-transparent rounded-full p-[1px] overflow-hidden flex justify-center"
         >
           <div
             id="blur"
@@ -85,12 +87,23 @@ const posts = (await getCollection("blog"))
           <div class="mt-20">
             <SpinningText client:load text="react • astro • tailwind •" />
           </div>
+          <GridPattern
+            client:load
+            numSquares={30}
+            maxOpacity={0.1}
+            duration={3}
+            repeatDelay={1}
+            className={cn(
+              "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+              "inset-x-[20%] inset-y-[-10%] h-[200%] skew-y-12",
+            )}
+          />
         </div>
       </div>
     </div>
   </section>
 
-  <div class="relative bg-white dark:bg-black">
+  <div class="relative bg-transparent">
     <div class="mx-auto max-w-screen-sm p-5 space-y-24 pb-16">
       <section class="animate">
         <div class="space-y-4">
