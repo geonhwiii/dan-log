@@ -6,6 +6,7 @@ import { SITE } from "@consts";
 import TwinklingStars from "@components/TwinklingStars.astro";
 import MeteorShower from "@components/MeteorShower.astro";
 import TrueFocus from "@components/react/TrueFocus";
+import { SpinningText } from "@components/react/SpinningText";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -81,6 +82,9 @@ const posts = (await getCollection("blog"))
           >
             단입니다.
           </span>
+          <div class="mt-20">
+            <SpinningText client:load text="react • astro • tailwind •" />
+          </div>
         </div>
       </div>
     </div>
