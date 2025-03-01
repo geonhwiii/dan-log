@@ -29,7 +29,7 @@ tags:
 
 ## 2. <img src="https://i.imgur.com/PaQqvoo.png" width="44" height="44" alt="raycast" style="display: inline-block;" /> Raycast
 
-Raycast도 이미 유명해져버린 앱입니다.
+`Raycast`도 이미 유명해져버린 앱입니다.
 
 맥의 `Spotlight`를 대체하는 앱으로, 무료 버전으로 사용해도 정말 유용한 앱입니다.
 
@@ -48,7 +48,7 @@ Raycast도 이미 유명해져버린 앱입니다.
 🔗 링크 : https://www.raycast.com/
 
 
-## 3.<img src="https://i.imgur.com/QKqgdff.jpeg" width="44" height="44" alt="warp" style="display: inline-block;" /> Warp
+## 3.<img src="https://i.imgur.com/T4Gare2.png" width="44" height="44" alt="warp" style="display: inline-block;" /> Warp
 
 `Warp`는 맥의 `Terminal`을 대체하는 앱입니다.
 
