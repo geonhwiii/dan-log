@@ -1,19 +1,19 @@
 ---
-import { getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import ArrowCard from "@components/react/ArrowCard";
-import { SITE } from "@consts";
-import TwinklingStars from "@components/TwinklingStars.astro";
-import MeteorShower from "@components/MeteorShower.astro";
-import TrueFocus from "@components/react/TrueFocus";
-import { SpinningText } from "@components/react/SpinningText";
-import { GridPattern } from "@components/react/GridPattern";
-import { cn } from "@lib/utils";
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import ArrowCard from '@components/react/ArrowCard';
+import { SITE } from '@consts';
+import TwinklingStars from '@components/TwinklingStars.astro';
+import MeteorShower from '@components/MeteorShower.astro';
+import TrueFocus from '@components/react/TrueFocus';
+import { SpinningText } from '@components/react/SpinningText';
+import { GridPattern } from '@components/react/GridPattern';
+import { cn } from '@lib/utils';
 
-const posts = (await getCollection("blog"))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const posts = (await getCollection('blog'))
+	.filter((post) => !post.data.draft)
+	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+	.slice(0, 3);
 ---
 
 <PageLayout title="홈" description={SITE.DESCRIPTION}>

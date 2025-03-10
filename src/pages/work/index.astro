@@ -4,6 +4,7 @@ import PageLayout from '@layouts/PageLayout.astro';
 import TopLayout from '@layouts/TopLayout.astro';
 import BottomLayout from '@layouts/BottomLayout.astro';
 import { WORK } from '@consts';
+import { Rain } from '@components/react/Rain';
 
 const collection = await getCollection('work');
 
@@ -29,6 +30,7 @@ function formatWorkDate(input: Date | string) {
 ---
 
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
+  <Rain />
   <TopLayout>
     <div class="animate page-heading">
       {WORK.TITLE}
@@ -40,7 +42,8 @@ function formatWorkDate(input: Date | string) {
         work.map((entry) => (
           <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
             <div class="text-sm uppercase mb-4">
-              {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
+              {formatWorkDate(entry.data.dateStart)} -{" "}
+              {formatWorkDate(entry.data.dateEnd)}
             </div>
             <div class="w-fit text-transparent bg-gradient-to-r from-blue-600 via-blue-500 to-blue-800 dark:from-blue-400 dark:via-white dark:to-blue-200 font-semibold text-2xl mb-1 bg-clip-text">
               {entry.data.company}
