@@ -1,19 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
-import PageLayout from '@layouts/PageLayout.astro';
-import ArrowCard from '@components/react/ArrowCard';
-import { SITE } from '@consts';
-import TwinklingStars from '@components/TwinklingStars.astro';
-import MeteorShower from '@components/MeteorShower.astro';
-import TrueFocus from '@components/react/TrueFocus';
-import { SpinningText } from '@components/react/SpinningText';
-import { GridPattern } from '@components/react/GridPattern';
-import { cn } from '@lib/utils';
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/react/ArrowCard";
+import { SITE } from "@consts";
+import TwinklingStars from "@components/TwinklingStars.astro";
+import MeteorShower from "@components/MeteorShower.astro";
+import TrueFocus from "@components/react/TrueFocus";
+import { SpinningText } from "@components/react/SpinningText";
+import { GridPattern } from "@components/react/GridPattern";
+import { cn } from "@lib/utils";
 
-const posts = (await getCollection('blog'))
-	.filter((post) => !post.data.draft)
-	.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-	.slice(0, 3);
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 ---
 
 <PageLayout title="홈" description={SITE.DESCRIPTION}>
@@ -42,7 +42,7 @@ const posts = (await getCollection('blog'))
   <script is:inline src="/js/bg.js"></script>
 
   <!-- HERO -->
-  <section class="relative h-screen w-full">
+  <section class="relative h-screen w-full overflow-hidden">
     <div
       id="planetcont"
       class="animate absolute inset-0 top-1/4 overflow-hidden"
@@ -95,7 +95,7 @@ const posts = (await getCollection('blog'))
             repeatDelay={1}
             className={cn(
               "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
-              "inset-x-[20%] inset-y-[-10%] h-[200%] skew-y-12",
+              "inset-x-[20%] inset-y-[-10%] h-[200%] skew-y-12"
             )}
           />
         </div>
