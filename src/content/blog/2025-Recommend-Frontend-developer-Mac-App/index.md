@@ -1,7 +1,7 @@
 ---
-title: '2025년에 내가 사용하는 Mac Application'
-summary: '2025년 프론트엔드 개발자가 사용할만한 맥 어플리케이션 Top 5'
-date: '03 20 2025'
+title: '2025년에 내가 사용하는 맥 어플리케이션'
+summary: '2025년 프론트엔드 개발자가 사용할만한 맥 어플리케이션'
+date: '03 02 2025'
 draft: false
 tags:
   - Mac
