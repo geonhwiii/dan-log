@@ -3,167 +3,184 @@
 @tailwind utilities;
 
 @layer base {
-	@font-face {
-		font-family: "Pretendard";
-		src: url("/fonts/Pretendard-Regular.woff") format("woff");
-		font-weight: 400;
-		font-style: normal;
-		font-display: swap;
-	}
+  @font-face {
+    font-family: "Pretendard";
+    src: url("/fonts/Pretendard-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
 
-	@font-face {
-		font-family: "Pretendard";
-		src: url("/fonts/Pretendard-Bold.woff") format("woff");
-		font-weight: 700;
-		font-style: normal;
-		font-display: swap;
-	}
+  @font-face {
+    font-family: "Pretendard";
+    src: url("/fonts/Pretendard-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "JetBrainsMono-Regular";
+    src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "JetBrainsMono-Bold";
+    src: url("/fonts/JetBrainsMono-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
 }
 
 html {
-	overflow-y: scroll;
-	color-scheme: light;
-	background-color: white;
-	font-family: "Pretendard", sans-serif;
+  overflow-y: scroll;
+  color-scheme: light;
+  background-color: white;
+  font-family: "Pretendard", sans-serif;
 }
 
 html.dark {
-	color-scheme: dark;
-	background-color: black;
+  color-scheme: dark;
+  background-color: black;
 }
 
 html,
 body {
-	@apply h-full w-full antialiased;
-	@apply bg-white dark:bg-black;
-	@apply text-black/75 dark:text-white/75;
+  @apply h-full w-full antialiased;
+  @apply bg-white dark:bg-black;
+  @apply text-black/75 dark:text-white/75;
 }
 
 body {
-	@apply relative flex flex-col;
+  @apply relative flex flex-col;
 }
 
 main {
-	@apply flex flex-col flex-1 bg-white dark:bg-black;
+  @apply flex flex-col flex-1 bg-white dark:bg-black;
 }
 
 header {
-	@apply border-b;
-	@apply transition-all duration-300 ease-in-out;
+  @apply border-b;
+  @apply transition-all duration-300 ease-in-out;
 }
 
 header:not(.scrolled) {
-	@apply bg-transparent border-transparent;
+  @apply bg-transparent border-transparent;
 }
 
 header.scrolled {
-	@apply bg-white/75 dark:bg-black/50;
-	@apply border-black/10 dark:border-white/25;
-	@apply backdrop-blur-sm saturate-200;
+  @apply bg-white/75 dark:bg-black/50;
+  @apply border-black/10 dark:border-white/25;
+  @apply backdrop-blur-sm saturate-200;
 }
 
 article {
-	@apply prose dark:prose-invert max-w-full pb-12;
+  @apply prose dark:prose-invert max-w-full pb-12;
 }
 
 article :not(pre) > code {
-	@apply mx-0.5 px-1.5 py-0.5 rounded-lg;
-	@apply bg-gray-50 dark:bg-white/5;
-	@apply text-gray-900 dark:text-gray-100;
-	@apply font-mono text-[0.8em];
-	@apply border border-gray-200 dark:border-gray-100/30;
+  @apply mx-0.5 px-1.5 py-0.5 rounded-lg;
+  @apply bg-gray-50 dark:bg-white/5;
+  @apply text-gray-900 dark:text-gray-100;
+  @apply font-mono text-[0.8em];
+  @apply border border-gray-200 dark:border-gray-100/30;
 }
 
 /* number of lines */
 code {
-	counter-reset: step;
-	counter-increment: step 0;
+  font-family: "JetBrainsMono-Regular";
+  counter-reset: step;
+  counter-increment: step 0;
 }
 
 code .line::before {
-	content: counter(step);
-	counter-increment: step;
-	width: 1rem;
-	margin-right: 1.5rem;
-	display: inline-block;
-	text-align: right;
-	color: hsla(0, 0%, 53%, 1);
+  content: counter(step);
+  counter-increment: step;
+  width: 1rem;
+  margin-right: 1.5rem;
+  display: inline-block;
+  text-align: right;
+  color: hsla(0, 0%, 53%, 1);
 }
 
 /* light & dark code theme */
 .astro-code {
-	color: var(--shiki-light) !important;
-	background-color: var(--shiki-light-bg) !important;
-	border: 1px solid rgb(226, 232, 240) !important;
-	/* Optional, if you also want font styles */
-	font-style: var(--shiki-light-font-style) !important;
-	font-weight: var(--shiki-light-font-weight) !important;
-	text-decoration: var(--shiki-light-text-decoration) !important;
-	/* grid background */
-	background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
-	background-repeat: repeat !important;
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  border: 1px solid rgb(226, 232, 240) !important;
+  /* Optional, if you also want font styles */
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+  /* grid background */
+  background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
+  background-repeat: repeat !important;
 }
 
 html.dark .astro-code {
-	border: 1px solid hsla(0, 0%, 18%, 1) !important;
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgba(255,255,255,0.2)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e") !important;
-	background-repeat: repeat !important;
+  border: 1px solid hsla(0, 0%, 18%, 1) !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgba(255,255,255,0.2)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e") !important;
+  background-repeat: repeat !important;
 }
 html.dark .astro-code,
 html.dark .astro-code span {
-	color: var(--shiki-dark) !important;
-	/* background-color: var(--shiki-dark-bg) !important; */
-	/* Optional, if you also want font styles */
-	font-style: var(--shiki-dark-font-style) !important;
-	font-weight: var(--shiki-dark-font-weight) !important;
-	text-decoration: var(--shiki-dark-text-decoration) !important;
+  color: var(--shiki-dark) !important;
+  /* background-color: var(--shiki-dark-bg) !important; */
+  /* Optional, if you also want font styles */
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 .page-heading {
-	@apply font-semibold text-black dark:text-white;
+  @apply font-semibold text-black dark:text-white;
 }
 
 .blend {
-	@apply transition-all duration-300 ease-in-out;
+  @apply transition-all duration-300 ease-in-out;
 }
 
 .grid-background {
-	background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
-	background-repeat: repeat;
+  background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
+  background-repeat: repeat;
 }
 
 html.dark .grid-background {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgba(255,255,255,0.2)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e") !important;
-	background-repeat: repeat !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgba(255,255,255,0.2)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e") !important;
+  background-repeat: repeat !important;
 }
 
 /** Light theme particles on home page */
 @keyframes animateParticle {
-	from {
-		transform: translateY(0px);
-	}
-	to {
-		transform: translateY(-2000px);
-	}
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
 }
 
 /** styles for public /animation.js */
 .animate {
-	opacity: 0;
-	transform: translateY(50px);
-	transition: opacity 1s ease, transform 1s ease;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 .animate.show {
-	opacity: 1;
-	transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 article img {
-	padding-top: 20px;
-	padding-bottom: 20px;
-	display: block;
-	margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: block;
+  margin: 0 auto;
 }
 
 /**
@@ -171,11 +188,30 @@ article img {
  */
 
 #twinkle-star.template {
-	@apply absolute -left-full; /* hide offscreen */
+  @apply absolute -left-full; /* hide offscreen */
 }
 
 #twinkle-star.twinkle {
-	@apply animate-twinkle; /* defined in tailwind.config */
+  @apply animate-twinkle; /* defined in tailwind.config */
+}
+
+/**
+ * Border Glow
+ */
+
+@layer components {
+  .border-glow {
+    box-shadow: 00 0 1.7px rgba(206, 210, 244, 0.859),
+      0 0 4px rgba(206, 210, 244, 0.798), 0 0 7.5px rgba(206, 210, 244, 0.75),
+      0 0 13.4px rgba(206, 210, 244, 0.702),
+      0 0 25.1px rgba(206, 210, 244, 0.641), 0 0 60px rgba(206, 210, 244, 0.5),
+      inset 0 0 0.7px rgba(206, 210, 244, 0.859),
+      inset 0 0 1.7px rgba(206, 210, 244, 0.798),
+      inset 0 0 3.1px rgba(206, 210, 244, 0.75),
+      inset 0 0 5.6px rgba(206, 210, 244, 0.702),
+      inset 0 0 10.4px rgba(206, 210, 244, 0.641),
+      inset 0 0 25px rgba(206, 210, 244, 0.5);
+  }
 }
 
 /**
@@ -183,29 +219,29 @@ article img {
  */
 
 #meteors .shower {
-	@apply absolute inset-0 top-0;
-	@apply left-1/2 -translate-x-1/2;
-	@apply w-screen aspect-square;
+  @apply absolute inset-0 top-0;
+  @apply left-1/2 -translate-x-1/2;
+  @apply w-screen aspect-square;
 }
 
 #meteors .meteor {
-	@apply animate-meteor; /* defined in tailwind.config */
-	@apply absolute top-1/2 left-1/2 w-px h-[75vh];
-	@apply bg-gradient-to-b from-white to-transparent;
+  @apply animate-meteor; /* defined in tailwind.config */
+  @apply absolute top-1/2 left-1/2 w-px h-[75vh];
+  @apply bg-gradient-to-b from-white to-transparent;
 }
 
 #meteors .shower.ur {
-	@apply rotate-45;
+  @apply rotate-45;
 }
 
 #meteors .shower.dr {
-	@apply rotate-135;
+  @apply rotate-135;
 }
 
 #meteors .shower.dl {
-	@apply rotate-225;
+  @apply rotate-225;
 }
 
 #meteors .shower.ul {
-	@apply rotate-315;
+  @apply rotate-315;
 }
