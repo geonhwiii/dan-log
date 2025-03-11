@@ -30,6 +30,7 @@
 		"astro": "^5.1.7",
 		"astro-seo-schema": "^5.0.0",
 		"clsx": "^2.1.0",
+		"date-fns": "^4.1.0",
 		"fuse.js": "^7.0.0",
 		"motion": "^12.4.7",
 		"react": "^19.0.0",
