@@ -6,6 +6,7 @@ import BottomLayout from "@layouts/BottomLayout.astro";
 import Blog from "@components/react/Blog";
 import { BLOG } from "@consts";
 import { DotBackground } from "@components/react/DotBackground";
+import { BottomShadow } from "@components/react/BottomShadow";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -28,4 +29,5 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort(
       <Blog client:load tags={tags} data={posts} />
     </div>
   </BottomLayout>
+  <BottomShadow />
 </PageLayout>

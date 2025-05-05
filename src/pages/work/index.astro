@@ -6,6 +6,7 @@ import BottomLayout from "@layouts/BottomLayout.astro";
 import { WORK } from "@consts";
 import { Rain } from "@components/react/Rain";
 import { calculateWorkPeriod, formatWorkDate } from "@lib/utils";
+import { BottomShadow } from "@components/react/BottomShadow";
 
 const collection = await getCollection("work");
 
@@ -53,4 +54,5 @@ const work = await Promise.all(
       }
     </ul>
   </BottomLayout>
+  <BottomShadow />
 </PageLayout>
