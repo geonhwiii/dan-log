@@ -1,9 +1,9 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { formatDate, readingTime } from '@lib/utils';
+import type { CollectionEntry } from "astro:content";
+import { formatDate, readingTime } from "@lib/utils";
 
 type Props = {
-	entry: CollectionEntry<'blog'>;
+  entry: CollectionEntry<"blog">;
 };
 
 const { entry } = Astro.props;
@@ -49,13 +49,13 @@ const repoUrl = null;
     </div>
   </a>
   <div class="flex flex-wrap text-sm uppercase mt-12 gap-3 opacity-75">
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 font-departure">
       <svg class="size-5 stroke-current">
         <use href="/ui.svg#calendar"></use>
       </svg>
       {formatDate(date)}
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 font-departure">
       <svg class="size-5 stroke-current">
         <use href="/ui.svg#book-open"></use>
       </svg>

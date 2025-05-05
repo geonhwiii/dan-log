@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-pretendard: "Pretendard", sans-serif;
+  --font-departure: "DepartureMono-Regular";
+}
+
 @layer base {
   @font-face {
     font-family: "Pretendard";
@@ -33,6 +38,24 @@
     font-weight: 700;
     font-style: normal;
     font-display: swap;
+  }
+
+  @font-face {
+    font-family: "DepartureMono-Regular";
+    src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+@layer utilities {
+  .font-pretendard {
+    font-family: var(--font-pretendard);
+  }
+
+  .font-departure {
+    font-family: var(--font-departure);
   }
 }
 

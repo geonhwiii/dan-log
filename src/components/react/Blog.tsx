@@ -73,7 +73,7 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 			</div>
 			<div className="col-span-3 sm:col-span-2">
 				<div className="flex flex-col">
-					<div className="text-sm uppercase mb-2">
+					<div className="text-sm uppercase mb-2 font-departure">
 						SHOWING {posts.length} OF {data.length} POSTS
 					</div>
 					<ul className="flex flex-col gap-3">
