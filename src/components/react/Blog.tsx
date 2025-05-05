@@ -61,8 +61,8 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 											filter.has(tag) && 'fill-black dark:fill-white',
 										)}
 									>
-										<use href={`/ui.svg#square`} className={cn(!filter.has(tag) ? 'block' : 'hidden')} />
-										<use href={`/ui.svg#square-check`} className={cn(filter.has(tag) ? 'block' : 'hidden')} />
+										<use href={'/ui.svg#square'} className={cn(!filter.has(tag) ? 'block' : 'hidden')} />
+										<use href={'/ui.svg#square-check'} className={cn(filter.has(tag) ? 'block' : 'hidden')} />
 									</svg>
 									{tag}
 								</button>
@@ -73,7 +73,7 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 			</div>
 			<div className="col-span-3 sm:col-span-2">
 				<div className="flex flex-col">
-					<div className="text-sm uppercase mb-2">
+					<div className="text-sm uppercase mb-2 font-departure">
 						SHOWING {posts.length} OF {data.length} POSTS
 					</div>
 					<ul className="flex flex-col gap-3">

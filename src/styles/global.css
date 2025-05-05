@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-pretendard: "Pretendard", sans-serif;
+  --font-departure: "DepartureMono-Regular";
+}
+
 @layer base {
   @font-face {
     font-family: "Pretendard";
@@ -33,6 +38,24 @@
     font-weight: 700;
     font-style: normal;
     font-display: swap;
+  }
+
+  @font-face {
+    font-family: "DepartureMono-Regular";
+    src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+@layer utilities {
+  .font-pretendard {
+    font-family: var(--font-pretendard);
+  }
+
+  .font-departure {
+    font-family: var(--font-departure);
   }
 }
 
@@ -152,6 +175,16 @@ html.dark .astro-code span {
 html.dark .grid-background {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgba(255,255,255,0.2)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e") !important;
   background-repeat: repeat !important;
+}
+
+.bg-dots {
+  background: linear-gradient(90deg,#f9fafb 15px,transparent 1%) 50%,linear-gradient(#f9fafb 15px,transparent 1%) 50%,rgba(0,0,0,.24);
+  background-size: 16px 16px
+}
+
+html.dark .bg-dots {
+  background:linear-gradient(90deg,#050505 15px,transparent 1%) 50%,linear-gradient(#050505 15px,transparent 1%) 50%,rgba(255,255,255,.16);
+  background-size: 16px 16px
 }
 
 /** Light theme particles on home page */

@@ -9,6 +9,7 @@ import TrueFocus from "@components/react/TrueFocus";
 import { SpinningText } from "@components/react/SpinningText";
 import { GridPattern } from "@components/react/GridPattern";
 import { cn } from "@lib/utils";
+import { BottomShadow } from "@components/react/BottomShadow";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -95,7 +96,7 @@ const posts = (await getCollection("blog"))
             repeatDelay={1}
             className={cn(
               "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
-              "inset-x-[20%] inset-y-[-10%] h-[200%] skew-y-12"
+              "inset-x-[20%] inset-y-[-10%] h-[200%] skew-y-12",
             )}
           />
         </div>
@@ -134,4 +135,5 @@ const posts = (await getCollection("blog"))
       </section>
     </div>
   </div>
+  <BottomShadow />
 </PageLayout>

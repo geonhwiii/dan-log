@@ -10,7 +10,7 @@ const ArrowCard: React.FC<Props> = ({ entry, pill }) => {
 	return (
 		<a
 			href={`/${entry.collection}/${entry.slug}`}
-			className="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out grid-background"
+			className="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
 		>
 			<div className="w-full group-hover:text-black group-hover:dark:text-white blend">
 				<div className="flex flex-wrap items-center gap-2">
@@ -19,7 +19,7 @@ const ArrowCard: React.FC<Props> = ({ entry, pill }) => {
 							post
 						</div>
 					)}
-					<div className="text-sm uppercase">{formatDate(entry.data.date)}</div>
+					<div className="text-sm uppercase font-departure">{formatDate(entry.data.date)}</div>
 				</div>
 				<div className="font-semibold mt-3 text-black dark:text-white">{entry.data.title}</div>
 				<div className="text-sm line-clamp-2">{entry.data.summary}</div>
@@ -27,7 +27,7 @@ const ArrowCard: React.FC<Props> = ({ entry, pill }) => {
 					{entry.data.tags.map((tag: string) => (
 						<li
 							key={tag}
-							className="text-xs uppercase py-0.5 px-1 rounded bg-black/5 dark:bg-white/20 text-black/75 dark:text-white/75"
+							className="font-departure text-xs uppercase py-0.5 px-1 rounded bg-black/5 dark:bg-white/20 text-black/75 dark:text-white/75"
 						>
 							{tag}
 						</li>
