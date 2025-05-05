@@ -154,6 +154,16 @@ html.dark .grid-background {
   background-repeat: repeat !important;
 }
 
+.bg-dots {
+  background: linear-gradient(90deg,#f9fafb 15px,transparent 1%) 50%,linear-gradient(#f9fafb 15px,transparent 1%) 50%,rgba(0,0,0,.24);
+  background-size: 16px 16px
+}
+
+html.dark .bg-dots {
+  background:linear-gradient(90deg,#050505 15px,transparent 1%) 50%,linear-gradient(#050505 15px,transparent 1%) 50%,rgba(255,255,255,.16);
+  background-size: 16px 16px
+}
+
 /** Light theme particles on home page */
 @keyframes animateParticle {
   from {

@@ -10,7 +10,7 @@ const ArrowCard: React.FC<Props> = ({ entry, pill }) => {
 	return (
 		<a
 			href={`/${entry.collection}/${entry.slug}`}
-			className="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out grid-background"
+			className="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
 		>
 			<div className="w-full group-hover:text-black group-hover:dark:text-white blend">
 				<div className="flex flex-wrap items-center gap-2">

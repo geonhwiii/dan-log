@@ -61,8 +61,8 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 											filter.has(tag) && 'fill-black dark:fill-white',
 										)}
 									>
-										<use href={`/ui.svg#square`} className={cn(!filter.has(tag) ? 'block' : 'hidden')} />
-										<use href={`/ui.svg#square-check`} className={cn(filter.has(tag) ? 'block' : 'hidden')} />
+										<use href={'/ui.svg#square'} className={cn(!filter.has(tag) ? 'block' : 'hidden')} />
+										<use href={'/ui.svg#square-check'} className={cn(filter.has(tag) ? 'block' : 'hidden')} />
 									</svg>
 									{tag}
 								</button>
