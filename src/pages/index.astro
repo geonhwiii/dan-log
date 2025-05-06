@@ -10,11 +10,15 @@ import { SpinningText } from "@components/react/SpinningText";
 import { GridPattern } from "@components/react/GridPattern";
 import { cn } from "@lib/utils";
 import { BottomShadow } from "@components/react/BottomShadow";
+import { GithubCalendar } from "@components/react/GithubCalendar";
+import { fetchGithubContributions } from "@utils/github";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+
+const contributions = await fetchGithubContributions("geonhwiii");
 ---
 
 <PageLayout title="홈" description={SITE.DESCRIPTION}>
@@ -103,7 +107,6 @@ const posts = (await getCollection("blog"))
       </div>
     </div>
   </section>
-
   <div class="relative bg-transparent">
     <div class="mx-auto max-w-screen-sm p-5 space-y-24 pb-16">
       <section class="animate">
@@ -134,6 +137,9 @@ const posts = (await getCollection("blog"))
         </div>
       </section>
     </div>
+  </div>
+  <div class="mx-auto md:block hidden">
+    <GithubCalendar client:only data={contributions} />
   </div>
   <BottomShadow />
 </PageLayout>

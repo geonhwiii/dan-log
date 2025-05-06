@@ -14,10 +14,10 @@ export default {
 					css: {
 						maxWidth: 'full',
 						'code::before': {
-							content: 'none'
+							content: 'none',
 						},
 						'code::after': {
-							content: 'none'
+							content: 'none',
 						},
 					},
 				},
