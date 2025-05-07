@@ -234,6 +234,7 @@ article img {
 
 @layer components {
   .border-glow {
+    @apply border border-white;
     box-shadow: 00 0 1.7px rgba(206, 210, 244, 0.859),
       0 0 4px rgba(206, 210, 244, 0.798), 0 0 7.5px rgba(206, 210, 244, 0.75),
       0 0 13.4px rgba(206, 210, 244, 0.702),
@@ -244,6 +245,11 @@ article img {
       inset 0 0 5.6px rgba(206, 210, 244, 0.702),
       inset 0 0 10.4px rgba(206, 210, 244, 0.641),
       inset 0 0 25px rgba(206, 210, 244, 0.5);
+    
+  }
+  .text-glow {
+    @apply text-white;
+    text-shadow: 0 0 .8px rgba(206,210,244,.859),0 0 2px rgba(206,210,244,.798),0 0 3.8px rgba(206,210,244,.75),0 0 6.7px rgba(206,210,244,.702),0 0 12.5px rgba(206,210,244,.641),0 0 30px rgba(206,210,244,.5);
   }
 }
 
