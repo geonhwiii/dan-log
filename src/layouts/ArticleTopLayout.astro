@@ -17,7 +17,7 @@ const repoUrl = null;
 <div>
   <a
     href={`/${collection}`}
-    class="group w-fit p-1.5 gap-1.5 text-sm flex items-center border rounded hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
+    class="group w-fit p-1.5 gap-1.5 text-sm flex items-center border rounded hover:bg-black/5 hover:dark:border-glow hover:dark:text-glow border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,9 @@ const repoUrl = null;
       {readingTime(body)}
     </div>
   </div>
-  <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+  <h1
+    class="text-3xl font-semibold text-black dark:text-white mt-2 dark:hover:text-glow transition-colors duration-300 ease-in-out"
+  >
     {title}
   </h1>
   <div class="mt-1">
