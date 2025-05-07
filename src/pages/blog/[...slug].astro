@@ -6,6 +6,7 @@ import BottomLayout from "@layouts/BottomLayout.astro";
 import ArticleTopLayout from "@layouts/ArticleTopLayout.astro";
 import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro";
 import { BottomShadow } from "@components/react/BottomShadow";
+import { ScrollProgress } from "@components/react/ScrollProgress";
 
 // Create the static blog pages
 export async function getStaticPaths() {
@@ -23,6 +24,7 @@ const { title, summary, image } = post.data;
 ---
 
 <PageLayout slug={post.slug} title={title} description={summary} image={image}>
+  <ScrollProgress client:only className="top-16" />
   <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={post} />
