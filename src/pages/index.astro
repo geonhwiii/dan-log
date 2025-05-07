@@ -127,9 +127,14 @@ const contributions = await fetchGithubContributions("geonhwiii");
           </div>
           <ul class="space-y-4">
             {
-              posts.map((post) => (
+              posts.map((post, index) => (
                 <li>
-                  <ArrowCard entry={post} />
+                  <ArrowCard
+                    entry={post}
+                    client:load
+                    borderBeam
+                    delay={index * 0.5}
+                  />
                 </li>
               ))
             }

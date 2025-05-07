@@ -77,9 +77,9 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 						SHOWING {posts.length} OF {data.length} POSTS
 					</div>
 					<ul className="flex flex-col gap-3">
-						{posts.map((post) => (
+						{posts.map((post, index) => (
 							<li key={post.slug}>
-								<ArrowCard entry={post} />
+								<ArrowCard entry={post} borderBeam={index <= 2} delay={index * 0.5} />
 							</li>
 						))}
 					</ul>
