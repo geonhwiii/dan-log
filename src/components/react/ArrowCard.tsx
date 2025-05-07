@@ -1,16 +1,19 @@
 import { formatDate } from '@lib/utils';
 import type { CollectionEntry } from 'astro:content';
+import { BorderBeam } from './BorderBeam';
 
 type Props = {
 	entry: CollectionEntry<'blog'>;
 	pill?: boolean;
+	borderBeam?: boolean;
+	delay?: number;
 };
 
-const ArrowCard: React.FC<Props> = ({ entry, pill }) => {
+const ArrowCard: React.FC<Props> = ({ entry, pill, borderBeam, delay }) => {
 	return (
 		<a
 			href={`/${entry.collection}/${entry.slug}`}
-			className="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
+			className="relative group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
 		>
 			<div className="w-full group-hover:text-black group-hover:dark:text-white blend">
 				<div className="flex flex-wrap items-center gap-2">
@@ -57,6 +60,7 @@ const ArrowCard: React.FC<Props> = ({ entry, pill }) => {
 					className="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
 				/>
 			</svg>
+			{borderBeam && <BorderBeam delay={delay} />}
 		</a>
 	);
 };

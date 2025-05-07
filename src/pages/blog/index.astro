@@ -7,6 +7,7 @@ import Blog from "@components/react/Blog";
 import { BLOG } from "@consts";
 import { DotBackground } from "@components/react/DotBackground";
 import { BottomShadow } from "@components/react/BottomShadow";
+import { ScrollProgress } from "@components/react/ScrollProgress";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -19,6 +20,7 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort(
 
 <PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
   <DotBackground />
+  <ScrollProgress client:load className="top-16" />
   <TopLayout>
     <div class="animate page-heading">
       {BLOG.TITLE}
