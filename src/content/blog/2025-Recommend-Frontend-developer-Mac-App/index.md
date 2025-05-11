@@ -43,7 +43,7 @@ tags:
 
 아래 소개할 `Warp`앱을 연동하면, `Finder`에서 폴더를 선택한 후,
 
-`Open in Warp`로 bahwa gedeelde `Warp`를 실행할 수 있습니다.
+`Open in Warp`로 바로 `Warp`를 실행할 수 있습니다.
 
 🔗 링크 : https://www.raycast.com/
 
