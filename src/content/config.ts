@@ -22,4 +22,18 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { work, blog };
+const store = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		image: z.string().optional(),
+		link: z.string().optional(),
+		github: z.string().optional(),
+		tech: z.array(z.string()),
+		date: z.coerce.date(),
+		status: z.enum(['완료', '개발중', '계획중']),
+	}),
+});
+
+export const collections = { work, blog, store };

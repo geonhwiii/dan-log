@@ -25,6 +25,12 @@ export const SEARCH: Page = {
 	DESCRIPTION: '단로그의 글 목록 검색',
 };
 
+// Store Page
+export const STORE: Page = {
+	TITLE: '스토어',
+	DESCRIPTION: '단의 스토어',
+};
+
 // Links
 export const LINKS: Links = [
 	{
@@ -34,6 +40,10 @@ export const LINKS: Links = [
 	{
 		TEXT: '블로그',
 		HREF: '/blog',
+	},
+	{
+		TEXT: '스토어',
+		HREF: '/store',
 	},
 	{
 		TEXT: '프로필',
