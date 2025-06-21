@@ -2,7 +2,6 @@
 title: "rusky"
 description: "Simple Git hooks manager written in Rust"
 image: "https://i.imgur.com/pBVrZy3.png"
-link: "https://www.npmjs.com/package/@gunw.dan/rusky"
 github: "https://github.com/geonhwiii/rusky#readme"
 tech: ["rust"]
 date: 2025-06-20
@@ -98,21 +97,6 @@ rusky는 `.rusky/config.json`에 설정을 저장합니다:
 }
 ```
 
-## 🆚 rusky를 선택하는 이유
-
-**간단하고, 신뢰할 수 있으며, 의존성 없는 Git hooks 관리**
-
-| 기능 | rusky | husky |
-|------|-------|-------|
-| **설정** | 🚀 명령어 하나 | 📚 여러 단계 |
-| **의존성** | 🚫 런타임 제로 | 📦 여러 Node.js 의존성 |
-| **학습 곡선** | 📖 husky와 동일 | 📖 rusky와 동일 |
-| **유지보수** | 🔧 관리할 것이 적음 | 🔧 더 많은 의존성 |
-| **언어** | 🦀 Rust | 📜 Node.js |
-| **타입 안전성** | 🛡️ 컴파일 타임 | ⚠️ 런타임 |
-
-> **완벽한 대상**: husky와 동일한 경험을 원하지만 의존성이 적고 유지보수가 간단한 팀
-
 ## 🛠️ 개발
 
 ### 사전 요구사항
@@ -144,21 +128,10 @@ rusky는 포괄적인 테스트 커버리지를 포함합니다:
 - **통합 테스트**: CLI 명령어의 엔드투엔드 테스트
 - **테스트 기능**: 임시 디렉토리를 사용한 격리된 테스트 환경, Git 저장소 시뮬레이션, 포괄적인 오류 시나리오 커버리지
 
-## 📄 라이선스
-
-MIT © [geonhwiii](https://github.com/geonhwiii)
-
-## 🤝 기여
-
-기여를 환영합니다! Pull Request를 자유롭게 제출해 주세요.
-
 ## 🔗 관련 프로젝트
 
 - [husky](https://github.com/typicode/husky) - 원본 Git hooks 관리자
 - [pre-commit](https://pre-commit.com/) - pre-commit hook 관리 프레임워크
 - [commitlint](https://commitlint.js.org/) - 커밋 메시지 린트
 
----
-
-[geonhwiii](https://github.com/geonhwiii)가 ❤️와 🦀로 만든 프로젝트입니다.
 

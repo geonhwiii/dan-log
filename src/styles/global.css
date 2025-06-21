@@ -251,6 +251,35 @@ article img {
     @apply text-white;
     text-shadow: 0 0 .8px rgba(206,210,244,.859),0 0 2px rgba(206,210,244,.798),0 0 3.8px rgba(206,210,244,.75),0 0 6.7px rgba(206,210,244,.702),0 0 12.5px rgba(206,210,244,.641),0 0 30px rgba(206,210,244,.5);
   }
+  .gradient-border {
+    background:linear-gradient(135deg,#4f46e51a,#3b82f61a,#8b5cf61a);
+    position:relative
+  }
+  .gradient-border:before {
+    content:"";
+    border-radius:inherit;
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:xor;
+    background:linear-gradient(135deg,#4f46e5,#3b82f6,#8b5cf6,#f59e0b);
+    padding:2px;
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0
+  }
+  .inner-glow {
+    box-shadow:inset 0 0 20px #4f46e54d,inset 0 0 40px #3b82f633,0 0 30px #8b5cf666
+  }
+  .card-border {
+    -webkit-backdrop-filter:blur(20px);
+    backdrop-filter:blur(20px);
+    background:#4f46e514;
+    border:1px solid #4f46e54d;
+    box-shadow:0 0 0 1px #4f46e54d,inset 0 0 30px #4f46e51a,inset 0 0 60px #3b82f60d,0 0 50px #8b5cf633
+  }
 }
 
 /**

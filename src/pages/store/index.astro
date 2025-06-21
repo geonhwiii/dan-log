@@ -6,7 +6,7 @@ import BottomLayout from "@layouts/BottomLayout.astro";
 import { STORE } from "@consts";
 import { BottomShadow } from "@components/react/BottomShadow";
 import WaveBackground from "@components/react/WaveBackground";
-import DatabaseCard from "@components/react/DatabaseCard";
+import ProejctCard from "@components/react/ProjectCard";
 
 const collection = await getCollection("store");
 
@@ -32,11 +32,7 @@ const projects = await Promise.all(
   <BottomLayout>
     <WaveBackground client:load />
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {
-        projects.map((project) => (
-          <DatabaseCard client:load project={project} />
-        ))
-      }
+      {projects.map((project) => <ProejctCard client:load project={project} />)}
     </div>
   </BottomLayout>
   <BottomShadow />
