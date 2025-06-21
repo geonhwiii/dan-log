@@ -20,7 +20,7 @@ interface ProjectCardProps {
 	};
 }
 
-export default function DatabaseCard({ project }: ProjectCardProps) {
+export default function ProejctCard({ project }: ProjectCardProps) {
 	const theme = useTheme();
 	const isDark = theme === 'dark';
 
@@ -34,9 +34,12 @@ export default function DatabaseCard({ project }: ProjectCardProps) {
 						<div
 							className={`w-full h-48 rounded-xl gradient-border inner-glow overflow-hidden relative ${isDark ? '' : 'border-gray-200'}`}
 						>
-							{/* Project image or animated grid background */}
 							{project.data.image ? (
-								<img src={project.data.image} alt={project.data.title} className="w-full h-full object-cover" />
+								<img
+									src={project.data.image}
+									alt={project.data.title}
+									className="w-full h-full object-cover relative opacity-50"
+								/>
 							) : (
 								<div className="absolute inset-0 opacity-10">
 									<div
@@ -77,14 +80,15 @@ export default function DatabaseCard({ project }: ProjectCardProps) {
 							{project.data.description}
 						</p>
 						<div className="flex justify-between items-center">
-							<button
+							<a
+								href={`/store/${project.slug}`}
 								className={`transition flex items-center text-xs font-medium glass px-3 py-1.5 rounded-lg border ${
 									isDark
 										? 'text-indigo-400 hover:text-indigo-300 border-indigo-400/30'
 										: 'text-indigo-600 hover:text-indigo-700 border-indigo-300 bg-indigo-50/50'
 								}`}
 							>
-								View Details
+								{'View Details'}
 								<svg className="w-3 h-3 ml-1" viewBox="0 0 24 24" fill="none">
 									<path
 										d="M5 12H19M19 12L12 5M19 12L12 19"
@@ -94,7 +98,7 @@ export default function DatabaseCard({ project }: ProjectCardProps) {
 										strokeLinejoin="round"
 									/>
 								</svg>
-							</button>
+							</a>
 							<span
 								className={`text-xs glass px-2 py-1 rounded-full border ${
 									isDark ? 'text-white/50 border-white/10' : 'text-gray-500 border-gray-200 bg-gray-50/50'
