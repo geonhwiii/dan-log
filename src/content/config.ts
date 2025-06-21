@@ -32,7 +32,6 @@ const store = defineCollection({
 		github: z.string().optional(),
 		tech: z.array(z.string()),
 		date: z.coerce.date(),
-		status: z.enum(['완료', '개발중', '계획중']),
 	}),
 });
 

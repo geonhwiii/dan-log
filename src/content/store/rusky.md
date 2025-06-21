@@ -5,7 +5,6 @@ image: "https://i.imgur.com/pBVrZy3.png"
 github: "https://github.com/geonhwiii/rusky#readme"
 tech: ["rust"]
 date: 2025-06-20
-status: "완료"
 ---
 
 ## 🐺 rusky란?
