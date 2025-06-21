@@ -30,7 +30,7 @@ export function readingTime(html: string) {
 export function calculateWorkPeriod(dateStart: string | Date, dateEnd: string | Date) {
 	// 시작 날짜 처리
 	const start = typeof dateStart === 'string' ? new Date(dateStart) : dateStart;
-	
+
 	// 종료 날짜 처리 ("재직중"인 경우 현재 날짜 사용)
 	let end: Date;
 	if (dateEnd === '재직중') {
@@ -38,24 +38,22 @@ export function calculateWorkPeriod(dateStart: string | Date, dateEnd: string | 
 	} else {
 		end = typeof dateEnd === 'string' ? new Date(dateEnd) : dateEnd;
 	}
-	
+
 	// 날짜가 유효한지 확인
 	if (!isValid(start) || !isValid(end)) {
 		return '날짜 형식 오류';
 	}
-	
+
 	// date-fns를 사용하여 년, 월 계산
 	const years = differenceInYears(end, start);
 	const months = differenceInMonths(end, start) % 12;
-	
+
 	// 결과 문자열 생성
 	const yearText = years > 0 ? `${years}년` : '';
 	const monthText = months > 0 ? `${months}개월` : '';
-	
-	const result = [yearText, monthText]
-		.filter(Boolean)
-		.join(' ');
-		
+
+	const result = [yearText, monthText].filter(Boolean).join(' ');
+
 	return result || '1개월 미만';
 }
 
@@ -66,13 +64,13 @@ export function calculateWorkPeriod(dateStart: string | Date, dateEnd: string | 
  */
 export function formatWorkDate(input: Date | string) {
 	if (typeof input === 'string') return input;
-	
+
 	if (!isValid(input)) return '날짜 형식 오류';
-	
+
 	const month = input.toLocaleDateString('ko-KR', {
 		month: 'short',
 	});
-	
+
 	const year = input.getFullYear();
 	return `${year}년 ${month}`;
 }

@@ -42,6 +42,7 @@
 		"typescript": "^5.7.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.4"
+		"@biomejs/biome": "1.9.4",
+		"@gunw.dan/rusky": "^0.1.1"
 	}
 }
