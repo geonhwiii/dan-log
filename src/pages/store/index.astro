@@ -1,26 +1,26 @@
 ---
-import { getCollection } from 'astro:content';
-import PageLayout from '@layouts/PageLayout.astro';
-import TopLayout from '@layouts/TopLayout.astro';
-import BottomLayout from '@layouts/BottomLayout.astro';
-import { STORE } from '@consts';
-import { BottomShadow } from '@components/react/BottomShadow';
-import WaveBackground from '@components/react/WaveBackground';
-import ProejctCard from '@components/react/ProjectCard';
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import TopLayout from "@layouts/TopLayout.astro";
+import BottomLayout from "@layouts/BottomLayout.astro";
+import { STORE } from "@consts";
+import { BottomShadow } from "@components/react/BottomShadow";
+import WaveBackground from "@components/react/WaveBackground";
+import ProejctCard from "@components/react/ProjectCard";
 
-const collection = await getCollection('store');
+const collection = await getCollection("store");
 
 // 날짜순으로 정렬 (최신순)
-collection.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-
-const projects = await Promise.all(
-	collection.map(async (item) => {
-		const { Content } = await item.render();
-		return { ...item, Content };
-	}),
+collection.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
 
-console.log(projects);
+const projects = await Promise.all(
+  collection.map(async (item) => {
+    const { Content } = await item.render();
+    return { ...item, Content };
+  })
+);
 ---
 
 <PageLayout title={STORE.TITLE} description={STORE.DESCRIPTION}>
@@ -30,9 +30,13 @@ console.log(projects);
     </div>
   </TopLayout>
   <BottomLayout>
-    <WaveBackground client:load />
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {projects.map((project) => <ProejctCard client:load project={project} />)}
+    <div
+      class="fixed inset-0 w-full h-full bg-white dark:bg-black transition-colors duration-300 -z-10"
+    >
+    </div>
+    <WaveBackground client:idle />
+    <div class="animate grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+      {projects.map((project) => <ProejctCard client:idle project={project} />)}
     </div>
   </BottomLayout>
   <BottomShadow />

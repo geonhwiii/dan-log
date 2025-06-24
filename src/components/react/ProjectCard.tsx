@@ -1,5 +1,6 @@
 import { formatDate } from '@lib/utils';
 import { useTheme } from '../../utils/useTheme';
+import { useState, useEffect } from 'react';
 
 interface ProjectData {
 	title: string;
@@ -21,9 +22,21 @@ interface ProjectCardProps {
 export default function ProejctCard({ project }: ProjectCardProps) {
 	const theme = useTheme();
 	const isDark = theme === 'dark';
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	useEffect(() => {
+		// 컴포넌트 마운트 후 로딩 완료 표시
+		const timer = setTimeout(() => {
+			setIsLoaded(true);
+		}, 100);
+
+		return () => clearTimeout(timer);
+	}, []);
 
 	return (
-		<div className="w-full mx-auto max-w-xs">
+		<div
+			className={`w-full mx-auto max-w-xs transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+		>
 			<div
 				className={`relative card-border overflow-hidden rounded-2xl flex flex-col animate-float ${isDark ? '' : 'bg-white/80 backdrop-blur-sm shadow-lg'}`}
 			>
