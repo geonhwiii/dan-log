@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../../utils/useTheme';
 
 export default function WaveBackground() {
@@ -6,11 +6,26 @@ export default function WaveBackground() {
 	const theme = useTheme();
 	const animationRef = useRef<number | undefined>(undefined);
 	const currentThemeRef = useRef(theme);
+	const [isLoaded, setIsLoaded] = useState(false);
+	const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
 	// 테마 변경 감지
 	useEffect(() => {
 		currentThemeRef.current = theme;
 	}, [theme]);
+
+	// 모션 선호도 감지
+	useEffect(() => {
+		const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+		setPrefersReducedMotion(mediaQuery.matches);
+
+		const handleChange = (e: MediaQueryListEvent) => {
+			setPrefersReducedMotion(e.matches);
+		};
+
+		mediaQuery.addEventListener('change', handleChange);
+		return () => mediaQuery.removeEventListener('change', handleChange);
+	}, []);
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -43,8 +58,23 @@ export default function WaveBackground() {
 		function draw() {
 			if (!canvas || !ctx) return;
 
-			ctx.fillStyle = currentThemeRef.current === 'dark' ? 'black' : 'white';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			// 배경을 투명하게 변경
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			// 모션 감소 선호 시 정적 웨이브 표시
+			if (prefersReducedMotion) {
+				ctx.beginPath();
+				for (let x = 0; x < canvas.width; x++) {
+					const nx = (x / canvas.width) * 2 - 1;
+					const py = Math.sin(nx * 5) * 0.1;
+					const y = ((py + 1) * canvas.height) / 2;
+					x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+				}
+				ctx.lineWidth = 2;
+				ctx.strokeStyle = 'rgba(79,70,229,0.6)';
+				ctx.stroke();
+				return;
+			}
 
 			for (let i = 0; i < waveData.length; i++) {
 				const data = waveData[i];
@@ -71,6 +101,11 @@ export default function WaveBackground() {
 		}
 
 		function animate() {
+			if (prefersReducedMotion) {
+				draw();
+				return;
+			}
+
 			time += 0.02;
 			updateWaveData();
 			draw();
@@ -81,13 +116,23 @@ export default function WaveBackground() {
 		resizeCanvas();
 		animate();
 
+		// 로딩 완료 표시
+		setIsLoaded(true);
+
 		return () => {
 			window.removeEventListener('resize', resizeCanvas);
 			if (animationRef.current) {
 				cancelAnimationFrame(animationRef.current);
 			}
 		};
-	}, []);
+	}, [prefersReducedMotion]);
 
-	return <canvas ref={canvasRef} className="fixed inset-0 w-full h-full" />;
+	return (
+		<canvas
+			ref={canvasRef}
+			className={`fixed inset-0 w-full h-full transition-opacity duration-500 ${
+				isLoaded ? 'opacity-100' : 'opacity-0'
+			}`}
+		/>
+	);
 }
