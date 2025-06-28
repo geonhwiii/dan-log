@@ -1,25 +1,23 @@
 ---
-import { getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import TopLayout from "@layouts/TopLayout.astro";
-import BottomLayout from "@layouts/BottomLayout.astro";
-import { STORE } from "@consts";
-import { BottomShadow } from "@components/react/BottomShadow";
-import WaveBackground from "@components/react/WaveBackground";
-import ProejctCard from "@components/react/ProjectCard";
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import TopLayout from '@layouts/TopLayout.astro';
+import BottomLayout from '@layouts/BottomLayout.astro';
+import { STORE } from '@consts';
+import { BottomShadow } from '@components/react/BottomShadow';
+import WaveBackground from '@components/react/WaveBackground';
+import ProejctCard from '@components/react/ProjectCard';
 
-const collection = await getCollection("store");
+const collection = await getCollection('store');
 
 // 날짜순으로 정렬 (최신순)
-collection.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+collection.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
 const projects = await Promise.all(
-  collection.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
-  })
+	collection.map(async (item) => {
+		const { Content } = await item.render();
+		return { ...item, Content };
+	}),
 );
 ---
 

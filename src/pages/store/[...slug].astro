@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
 type Props = CollectionEntry<'store'>;
 const project = Astro.props;
-const { title, description, image, link, github, tech, date } = project.data;
+const { title, description, image, link, github } = project.data;
 const { Content } = await project.render();
 ---
 
