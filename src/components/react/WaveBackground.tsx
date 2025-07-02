@@ -56,7 +56,7 @@ export default function WaveBackground() {
 		}
 
 		function draw() {
-			if (!canvas || !ctx) return;
+			if (!(canvas && ctx)) return;
 
 			// 배경을 투명하게 변경
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -129,10 +129,10 @@ export default function WaveBackground() {
 
 	return (
 		<canvas
-			ref={canvasRef}
-			className={`fixed inset-0 w-full h-full transition-opacity duration-500 ${
+			className={`fixed inset-0 h-full w-full transition-opacity duration-500 ${
 				isLoaded ? 'opacity-100' : 'opacity-0'
 			}`}
+			ref={canvasRef}
 		/>
 	);
 }

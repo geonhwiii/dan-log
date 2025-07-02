@@ -1,6 +1,6 @@
 {
-	"hooks": {
-		"pre-commit": "bun run format && bun run build"
-	},
-	"version": "0.1.0"
+  "hooks": {
+    "pre-commit": "bun run format && bun run build"
+  },
+  "version": "0.1.0"
 }
