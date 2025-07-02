@@ -1,5 +1,5 @@
-import ActivityCalendar, { type Props, type ThemeInput } from 'react-activity-calendar';
 import { useTheme } from '@utils/useTheme';
+import ActivityCalendar, { type Props, type ThemeInput } from 'react-activity-calendar';
 
 export function GithubCalendar({ data, ...props }: Props) {
 	const colorScheme = useTheme();
@@ -16,16 +16,16 @@ export function GithubCalendar({ data, ...props }: Props) {
 
 	return (
 		<ActivityCalendar
+			blockMargin={3}
+			blockSize={9}
 			colorScheme={colorScheme}
 			data={data}
-			blockSize={9}
-			blockMargin={3}
 			fontSize={12}
-			theme={theme}
 			labels={labels}
 			style={{
 				fontFamily: 'var(--font-departure)',
 			}}
+			theme={theme}
 			{...props}
 		/>
 	);

@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import type { CollectionEntry } from 'astro:content';
-import Fuse from 'fuse.js';
 import ArrowCard from '@components/react/ArrowCard';
+import Fuse from 'fuse.js';
+import { useEffect, useState } from 'react';
 
 type Props = {
 	data: CollectionEntry<'blog'>[];
@@ -35,22 +35,22 @@ const Search: React.FC<Props> = ({ data }) => {
 		<div className="flex flex-col">
 			<div className="relative">
 				<input
+					autoComplete="off"
+					className="w-full rounded border border-black/10 bg-black/5 px-2.5 py-1.5 pl-10 text-black outline-none focus:border-black dark:border-white/20 dark:bg-white/15 dark:text-white focus:dark:border-white"
 					name="search"
+					onChange={onInput}
+					placeholder="What are you looking for?"
+					spellCheck={false}
 					type="text"
 					value={query}
-					onChange={onInput}
-					autoComplete="off"
-					spellCheck={false}
-					placeholder="What are you looking for?"
-					className="w-full px-2.5 py-1.5 pl-10 rounded outline-none text-black dark:text-white bg-black/5 dark:bg-white/15 border border-black/10 dark:border-white/20 focus:border-black focus:dark:border-white"
 				/>
-				<svg className="absolute size-6 left-1.5 top-1/2 -translate-y-1/2 stroke-current">
+				<svg className="-translate-y-1/2 absolute top-1/2 left-1.5 size-6 stroke-current">
 					<use href={'/ui.svg#search'} />
 				</svg>
 			</div>
 			{query.length >= 2 && results.length >= 1 && (
 				<div className="mt-12">
-					<div className="text-sm uppercase mb-2">
+					<div className="mb-2 text-sm uppercase">
 						Found {results.length} results for {`'${query}'`}
 					</div>
 					<ul className="flex flex-col gap-3">

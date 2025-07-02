@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
 import { cn } from '@lib/utils';
+import { motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
 
 type TrueFocusProps = {
 	className?: string;
@@ -51,8 +51,12 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 	}, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
 
 	useEffect(() => {
-		if (currentIndex === null || currentIndex === -1) return;
-		if (!wordRefs.current[currentIndex] || !containerRef.current) return;
+		if (currentIndex === null || currentIndex === -1) {
+			return;
+		}
+		if (!(wordRefs.current[currentIndex] && containerRef.current)) {
+			return;
+		}
 
 		const parentRect = containerRef.current.getBoundingClientRect();
 		const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect();
@@ -79,16 +83,18 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 	};
 
 	return (
-		<div className="relative flex gap-4 justify-center items-center flex-wrap" ref={containerRef}>
+		<div className="relative flex flex-wrap items-center justify-center gap-4" ref={containerRef}>
 			{words.map((word, index) => {
 				const isActive = index === currentIndex;
 				return (
 					<span
+						className={cn('relative cursor-pointer font-black text-[3rem]', className)}
 						key={index}
+						onMouseEnter={() => handleMouseEnter(index)}
+						onMouseLeave={handleMouseLeave}
 						ref={(el) => {
 							wordRefs.current[index] = el;
 						}}
-						className={cn('relative text-[3rem] font-black cursor-pointer', className)}
 						style={
 							{
 								filter: manualMode
@@ -101,8 +107,6 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 								transition: `filter ${animationDuration}s ease`,
 							} as React.CSSProperties
 						}
-						onMouseEnter={() => handleMouseEnter(index)}
-						onMouseLeave={handleMouseLeave}
 					>
 						{word}
 					</span>
@@ -110,7 +114,6 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 			})}
 
 			<motion.div
-				className="absolute top-0 left-0 pointer-events-none box-border border-0"
 				animate={{
 					x: focusRect.x,
 					y: focusRect.y,
@@ -118,39 +121,40 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 					height: focusRect.height,
 					opacity: currentIndex >= 0 ? 1 : 0,
 				}}
-				transition={{
-					duration: animationDuration,
-				}}
+				className="pointer-events-none absolute top-0 left-0 box-border border-0"
 				style={
 					{
 						'--border-color': borderColor,
 						'--glow-color': glowColor,
 					} as React.CSSProperties
 				}
+				transition={{
+					duration: animationDuration,
+				}}
 			>
 				<span
-					className="absolute w-4 h-4 border-[3px] rounded-[3px] top-[-10px] left-[-10px] border-r-0 border-b-0"
+					className="absolute top-[-10px] left-[-10px] h-4 w-4 rounded-[3px] border-[3px] border-r-0 border-b-0"
 					style={{
 						borderColor: 'var(--border-color)',
 						filter: 'drop-shadow(0 0 4px var(--border-color))',
 					}}
 				/>
 				<span
-					className="absolute w-4 h-4 border-[3px] rounded-[3px] top-[-10px] right-[-10px] border-l-0 border-b-0"
+					className="absolute top-[-10px] right-[-10px] h-4 w-4 rounded-[3px] border-[3px] border-b-0 border-l-0"
 					style={{
 						borderColor: 'var(--border-color)',
 						filter: 'drop-shadow(0 0 4px var(--border-color))',
 					}}
 				/>
 				<span
-					className="absolute w-4 h-4 border-[3px] rounded-[3px] bottom-[-10px] left-[-10px] border-r-0 border-t-0"
+					className="absolute bottom-[-10px] left-[-10px] h-4 w-4 rounded-[3px] border-[3px] border-t-0 border-r-0"
 					style={{
 						borderColor: 'var(--border-color)',
 						filter: 'drop-shadow(0 0 4px var(--border-color))',
 					}}
 				/>
 				<span
-					className="absolute w-4 h-4 border-[3px] rounded-[3px] bottom-[-10px] right-[-10px] border-l-0 border-t-0"
+					className="absolute right-[-10px] bottom-[-10px] h-4 w-4 rounded-[3px] border-[3px] border-t-0 border-l-0"
 					style={{
 						borderColor: 'var(--border-color)',
 						filter: 'drop-shadow(0 0 4px var(--border-color))',

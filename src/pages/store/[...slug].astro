@@ -1,20 +1,20 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import PageLayout from '@layouts/PageLayout.astro';
-import TopLayout from '@layouts/TopLayout.astro';
-import BottomLayout from '@layouts/BottomLayout.astro';
-import { BottomShadow } from '@components/react/BottomShadow';
-import { ScrollProgress } from '@components/react/ScrollProgress';
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import TopLayout from "@layouts/TopLayout.astro";
+import BottomLayout from "@layouts/BottomLayout.astro";
+import { BottomShadow } from "@components/react/BottomShadow";
+import { ScrollProgress } from "@components/react/ScrollProgress";
 
 export async function getStaticPaths() {
-	const projects = await getCollection('store');
-	return projects.map((project) => ({
-		params: { slug: project.slug },
-		props: project,
-	}));
+  const projects = await getCollection("store");
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: project,
+  }));
 }
 
-type Props = CollectionEntry<'store'>;
+type Props = CollectionEntry<"store">;
 const project = Astro.props;
 const { title, description, image, link, github } = project.data;
 const { Content } = await project.render();

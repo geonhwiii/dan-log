@@ -1,6 +1,6 @@
 import { formatDate } from '@lib/utils';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../../utils/useTheme';
-import { useState, useEffect } from 'react';
 
 interface ProjectData {
 	title: string;
@@ -35,25 +35,25 @@ export default function ProejctCard({ project }: ProjectCardProps) {
 
 	return (
 		<div
-			className={`w-full mx-auto max-w-xs transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+			className={`mx-auto w-full max-w-xs transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
 		>
 			<div
-				className={`relative card-border overflow-hidden rounded-2xl flex flex-col animate-float ${isDark ? '' : 'bg-white/80 backdrop-blur-sm shadow-lg'}`}
+				className={`card-border relative flex animate-float flex-col overflow-hidden rounded-2xl ${isDark ? '' : 'bg-white/80 shadow-lg backdrop-blur-sm'}`}
 			>
-				<div className="p-4 flex justify-center relative">
+				<div className="relative flex justify-center p-4">
 					<div
-						className={`w-full h-48 rounded-xl gradient-border inner-glow overflow-hidden relative ${isDark ? '' : 'border-gray-200'}`}
+						className={`gradient-border inner-glow relative h-48 w-full overflow-hidden rounded-xl ${isDark ? '' : 'border-gray-200'}`}
 					>
 						{project.data.image ? (
 							<img
-								src={project.data.image}
 								alt={project.data.title}
-								className="w-full h-full object-cover relative opacity-50"
+								className="relative h-full w-full object-cover opacity-50"
+								src={project.data.image}
 							/>
 						) : (
 							<div className="absolute inset-0 opacity-10">
 								<div
-									className="w-full h-full animate-pulse"
+									className="h-full w-full animate-pulse"
 									style={{
 										backgroundImage: isDark
 											? 'linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px)'
@@ -66,50 +66,50 @@ export default function ProejctCard({ project }: ProjectCardProps) {
 					</div>
 				</div>
 				<div
-					className={`w-full h-px bg-gradient-to-r from-transparent ${isDark ? 'via-white/30' : 'via-gray-300'} to-transparent`}
+					className={`h-px w-full bg-gradient-to-r from-transparent ${isDark ? 'via-white/30' : 'via-gray-300'} to-transparent`}
 				/>
 				<div className="p-4">
-					<div className="flex flex-wrap gap-1 mb-3">
+					<div className="mb-3 flex flex-wrap gap-1">
 						{project.data.tech.slice(0, 3).map((tech, index) => (
 							<span
-								key={index}
-								className={`inline-block px-3 py-1 glass rounded-full text-xs font-medium border ${
-									isDark ? 'text-indigo-300 border-indigo-400/30' : 'text-indigo-600 border-indigo-300 bg-indigo-50/50'
+								className={`glass inline-block rounded-full border px-3 py-1 font-medium text-xs ${
+									isDark ? 'border-indigo-400/30 text-indigo-300' : 'border-indigo-300 bg-indigo-50/50 text-indigo-600'
 								}`}
+								key={index}
 							>
 								{tech}
 							</span>
 						))}
 					</div>
-					<h3 className={`text-lg font-medium mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+					<h3 className={`mb-2 font-medium text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>
 						{project.data.title}
 					</h3>
-					<p className={`mb-4 leading-relaxed text-xs ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
+					<p className={`mb-4 text-xs leading-relaxed ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
 						{project.data.description}
 					</p>
-					<div className="flex justify-between items-center">
+					<div className="flex items-center justify-between">
 						<a
-							href={`/store/${project.slug}`}
-							className={`transition flex items-center text-xs font-medium glass px-3 py-1.5 rounded-lg border ${
+							className={`glass flex items-center rounded-lg border px-3 py-1.5 font-medium text-xs transition ${
 								isDark
-									? 'text-indigo-400 hover:text-indigo-300 border-indigo-400/30'
-									: 'text-indigo-600 hover:text-indigo-700 border-indigo-300 bg-indigo-50/50'
+									? 'border-indigo-400/30 text-indigo-400 hover:text-indigo-300'
+									: 'border-indigo-300 bg-indigo-50/50 text-indigo-600 hover:text-indigo-700'
 							}`}
+							href={`/store/${project.slug}`}
 						>
 							{'View Details'}
-							<svg className="w-3 h-3 ml-1" viewBox="0 0 24 24" fill="none">
+							<svg className="ml-1 h-3 w-3" fill="none" viewBox="0 0 24 24">
 								<path
 									d="M5 12H19M19 12L12 5M19 12L12 19"
 									stroke="currentColor"
-									strokeWidth={2}
 									strokeLinecap="round"
 									strokeLinejoin="round"
+									strokeWidth={2}
 								/>
 							</svg>
 						</a>
 						<span
-							className={`text-xs glass px-2 py-1 rounded-full border ${
-								isDark ? 'text-white/50 border-white/10' : 'text-gray-500 border-gray-200 bg-gray-50/50'
+							className={`glass rounded-full border px-2 py-1 text-xs ${
+								isDark ? 'border-white/10 text-white/50' : 'border-gray-200 bg-gray-50/50 text-gray-500'
 							}`}
 						>
 							{formatDate(typeof project.data.date === 'string' ? new Date(project.data.date) : project.data.date)}

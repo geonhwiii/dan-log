@@ -1,7 +1,7 @@
 'use client';
-import { cn } from '@/lib/utils';
 import { motion, type Transition, type Variants } from 'motion/react';
 import type { CSSProperties } from 'react';
+import { cn } from '@/lib/utils';
 
 type SpinningTextProps = {
 	text: string;
@@ -59,19 +59,18 @@ export function SpinningText({
 	};
 	return (
 		<motion.div
-			className={cn('relative', className)}
-			style={style}
-			initial="hidden"
 			animate="visible"
+			className={cn('relative', className)}
+			initial="hidden"
+			style={style}
+			transition={finalTransition as Transition}
 			variants={containerVariants}
-			transition={finalTransition}
 		>
 			{letters.map((letter, index) => (
 				<motion.span
 					aria-hidden="true"
+					className="absolute top-1/2 left-1/2 inline-block"
 					key={`${index}-${letter}`}
-					variants={itemVariants}
-					className="absolute left-1/2 top-1/2 inline-block"
 					style={
 						{
 							'--index': index,
@@ -85,6 +84,7 @@ export function SpinningText({
 							transformOrigin: 'center',
 						} as React.CSSProperties
 					}
+					variants={itemVariants}
 				>
 					{letter}
 				</motion.span>

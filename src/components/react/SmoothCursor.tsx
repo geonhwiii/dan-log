@@ -21,12 +21,12 @@ export interface SmoothCursorProps {
 const DefaultCursorSVG: FC = () => {
 	return (
 		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={50}
-			height={54}
-			viewBox="0 0 50 54"
 			fill="none"
+			height={54}
 			style={{ scale: 0.5 }}
+			viewBox="0 0 50 54"
+			width={50}
+			xmlns="http://www.w3.org/2000/svg"
 		>
 			<g filter="url(#filter0_d_91_7928)">
 				<path
@@ -36,32 +36,32 @@ const DefaultCursorSVG: FC = () => {
 				<path
 					d="M43.7146 40.6933L28.5431 6.34306C27.3556 3.65428 23.5772 3.69516 22.3668 6.32755L6.57226 40.6778C5.3134 43.4156 7.97238 46.298 10.803 45.2549L24.7662 40.109C25.0221 40.0147 25.2999 40.0156 25.5494 40.1082L39.4193 45.254C42.2261 46.2953 44.9254 43.4347 43.7146 40.6933Z"
 					stroke="white"
-					strokeWidth={2.25825}
+					strokeWidth={2.258_25}
 				/>
 			</g>
 			<defs>
 				<filter
-					id="filter0_d_91_7928"
-					x={0.602397}
-					y={0.952444}
-					width={49.0584}
-					height={52.428}
-					filterUnits="userSpaceOnUse"
 					colorInterpolationFilters="sRGB"
+					filterUnits="userSpaceOnUse"
+					height={52.428}
+					id="filter0_d_91_7928"
+					width={49.0584}
+					x={0.602_397}
+					y={0.952_444}
 				>
 					<feFlood floodOpacity={0} result="BackgroundImageFix" />
 					<feColorMatrix
 						in="SourceAlpha"
+						result="hardAlpha"
 						type="matrix"
 						values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-						result="hardAlpha"
 					/>
-					<feOffset dy={2.25825} />
-					<feGaussianBlur stdDeviation={2.25825} />
+					<feOffset dy={2.258_25} />
+					<feGaussianBlur stdDeviation={2.258_25} />
 					<feComposite in2="hardAlpha" operator="out" />
 					<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0" />
-					<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_91_7928" />
-					<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_91_7928" result="shape" />
+					<feBlend in2="BackgroundImageFix" mode="normal" result="effect1_dropShadow_91_7928" />
+					<feBlend in="SourceGraphic" in2="effect1_dropShadow_91_7928" mode="normal" result="shape" />
 				</filter>
 			</defs>
 		</svg>
@@ -163,6 +163,8 @@ export function SmoothCursor({
 
 	return (
 		<motion.div
+			animate={{ scale: 1 }}
+			initial={{ scale: 0 }}
 			style={{
 				position: 'fixed',
 				left: cursorX,
@@ -170,13 +172,11 @@ export function SmoothCursor({
 				translateX: '-50%',
 				translateY: '-50%',
 				rotate: rotation,
-				scale: scale,
+				scale,
 				zIndex: 100,
 				pointerEvents: 'none',
 				willChange: 'transform',
 			}}
-			initial={{ scale: 0 }}
-			animate={{ scale: 1 }}
 			transition={{
 				type: 'spring',
 				stiffness: 400,

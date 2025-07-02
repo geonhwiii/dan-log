@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import type { CollectionEntry } from 'astro:content';
 import ArrowCard from '@components/react/ArrowCard';
 import { cn } from '@lib/utils';
+import { useEffect, useState } from 'react';
 
 type Props = {
 	tags: string[];
@@ -35,24 +35,24 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 	};
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+		<div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
 			<div className="col-span-3 sm:col-span-1">
 				<div className="sticky top-24">
-					<div className="text-sm font-semibold uppercase mb-2 text-black dark:text-white">Filter</div>
-					<ul className="flex flex-wrap sm:flex-col gap-1.5">
+					<div className="mb-2 font-semibold text-black text-sm uppercase dark:text-white">Filter</div>
+					<ul className="flex flex-wrap gap-1.5 sm:flex-col">
 						{tags.map((tag) => (
 							<li key={tag}>
 								<button
-									onClick={() => toggleTag(tag)}
 									className={cn(
-										'w-full px-2 py-1 rounded',
-										'whitespace-nowrap overflow-hidden overflow-ellipsis',
-										'flex gap-2 items-center',
+										'w-full rounded px-2 py-1',
+										'overflow-hidden overflow-ellipsis whitespace-nowrap',
+										'flex items-center gap-2',
 										'bg-black/5 dark:bg-white/10',
 										'hover:bg-black/10 hover:dark:bg-white/15',
 										'transition-colors duration-300 ease-in-out',
 										filter.has(tag) && 'text-black dark:text-white',
 									)}
+									onClick={() => toggleTag(tag)}
 								>
 									<svg
 										className={cn(
@@ -61,8 +61,8 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 											filter.has(tag) && 'fill-black dark:fill-white',
 										)}
 									>
-										<use href={'/ui.svg#square'} className={cn(!filter.has(tag) ? 'block' : 'hidden')} />
-										<use href={'/ui.svg#square-check'} className={cn(filter.has(tag) ? 'block' : 'hidden')} />
+										<use className={cn(filter.has(tag) ? 'hidden' : 'block')} href={'/ui.svg#square'} />
+										<use className={cn(filter.has(tag) ? 'block' : 'hidden')} href={'/ui.svg#square-check'} />
 									</svg>
 									{tag}
 								</button>
@@ -73,13 +73,13 @@ const Blog: React.FC<Props> = ({ data, tags }) => {
 			</div>
 			<div className="col-span-3 sm:col-span-2">
 				<div className="flex flex-col">
-					<div className="text-sm uppercase mb-2 font-departure">
+					<div className="mb-2 font-departure text-sm uppercase">
 						SHOWING {posts.length} OF {data.length} POSTS
 					</div>
 					<ul className="flex flex-col gap-3">
 						{posts.map((post, index) => (
 							<li key={post.slug}>
-								<ArrowCard entry={post} borderBeam={index <= 2} delay={index * 0.5} />
+								<ArrowCard borderBeam={index <= 2} delay={index * 0.5} entry={post} />
 							</li>
 						))}
 					</ul>
