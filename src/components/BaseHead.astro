@@ -1,15 +1,15 @@
 ---
-import { ClientRouter } from 'astro:transitions';
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
-	title: string;
-	description: string;
-	image?: string;
+  title: string;
+  description: string;
+  image?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image } = Astro.props;
-const ogImage = image ? image : new URL('/open-graph.png', Astro.url);
+const ogImage = image ? image : new URL("/open-graph.png", Astro.url);
 ---
 
 <!-- Global Metadata -->
@@ -87,8 +87,8 @@ const ogImage = image ? image : new URL('/open-graph.png', Astro.url);
   document.addEventListener("astro:before-swap", (e) =>
     [
       ...(e as TransitionBeforeSwapEvent).newDocument.head.querySelectorAll(
-        'link[as="font"]',
+        'link[as="font"]'
       ),
-    ].forEach((link) => link.remove()),
+    ].forEach((link) => link.remove())
   );
 </script>

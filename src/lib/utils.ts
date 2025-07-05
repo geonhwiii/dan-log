@@ -1,6 +1,6 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from 'clsx';
 import { differenceInMonths, differenceInYears, isValid } from 'date-fns';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -40,7 +40,7 @@ export function calculateWorkPeriod(dateStart: string | Date, dateEnd: string | 
 	}
 
 	// 날짜가 유효한지 확인
-	if (!isValid(start) || !isValid(end)) {
+	if (!(isValid(start) && isValid(end))) {
 		return '날짜 형식 오류';
 	}
 
