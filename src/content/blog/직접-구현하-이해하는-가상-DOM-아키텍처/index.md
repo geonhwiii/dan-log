@@ -15,7 +15,7 @@ tags:
 
 ## 1. `가상 DOM(Virtual DOM)`이란?
 
-- **`가상 DOM`**은 실제 `DOM`을 직접 조작하지 않고, 메모리 상의 가벼운 객체 트리(`vNode`)로 UI 상태를 관리하는 방식입니다.
+- `가상 DOM`은 실제 `DOM`을 직접 조작하지 않고, 메모리 상의 가벼운 객체 트리(`vNode`)로 UI 상태를 관리하는 방식입니다.
 - 변경이 발생하면, 이전 `vNode`와 새로운 `vNode`를 비교(`diff`)하여, 실제 `DOM`에는 최소한의 변경만 반영합니다.
 - 이로써 성능 최적화와 선언적 UI 작성이 동시에 가능합니다.
 
@@ -34,7 +34,7 @@ graph TD;
 
 ## 3. 각 컴포넌트별 핵심 개념 및 코드 예시
 
-### 1) `createVNode`
+### 1) createVNode
 
 JSX 문법을 `가상 DOM 객체(vNode)`로 변환합니다.
 
@@ -60,7 +60,7 @@ export function createVNode(type, props, ...children) {
 
 ---
 
-### 2) `normalizeVNode`
+### 2) normalizeVNode
 
 다양한 입력을 일관된 `vNode` 구조로 정규화합니다.
 
@@ -109,7 +109,7 @@ export function normalizeVNode(vNode) {
 
 ---
 
-### 3) `createElement`
+### 3) createElement
 
 `vNode`를 실제 `DOM 요소`로 변환합니다.
 
@@ -151,7 +151,7 @@ export function createElement(vNode) {
 
 ---
 
-### 4) `renderElement`
+### 4) renderElement
 
 최초 렌더링과 업데이트(`diff`)를 구분하여 동작합니다.
 
@@ -176,7 +176,7 @@ export function renderElement(vNode, container) {
 
 ---
 
-### 5) `updateElement`
+### 5) updateElement
 
 기존 `DOM`과 새로운 `vNode`를 비교(`diff`)하여 최소 변경만 반영합니다.
 
@@ -236,7 +236,7 @@ export function updateElement(parentElement, newVNode, oldVNode, index = 0) {
 
 ---
 
-### 6) `eventManager`
+### 6) eventManager
 
 이벤트 위임 및 효율적 이벤트 관리를 담당합니다.
 
@@ -313,14 +313,7 @@ export function setupEventListeners(root) {
 
 ## 4. 직접 구현하며 느낀 점
 
-- **`CleanCode`**와 선언형 프로그래밍의 중요성을 체감했습니다.
 - "불변성"과 "최소 변경(diff)"의 원리가 실제로 얼마나 강력한지, 직접 구현하며 깨달았습니다.
-- `boolean prop`, 이벤트 위임 등 세부 구현에서 실제 라이브러리와의 차이와 이유를 명확히 이해할 수 있었습니다.
-- 테스트 주도 개발(`TDD`)로 각 단계별 요구사항을 명확히 검증하며, 논리적 오류를 빠르게 잡을 수 있었습니다.
+- `boolean prop`, 이벤트 위임 등 세부 구현에서 실제 라이브러리와의 차이와 이유를 이해할 수 있었습니다.
 
 ---
-
-## 5. 마치며 (실전에서의 적용과 한계)
-
-- 이 구조는 실제로도 충분히 실전에서 사용할 수 있을 정도로 견고합니다.
-- 다만, `key` 기반 `diff`, 비동기 렌더링, 최적화된 이벤트 바인딩 등은 상용 라이브러리 수준에선 더 많은 고려가 필요합니다.
