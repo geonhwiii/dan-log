@@ -21,18 +21,7 @@ tags:
 
 ---
 
-## 2. 전체 구조 한눈에 보기
-
-```mermaid
-graph TD;
-  JSX/컴포넌트 --> createVNode --> normalizeVNode --> createElement --> renderElement --> updateElement --> DOM
-  eventManager --> createElement
-  eventManager --> renderElement
-```
-
----
-
-## 3. 각 컴포넌트별 핵심 개념 및 코드 예시
+## 2. 각 컴포넌트별 핵심 개념 및 코드 예시
 
 ### 1) createVNode
 
@@ -311,7 +300,7 @@ export function setupEventListeners(root) {
 
 ---
 
-## 4. 직접 구현하며 느낀 점
+## 3. 직접 구현하며 느낀 점
 
 - "불변성"과 "최소 변경(diff)"의 원리가 실제로 얼마나 강력한지, 직접 구현하며 깨달았습니다.
 - `boolean prop`, 이벤트 위임 등 세부 구현에서 실제 라이브러리와의 차이와 이유를 이해할 수 있었습니다.
