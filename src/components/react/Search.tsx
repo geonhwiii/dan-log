@@ -39,7 +39,7 @@ const Search: React.FC<Props> = ({ data }) => {
 					className="w-full rounded border border-black/10 bg-black/5 px-2.5 py-1.5 pl-10 text-black outline-none focus:border-black dark:border-white/20 dark:bg-white/15 dark:text-white focus:dark:border-white"
 					name="search"
 					onChange={onInput}
-					placeholder="What are you looking for?"
+					placeholder="글 제목을 검색해 주세요"
 					spellCheck={false}
 					type="text"
 					value={query}
