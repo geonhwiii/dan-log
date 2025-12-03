@@ -1,12 +1,13 @@
 ---
-title: "[번역] Cohesion and Coupling: the difference"
-summary: "응집도와 결합도: 차이점"
-date: "12 02 2025"
+title: '[번역] Cohesion and Coupling: the difference'
+summary: '응집도와 결합도: 차이점, 소프트웨어 개발에서 가장 가치 있는 원칙 중 하나에 대한 글입니다.'
+date: '12 02 2025'
 draft: false
 tags:
-  - Cohesion
-  - Coupling
+  - 번역
 ---
+
+> 원문 : https://enterprisecraftsmanship.com/posts/cohesion-coupling-difference/
 
 소프트웨어 개발에서 가장 가치 있는 원칙 중 하나에 대한 글입니다.
 
@@ -40,21 +41,31 @@ tags:
 
 높은 응집도와 낮은 결합도를 가진 코드 외에도, 스펙트럼의 다른 부분에 속하는 최소 세 가지 유형이 있습니다. 총 4가지 유형입니다:
 
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-1.png)
+
 각 유형을 하나씩 살펴보겠습니다.
 
 **1. 이상적인 코드**는 가이드라인을 따르는 코드입니다. 느슨하게 결합되어 있고 높은 응집도를 가집니다:
+
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-1-01.png)
 
 여기서 같은 색의 원은 서로 관련된 코드베이스의 조각들을 나타냅니다.
 
 **2. God Object**는 높은 응집도와 높은 결합도를 도입한 결과입니다. 이는 안티패턴이며 기본적으로 모든 작업을 한 번에 수행하는 단일 코드 조각을 나타냅니다:
 
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-1-02.png)
+
 이런 종류의 코드를 Big Ball of Mud라고도 부릅니다.
 
 **3. 세 번째 유형**은 서로 다른 클래스나 모듈 간의 경계가 잘못 선택된 경우 발생합니다:
 
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-1-03.png)
+
 God Object와 달리 이 유형의 코드는 경계가 있습니다. 여기서 문제는 경계가 부적절하게 선택되어 도메인의 실제 의미를 반영하지 못한다는 것입니다. 이런 코드는 단일 책임 원칙(Single Responsibility Principle)을 위반하는 경우가 많습니다.
 
 **4. 파괴적 분리(Destructive decoupling)**는 가장 흥미로운 유형입니다. 프로그래머가 코드베이스를 너무 분리하려다 코드가 완전히 초점을 잃을 때 발생합니다:
+
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-2-04.png)
 
 마지막 유형은 더 자세한 논의가 필요합니다.
 
@@ -118,11 +129,15 @@ public class Order
 
 앞서 언급했듯이 응집도와 결합도는 다양한 레벨에서 적용될 수 있습니다. 클래스 레벨이 가장 명확하지만 유일한 것은 아닙니다. 프로젝트 내의 폴더 구조가 한 예입니다:
 
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-2.png)
+
 언뜻 보면 프로젝트가 잘 구성되어 있습니다: 엔티티, 팩토리 등을 위한 별도의 폴더가 있습니다. 그러나 응집도가 부족합니다.
 
 이는 다이어그램의 3번째 카테고리에 해당합니다: 잘못 선택된 경계. 프로젝트 내부가 실제로 느슨하게 결합되어 있지만, 경계가 의미론을 반영하지 못합니다.
 
 높은 응집도(그리고 낮은 결합도)를 가진 버전은 다음과 같습니다:
+
+![](https://enterprisecraftsmanship.com/images/2015/2015-09-02-3.png)
 
 이렇게 하면 관련된 클래스들을 함께 유지할 수 있습니다. 게다가 프로젝트의 폴더가 이제 유틸리티 목적이 아닌 도메인 모델 의미론으로 구조화됩니다. 이 버전은 첫 번째 카테고리에 속하며, 솔루션에서 이런 종류의 파티셔닝을 유지하는 것을 강력히 권장합니다.
 
