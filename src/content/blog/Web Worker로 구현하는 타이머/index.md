@@ -1,7 +1,7 @@
 ---
-title: 'Web Worker로 구현하는 타이머'
-summary: '탭 전환 시 타이머가 멈추는 문제를 Web Worker로 해결하기'
-date: '09 01 2025'
+title: "Web Worker로 구현하는 타이머"
+summary: "탭 전환 시 타이머가 멈추는 문제를 Web Worker로 해결하기"
+date: "09 01 2025"
 draft: false
 tags:
   - Web Worker
@@ -28,7 +28,7 @@ const useRecordingStore = create((set, get) => ({
 
   tick() {
     const { status, isPaused } = get();
-    if (status === 'recording' && !isPaused) {
+    if (status === "recording" && !isPaused) {
       set((s) => ({ durationSec: s.durationSec + 1 }));
     }
   },
@@ -39,7 +39,7 @@ const useRecordingStore = create((set, get) => ({
       clearInterval(timerId);
       set({ timerId: null });
     }
-  }
+  },
 }));
 ```
 
@@ -95,10 +95,12 @@ function startTimer() {
   intervalId = setInterval(() => {
     if (timerState.isRunning && !timerState.isPaused && timerState.startTime) {
       const now = Date.now();
-      timerState.elapsed = Math.floor((now - timerState.startTime - timerState.pausedTime) / 1000);
+      timerState.elapsed = Math.floor(
+        (now - timerState.startTime - timerState.pausedTime) / 1000,
+      );
 
       const response: TimerWorkerResponse = {
-        type: 'tick',
+        type: "tick",
         payload: {
           elapsed: timerState.elapsed,
         },
@@ -109,25 +111,26 @@ function startTimer() {
   }, 1000);
 }
 
-self.addEventListener('message', (event: MessageEvent<TimerWorkerMessage>) => {
+self.addEventListener("message", (event: MessageEvent<TimerWorkerMessage>) => {
   const { type } = event.data;
 
   switch (type) {
-    case 'start':
+    case "start":
       timerState.isRunning = true;
       timerState.isPaused = false;
       timerState.startTime = Date.now();
       timerState.pausedTime = 0;
       timerState.elapsed = 0;
       startTimer();
-      self.postMessage({ type: 'started' });
+      self.postMessage({ type: "started" });
       break;
 
-    case 'pause':
+    case "pause":
       if (timerState.isRunning && !timerState.isPaused) {
         timerState.isPaused = true;
-        timerState.pausedTime += Date.now() - (timerState.startTime || 0) - timerState.pausedTime;
-        self.postMessage({ type: 'paused' });
+        timerState.pausedTime +=
+          Date.now() - (timerState.startTime || 0) - timerState.pausedTime;
+        self.postMessage({ type: "paused" });
       }
       break;
 
@@ -140,8 +143,8 @@ self.addEventListener('message', (event: MessageEvent<TimerWorkerMessage>) => {
 
 ```typescript
 // timer-worker.client.ts
-import TimerWorker from './timer.worker?worker';
-import type { TimerWorkerMessage, TimerWorkerResponse } from './types';
+import TimerWorker from "./timer.worker?worker";
+import type { TimerWorkerMessage, TimerWorkerResponse } from "./types";
 
 export class TimerWorkerClient {
   private worker: Worker | null = null;
@@ -149,14 +152,14 @@ export class TimerWorkerClient {
 
   constructor() {
     this.worker = new TimerWorker();
-    this.worker.addEventListener('message', this.handleMessage.bind(this));
+    this.worker.addEventListener("message", this.handleMessage.bind(this));
   }
 
   private handleMessage = (event: MessageEvent<TimerWorkerResponse>) => {
     const { type, payload } = event.data;
 
     switch (type) {
-      case 'tick':
+      case "tick":
         if (payload && this._onTick) {
           this._onTick(payload.elapsed);
         }
@@ -169,11 +172,11 @@ export class TimerWorkerClient {
   }
 
   start(): void {
-    this.postMessage({ type: 'start' });
+    this.postMessage({ type: "start" });
   }
 
   pause(): void {
-    this.postMessage({ type: 'pause' });
+    this.postMessage({ type: "pause" });
   }
 
   destroy(): void {
@@ -196,7 +199,7 @@ export class TimerWorkerClient {
 
 ```typescript
 // Recording Store 수정
-import { TimerWorkerClient } from '@/shared/lib/timer-worker';
+import { TimerWorkerClient } from "@/shared/lib/timer-worker";
 
 const useRecordingStore = create((set, get) => ({
   timerWorker: null,
@@ -210,7 +213,7 @@ const useRecordingStore = create((set, get) => ({
     timerWorker.start();
 
     set({
-      status: 'recording',
+      status: "recording",
       timerWorker,
       // ...
     });
@@ -226,13 +229,13 @@ const useRecordingStore = create((set, get) => ({
     const { timerWorker } = get();
     timerWorker?.stop();
     timerWorker?.destroy();
-    
-    set({ 
+
+    set({
       timerWorker: null,
-      status: 'idle',
+      status: "idle",
       // ...
     });
-  }
+  },
 }));
 ```
 
@@ -241,26 +244,28 @@ const useRecordingStore = create((set, get) => ({
 ### `?worker` Import
 
 ```typescript
-import TimerWorker from './timer.worker?worker';
+import TimerWorker from "./timer.worker?worker";
 ```
 
 `?worker`는 `vite`에서 제공하는 기능으로, 실제로 빌드를 해보면 다음과 같이 변환됩니다:
 
 ### 개발 모드
+
 ```typescript
 // vite dev server가 실시간으로 처리
 const TimerWorker = class {
   constructor() {
-    return new Worker('http://localhost:5173/src/.../timer.worker.ts');
+    return new Worker("http://localhost:5173/src/.../timer.worker.ts");
   }
 };
 ```
 
 ### 프로덕션 빌드
+
 ```javascript
 // 빌드 결과물
 function rn(e) {
-  return new Worker('/assets/timer.worker-DWA0CQLo.js', {name: e?.name});
+  return new Worker("/assets/timer.worker-DWA0CQLo.js", { name: e?.name });
 }
 
 var TimerWorkerClient = class {

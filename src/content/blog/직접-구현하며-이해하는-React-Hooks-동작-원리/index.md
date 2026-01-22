@@ -4,7 +4,7 @@ summary: "React의 Hooks를 직접 구현해보며 동작 원리와 성능 최�
 date: "07 25 2025"
 draft: false
 tags:
-  - react
+  - React
 ---
 
 ## 1. 프로젝트 개요
@@ -116,7 +116,7 @@ type MemoState<T> = {
 export function useMemo<T>(
   factory: () => T,
   _deps: DependencyList,
-  _equals = shallowEquals
+  _equals = shallowEquals,
 ): T {
   const memoRef = useRef<MemoState<T>>();
 
@@ -142,7 +142,7 @@ export function useMemo<T>(
 ```typescript
 export function useCallback<T extends (...args: any[]) => any>(
   callback: T,
-  deps: DependencyList
+  deps: DependencyList,
 ): T {
   return useMemo(() => callback, deps);
 }
@@ -170,7 +170,7 @@ export function useDeepMemo<T>(factory: () => T, deps: DependencyList): T {
 
 ```typescript
 export function useShallowState<T>(
-  initialValue: T | (() => T)
+  initialValue: T | (() => T),
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [state, setState] = useState(initialValue);
 
@@ -246,7 +246,7 @@ export const useAutoCallback = <T extends AnyFunction>(fn: T): T => {
 ```typescript
 export function memo<P extends object>(
   Component: FunctionComponent<P>,
-  equals = shallowEquals
+  equals = shallowEquals,
 ) {
   return function MemoComponent(props: P) {
     const prevPropsRef = useRef<P>();

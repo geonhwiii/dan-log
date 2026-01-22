@@ -1,12 +1,10 @@
 ---
-title: '[번역] React의 간단한 예제로 분해한 클린 아키텍처'
-summary: 'React의 클린 아키텍처 예제'
-date: '01 04 2024'
+title: "[번역] React의 간단한 예제로 분해한 클린 아키텍처"
+summary: "React의 클린 아키텍처 예제"
+date: "01 04 2024"
 draft: false
 tags:
   - 번역
-  - React
-  - Clean Architecture
 ---
 
 > 원문 : https://www.linkedin.com/posts/niksumeiko_reactjs-cleanarchitecture-activity-7137751469641916417-wIxv?utm_source=share&utm_medium=member_desktop
@@ -31,7 +29,13 @@ tags:
 // View functional layer
 export const ValidationPage = () => {
   // view model
-  const { isValidationAvailable, onChange, onSubmit, validationError, validationResult } = useIvanValidation();
+  const {
+    isValidationAvailable,
+    onChange,
+    onSubmit,
+    validationError,
+    validationResult,
+  } = useIvanValidation();
 
   return (
     <FocusPageLayout>
@@ -56,7 +60,7 @@ export const ValidationPage = () => {
 
 ```tsx
 export function useIbanValidation() {
-  const [formValues, setFormValues] = useState({ iban: '' });
+  const [formValues, setFormValues] = useState({ iban: "" });
   const [iban, setIban] = useState(formValues.iban);
   const { data, error } = useIban(iban); // Repository
 
@@ -67,7 +71,7 @@ export function useIbanValidation() {
       setIban(formValues.iban);
       event.preventDefault(); // UseCase entry point
     },
-    [formValues.iban]
+    [formValues.iban],
   );
 
   const onChange = useCallback((event) => {
@@ -97,7 +101,7 @@ export function useIban(iban: string) {
   const createAdapter = () => useValidationAdapterFactory();
   const ibanValidationApiAdapter = createAdapter();
 
-  return useQuery(['validation', iban], ibanValidationApiAdapter, {
+  return useQuery(["validation", iban], ibanValidationApiAdapter, {
     // Adapter
     enabled: Boolean(iban),
     retry: false,
@@ -115,7 +119,7 @@ export function useIban(iban: string) {
 ```tsx
 export type ValidationReponse = {
   iban: string;
-  flags: ('INSTANT' | 'POSITIVE HISTORY' | 'SECURITY_CLIAMS')[];
+  flags: ("INSTANT" | "POSITIVE HISTORY" | "SECURITY_CLIAMS")[];
   bank?: { trustScore?: number };
 };
 
@@ -123,11 +127,11 @@ type AdaterOptions = { request?: typeof window.fetch };
 
 export function createIbanValidationApiAdapter(
   iban: string,
-  { request = window.fetch }: AdaterOptions = {} // communication mechanism
+  { request = window.fetch }: AdaterOptions = {}, // communication mechanism
 ) {
   return async (): Promise<ValidationReponse> => {
     const response = await request(`${apiUrl}/validate?iban=${iban}`, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
     const result = await response.json();
 
@@ -145,7 +149,10 @@ export function createIbanValidationApiAdapter(
 - 비즈니스 로직을 담당합니다.
 
 ```ts
-export function createIbanValidationViewModel(validation?: ValidationResponse, error?: unknown) {
+export function createIbanValidationViewModel(
+  validation?: ValidationResponse,
+  error?: unknown,
+) {
   const validationError = getValidationError(error);
 
   if (!validation) {
@@ -156,23 +163,23 @@ export function createIbanValidationViewModel(validation?: ValidationResponse, e
     };
   }
 
-  const results = ['Valid IBAN'];
+  const results = ["Valid IBAN"];
   const { bank, flags } = validation;
 
   if (hasTrustedBank(bank)) {
-    results.push('Trusted bank');
+    results.push("Trusted bank");
   }
 
-  if (flags.includes('INSTANT')) {
-    results.push('Accepts instant payments');
+  if (flags.includes("INSTANT")) {
+    results.push("Accepts instant payments");
   }
 
-  if (flags.includes('POSITIVE HISTORY')) {
-    results.push('Positive operation history');
+  if (flags.includes("POSITIVE HISTORY")) {
+    results.push("Positive operation history");
   }
 
-  if (!flags.includes('SECURITY_CLAIMS')) {
-    results.push('No Security claims');
+  if (!flags.includes("SECURITY_CLAIMS")) {
+    results.push("No Security claims");
   }
 
   return {

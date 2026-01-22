@@ -1,7 +1,7 @@
 ---
-title: '[번역] Cohesion and Coupling: the difference'
-summary: '응집도와 결합도: 차이점, 소프트웨어 개발에서 가장 가치 있는 원칙 중 하나에 대한 글입니다.'
-date: '12 02 2025'
+title: "[번역] Cohesion and Coupling: the difference"
+summary: "응집도와 결합도: 차이점, 소프트웨어 개발에서 가장 가치 있는 원칙 중 하나에 대한 글입니다."
+date: "12 02 2025"
 draft: false
 tags:
   - 번역

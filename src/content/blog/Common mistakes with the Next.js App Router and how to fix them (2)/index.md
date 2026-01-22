@@ -1,12 +1,11 @@
 ---
-title: '[번역] Common mistakes with the Next.js App Router and how to fix them (2)'
-summary: 'Next.js 앱 라우터의 일반적인 실수 및 해결 방법 (2)'
-date: '01 30 2024'
+title: "[번역] Common mistakes with the Next.js App Router and how to fix them (2)"
+summary: "Next.js 앱 라우터의 일반적인 실수 및 해결 방법 (2)"
+date: "01 30 2024"
 draft: false
 tags:
   - 번역
   - Next.js
-  - App Router
 ---
 
 > 원문 : https://vercel.com/blog/common-mistakes-with-the-next-js-app-router-and-how-to-fix-them
@@ -33,9 +32,9 @@ export default function Page() {
 예를 들어 카운터인 버튼을 만든다고 가정해 봅시다. 이 버튼은 상단에 "use client" 지시어가 표시된 새로운 클라이언트 컴포넌트 파일이어야 합니다:
 
 ```tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export function Counter() {
   const [count, setCount] = useState(0);
@@ -52,7 +51,7 @@ export function Counter() {
 
 ```tsx
 // app/page.tsx
-import { Counter } from './counter';
+import { Counter } from "./counter";
 
 export default function Page() {
   return (
@@ -68,7 +67,7 @@ export default function Page() {
 
 ```tsx
 // app/page.tsx
-import { Counter } from './counter';
+import { Counter } from "./counter";
 
 function Message() {
   return <p>This is a Server Component</p>;
@@ -90,9 +89,9 @@ export default function Page() {
 
 ```tsx
 // app/counter.tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export function Counter({ children }: { children: React.ReactNode }) {
   const [count, setCount] = useState(0);
@@ -125,9 +124,9 @@ Next.js 앱 라우터에는 [데이터 가져오기, 캐싱, 재검증](https://
 // app/page.tsx
 export default function Page() {
   async function create(formData: FormData) {
-    'use server';
+    "use server";
 
-    let name = formData.get('name');
+    let name = formData.get("name");
     await sql`INSERT INTO users (name) VALUES (${name})`;
   }
 
@@ -145,18 +144,18 @@ export default function Page() {
 
 ```tsx
 // app/page.tsx
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
 
 export default async function Page() {
   let names = await sql`SELECT * FROM users`;
 
   async function create(formData: FormData) {
-    'use server';
+    "use server";
 
-    let name = formData.get('name');
+    let name = formData.get("name");
     await sql`INSERT INTO users (name) VALUES (${name})`;
 
-    revalidatePath('/');
+    revalidatePath("/");
   }
 
   return (
@@ -185,10 +184,10 @@ export default async function Page() {
 
 ```tsx
 // app/page.tsx
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
 async function fetchTeam(id) {
-  const res = await fetch('https://...');
+  const res = await fetch("https://...");
   if (!res.ok) return undefined;
   return res.json();
 }
@@ -196,7 +195,7 @@ async function fetchTeam(id) {
 export default async function Profile({ params }) {
   const team = await fetchTeam(params.id);
   if (!team) {
-    redirect('/login');
+    redirect("/login");
   }
 
   // ...
@@ -207,9 +206,9 @@ export default async function Profile({ params }) {
 
 ```tsx
 // app/client-redirect.tsx
-'use client';
+"use client";
 
-import { navigate } from './actions';
+import { navigate } from "./actions";
 
 export function ClientRedirect() {
   return (
@@ -223,12 +222,12 @@ export function ClientRedirect() {
 
 ```tsx
 // app/actions.ts
-'use server';
+"use server";
 
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
 export async function navigate(data: FormData) {
-  redirect('/posts');
+  redirect("/posts");
 }
 ```
 

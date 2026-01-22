@@ -4,9 +4,7 @@ summary: 'Javascript heap out of memory & V8 메모리 구조'
 date: '06 23 2024'
 draft: false
 tags:
-  - Javascript
-  - Memory
-  - GC
+  - JavaScript
 ---
 
 ## Heap Out Of Memory?

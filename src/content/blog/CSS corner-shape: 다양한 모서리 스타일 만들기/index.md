@@ -5,7 +5,6 @@ date: "11 20 2025"
 draft: false
 tags:
   - CSS
-  - tailwindcss
 ---
 
 ## 1. corner-shape란?

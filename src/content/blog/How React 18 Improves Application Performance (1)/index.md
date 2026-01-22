@@ -1,12 +1,11 @@
 ---
-title: '[번역] How React 18 Improves Application Performance (1)'
-summary: 'React 18은 어떻게 앱 성능을 향상시킬까? (1)'
-date: '02 02 2024'
+title: "[번역] How React 18 Improves Application Performance (1)"
+summary: "React 18은 어떻게 앱 성능을 향상시킬까? (1)"
+date: "02 02 2024"
 draft: false
 tags:
   - 번역
   - React
-  - Performance
 ---
 
 React 18은 React 애플리케이션을 렌더링하는 방식을 근본적으로 바꾸는 동시성 기능을 도입했습니다. 이 최신 기능들이 애플리케이션의 성능에 어떤 영향을 미치고 개선하는지 살펴보겠습니다.

@@ -1,18 +1,17 @@
 ---
-title: '2025년에 내가 사용하는 맥 어플리케이션'
-summary: '2025년 프론트엔드 개발자가 사용할만한 맥 어플리케이션'
-date: '03 02 2025'
+title: "2025년에 내가 사용하는 맥 어플리케이션"
+summary: "2025년 프론트엔드 개발자가 사용할만한 맥 어플리케이션"
+date: "03 02 2025"
 draft: false
 tags:
-  - Mac
-  - Application
+  - Journal
 ---
 
 2025년에 제가 가장 즐겨 사용하는 맥 어플리케이션을 정리해봅니다.
 
 정말 편해서 사용하는 것도 있지만, 사용하면서 트렌드를 파악해보는 느낌도 있습니다 💭
 
-## 1. <img src="https://i.imgur.com/qZ8stLC.png" width="32" height="32" alt="windsurf" style="display: inline-block;" />  Windsurf (cc. Cursor) 
+## 1. <img src="https://i.imgur.com/qZ8stLC.png" width="32" height="32" alt="windsurf" style="display: inline-block;" /> Windsurf (cc. Cursor)
 
 2024년 가장 핫한 코드 에디터인 `Cursor`대신에 저는 `Windsurf`를 사용하고 있습니다.
 
@@ -25,7 +24,6 @@ tags:
 가격은 Pro 기준 `Cursor`는 $20, `Windsurf`는 $15로 꽤나 큰 차이가 나므로 한번쯤 써보시길 권장합니다~!
 
 🔗 링크 : https://codeium.com/windsurf
-
 
 ## 2. <img src="https://i.imgur.com/PaQqvoo.png" width="44" height="44" alt="raycast" style="display: inline-block;" /> Raycast
 
@@ -47,7 +45,6 @@ tags:
 
 🔗 링크 : https://www.raycast.com/
 
-
 ## 3.<img src="https://i.imgur.com/T4Gare2.png" width="44" height="44" alt="warp" style="display: inline-block;" /> Warp
 
 `Warp`는 맥의 `Terminal`을 대체하는 앱입니다.
@@ -64,7 +61,7 @@ tags:
 
 🔗 링크 : https://www.warp.dev/
 
-## 4.  <img src="https://i.imgur.com/WARuzpw.png" width="44" height="44" alt="arc" style="display: inline-block;" />  Arc
+## 4. <img src="https://i.imgur.com/WARuzpw.png" width="44" height="44" alt="arc" style="display: inline-block;" /> Arc
 
 `Arc` 는 크롬기반 웹 브라우저입니다.
 

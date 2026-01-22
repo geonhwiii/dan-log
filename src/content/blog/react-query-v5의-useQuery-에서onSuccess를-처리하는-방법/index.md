@@ -6,7 +6,6 @@ draft: false
 image: https://github.com/tanstack/query/raw/main/media/repo-header.png
 tags:
   - React
-  - reqct-query
 ---
 
 ![](https://github.com/tanstack/query/raw/main/media/repo-header.png)

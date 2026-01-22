@@ -3,10 +3,8 @@ title: 절차적이지만 괜찮아
 summary: 선언적 프로그래밍과 절차적 프로그래밍의 활용
 date: 09 10 2025
 draft: false
-tags: 
-  - programming
-  - declarative
-  - procedural
+tags:
+  - Journal
 ---
 
 ![](https://i.imgur.com/vwrm5NC.jpeg)
@@ -15,11 +13,11 @@ tags:
 
 리액트를 개발하다보면 선언적 프로그래밍에 대해 많이 듣게 됩니다.
 
-*"선언적이라서 가독성이 좋은 걸까요?"*
+_"선언적이라서 가독성이 좋은 걸까요?"_
 
-*"선언적이면 더 나은 추상화라고 보면 될까요?"*
+_"선언적이면 더 나은 추상화라고 보면 될까요?"_
 
-*"절차적인 코드는 나쁜 코드일까요?"*
+_"절차적인 코드는 나쁜 코드일까요?"_
 
 물론 이런 글을 쓴다는 것은 위 질문들은 모두 정답이 아니라는 것입니다.
 
@@ -29,18 +27,20 @@ tags:
 
 프로그래밍 스타일을 크게 나누면 두 가지로 이야기할 수 있습니다.
 
-* **절차적(Procedural)**: 원하는 결과를 얻기 위해 *어떻게(how)* 동작할지 구체적으로 작성하는 방식.
-* **선언적(Declarative)**: 원하는 결과가 *무엇(what)* 인지만 선언하고, 내부 동작은 추상화에 맡기는 방식.
+- **절차적(Procedural)**: 원하는 결과를 얻기 위해 _어떻게(how)_ 동작할지 구체적으로 작성하는 방식.
+- **선언적(Declarative)**: 원하는 결과가 _무엇(what)_ 인지만 선언하고, 내부 동작은 추상화에 맡기는 방식.
 
 ### 특징 비교
 
 #### 절차적 프로그래밍의 특징
+
 - **명시적 제어**: 코드의 실행 흐름을 개발자가 직접 제어할 수 있어 디버깅이 용이합니다.
 - **성능 최적화**: 필요한 부분에 정확한 최적화를 적용할 수 있습니다.
 - **예외 처리**: 복잡한 에러 상황을 세밀하게 처리할 수 있습니다.
 - **단점**: 코드가 길어지고, 비즈니스 로직과 구현 세부사항이 섞여 가독성이 떨어질 수 있습니다.
 
 #### 선언적 프로그래밍의 특징
+
 - **간결성**: 코드가 짧고 의도가 명확하게 드러납니다.
 - **재사용성**: 추상화된 함수들을 조합하여 다양한 로직을 만들 수 있습니다.
 - **테스트 용이성**: 작은 단위의 함수들을 독립적으로 테스트하기 쉽습니다.
@@ -62,19 +62,19 @@ tags:
 
 ```tsx
 // /components/ProceduralUserList.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface User {
   id: number;
   name: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   email: string;
 }
 
 const users: User[] = [
-  { id: 1, name: '김철수', role: 'admin', email: 'kim@example.com' },
-  { id: 2, name: '이영희', role: 'user', email: 'lee@example.com' },
-  { id: 3, name: '박민수', role: 'admin', email: 'park@example.com' },
+  { id: 1, name: "김철수", role: "admin", email: "kim@example.com" },
+  { id: 2, name: "이영희", role: "user", email: "lee@example.com" },
+  { id: 3, name: "박민수", role: "admin", email: "park@example.com" },
 ];
 
 export default function ProceduralUserList() {
@@ -82,17 +82,17 @@ export default function ProceduralUserList() {
 
   useEffect(() => {
     const result: User[] = [];
-    
+
     // 1단계: 모든 사용자를 순회
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
-      
+
       // 2단계: 관리자인지 확인
-      if (user.role === 'admin') {
+      if (user.role === "admin") {
         result.push(user);
       }
     }
-    
+
     // 3단계: 결과를 상태에 저장
     setAdminUsers(result);
   }, []);
@@ -118,19 +118,19 @@ export default function ProceduralUserList() {
 
 ```tsx
 // /components/DeclarativeUserList.tsx
-import { useState } from 'react';
+import { useState } from "react";
 
 interface User {
   id: number;
   name: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   email: string;
 }
 
 const users: User[] = [
-  { id: 1, name: '탄지로', role: 'admin', email: 'tan@example.com' },
-  { id: 2, name: '네즈코', role: 'user', email: 'nae@example.com' },
-  { id: 3, name: '젠이츠', role: 'admin', email: 'zen@example.com' },
+  { id: 1, name: "탄지로", role: "admin", email: "tan@example.com" },
+  { id: 2, name: "네즈코", role: "user", email: "nae@example.com" },
+  { id: 3, name: "젠이츠", role: "admin", email: "zen@example.com" },
 ];
 
 export default function DeclarativeUserList() {
@@ -140,8 +140,8 @@ export default function DeclarativeUserList() {
     <div>
       <h2>사용자 목록</h2>
       <label>
-        <input 
-          type="checkbox" 
+        <input
+          type="checkbox"
           checked={showAdminsOnly}
           onChange={(e) => setShowAdminsOnly(e.target.checked)}
         />
@@ -150,14 +150,13 @@ export default function DeclarativeUserList() {
       <ul>
         {users
           // 1. 필터링: "관리자만 보기"가 체크되어 있으면 관리자만, 아니면 모든 사용자
-          .filter(user => !showAdminsOnly || user.role === 'admin')
+          .filter((user) => !showAdminsOnly || user.role === "admin")
           // 2. 변환: 각 사용자 객체를 JSX 요소로 변환
-          .map(user => (
+          .map((user) => (
             <li key={user.id}>
               {user.name} ({user.email})
             </li>
-          ))
-        }
+          ))}
       </ul>
     </div>
   );
@@ -176,9 +175,9 @@ export default function DeclarativeUserList() {
 
 ### 추상화가 하는 일
 
-* **의미 전달**: 함수 이름만으로도 무엇을 하는지 읽을 수 있게 한다. (`calculateDiscount` vs `num * (1 - d)`)
-* **복잡성 은닉**: 내부 절차(예외 처리, 최적화 등)를 숨겨 호출자는 관계에만 집중한다.
-* **재사용성·테스트 용이성**: 작은 단위의 추상화는 독립적으로 검증하고 재조합할 수 있다.
+- **의미 전달**: 함수 이름만으로도 무엇을 하는지 읽을 수 있게 한다. (`calculateDiscount` vs `num * (1 - d)`)
+- **복잡성 은닉**: 내부 절차(예외 처리, 최적화 등)를 숨겨 호출자는 관계에만 집중한다.
+- **재사용성·테스트 용이성**: 작은 단위의 추상화는 독립적으로 검증하고 재조합할 수 있다.
 
 ### 추상화 예시
 
@@ -187,24 +186,26 @@ export default function DeclarativeUserList() {
 ```ts
 // /lib/listPipeline.ts
 export const filterByKeyword = (keyword: string) => (items: string[]) =>
-  items.filter(item => item.includes(keyword));
+  items.filter((item) => item.includes(keyword));
 
 export const normalize = (items: string[]) =>
-  items.map(item => item.trim().toLowerCase());
+  items.map((item) => item.trim().toLowerCase());
 
 export const toViewModel = (items: string[]) =>
-  items.map(item => ({ id: item, label: item }));
+  items.map((item) => ({ id: item, label: item }));
 
 // 파이프 합성 (간단한 compose 구현)
-export const compose = (...fns: Function[]) => (arg: any) =>
-  fns.reduceRight((v, f) => f(v), arg);
+export const compose =
+  (...fns: Function[]) =>
+  (arg: any) =>
+    fns.reduceRight((v, f) => f(v), arg);
 
 export const buildPipeline = (keyword: string) =>
   compose(toViewModel, normalize, filterByKeyword(keyword));
 
 // 사용
-const pipeline = buildPipeline('app');
-const result = pipeline(['apple', 'banana', 'pineapple']);
+const pipeline = buildPipeline("app");
+const result = pipeline(["apple", "banana", "pineapple"]);
 // result => [{id: 'apple', label: 'apple'}, {id: 'pineapple', label: 'pineapple'}]
 ```
 
@@ -212,9 +213,9 @@ const result = pipeline(['apple', 'banana', 'pineapple']);
 
 ### 실무에서의 팁
 
-* 추상화 이름에 *도메인 용어*를 사용하기. (예: `applyPromotion`, `isEligibleUser`)
-* 한 함수는 한 가지 의미만 가지게 하가(단일 책임 원칙). 복합적 로직이면 더 작은 단위로 분해하기.
-* 항상 추상화가 필요한 것은 아닙니다. 성능·디버깅·예외 처리가 중요한 곳에서는 절차적 구현이 더 적합할 수 있습니다.
+- 추상화 이름에 *도메인 용어*를 사용하기. (예: `applyPromotion`, `isEligibleUser`)
+- 한 함수는 한 가지 의미만 가지게 하가(단일 책임 원칙). 복합적 로직이면 더 작은 단위로 분해하기.
+- 항상 추상화가 필요한 것은 아닙니다. 성능·디버깅·예외 처리가 중요한 곳에서는 절차적 구현이 더 적합할 수 있습니다.
 
 ---
 
@@ -230,11 +231,11 @@ const result = pipeline(['apple', 'banana', 'pineapple']);
 // 선언적 방식
 const processPayment = (amount: number, paymentMethod: string) => {
   return paymentMethods
-    .find(method => method.type === paymentMethod)
+    .find((method) => method.type === paymentMethod)
     ?.process(amount)
-    .catch(error => {
+    .catch((error) => {
       // 에러 처리가 애매함 - 어떤 단계에서 실패했는지 모름
-      console.error('결제 실패');
+      console.error("결제 실패");
       throw error;
     });
 };
@@ -243,30 +244,30 @@ const processPayment = (amount: number, paymentMethod: string) => {
 const processPayment = async (amount: number, paymentMethod: string) => {
   try {
     // 1단계: 결제 수단 검증
-    const method = paymentMethods.find(m => m.type === paymentMethod);
+    const method = paymentMethods.find((m) => m.type === paymentMethod);
     if (!method) {
-      throw new Error('지원하지 않는 결제 수단입니다');
+      throw new Error("지원하지 않는 결제 수단입니다");
     }
 
     // 2단계: 금액 검증
     if (amount <= 0) {
-      throw new Error('결제 금액이 올바르지 않습니다');
+      throw new Error("결제 금액이 올바르지 않습니다");
     }
 
     // 3단계: 결제 처리
     const result = await method.process(amount);
-    
+
     // 4단계: 로그 기록
     console.log(`결제 완료: ${amount}원, ${paymentMethod}`);
-    
+
     return result;
   } catch (error) {
     // 5단계: 에러 처리 및 복구
-    console.error('결제 실패:', error.message);
-    
+    console.error("결제 실패:", error.message);
+
     // 실패한 결제에 대한 롤백 처리
     await rollbackPayment(amount, paymentMethod);
-    
+
     throw error;
   }
 };
@@ -280,11 +281,12 @@ const ExpensiveComponent = ({ items }) => {
   return (
     <div>
       {items
-        .filter(item => item.isActive)           // 모든 아이템 순회
-        .map(item => item.name)                  // 다시 모든 아이템 순회
-        .filter(name => name.length > 3)         // 또 다시 모든 아이템 순회
-        .map(name => <div key={name}>{name}</div>)
-      }
+        .filter((item) => item.isActive) // 모든 아이템 순회
+        .map((item) => item.name) // 다시 모든 아이템 순회
+        .filter((name) => name.length > 3) // 또 다시 모든 아이템 순회
+        .map((name) => (
+          <div key={name}>{name}</div>
+        ))}
     </div>
   );
 };
@@ -293,18 +295,16 @@ const ExpensiveComponent = ({ items }) => {
 const OptimizedComponent = ({ items }) => {
   const processedItems = useMemo(() => {
     const result = [];
-    
+
     // 한 번의 순회로 모든 작업 처리
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      
+
       if (item.isActive && item.name.length > 3) {
-        result.push(
-          <div key={item.id}>{item.name}</div>
-        );
+        result.push(<div key={item.id}>{item.name}</div>);
       }
     }
-    
+
     return result;
   }, [items]);
 

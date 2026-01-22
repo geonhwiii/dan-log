@@ -6,8 +6,7 @@ draft: false
 image: 'https://i.imgur.com/ahP0JC8.png'
 tags:
   - 번역
-  - fetch
-  - Promise
+  - JavaScript
 ---
 
 ![](https://i.imgur.com/ahP0JC8.png)

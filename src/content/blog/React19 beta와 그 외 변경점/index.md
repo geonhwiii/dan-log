@@ -1,11 +1,12 @@
 ---
-title: 'React19 beta와 그 외 변경점'
-summary: 'React 19 beta 변경점'
-date: '05 20 2024'
+title: "React19 beta와 그 외 변경점"
+summary: "React 19 beta 변경점"
+date: "05 20 2024"
 draft: false
 tags:
   - React
 ---
+
 > React 19가 beta로 출시되었습니다. 정식 버전이 출시 되기 전, 간단하게 정리해봅니다.
 
 ## 1. Action
@@ -15,26 +16,25 @@ tags:
 기존에 비동기 상태 업데이트를 할 때는 `useState`로 상태를 관리해야했지만, React 19에서는 `useTransition`을 사용해서 `pending`상태를 관리할 수 있습니다.
 
 ```tsx
-function updateNameWithUseTransition({}) {  
-	const [name, setName] = useState("");  
-	const [error, setError] = useState(null);  
-	const [isPending, startTransition] = useTransition();  
+function updateNameWithUseTransition({}) {
+  const [name, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [isPending, startTransition] = useTransition();
 
-	const handleSubmit = () => {
-		// startTransition 함수에서 비동기 핸들링
-		startTransition(async () => {  
-			const error = await updateName(name);  
-			if (error) {  
-				setError(error);  
-				return; 
-			}  
-			redirect("/path");  
-		})  
-	};  
-	// ...이하 생략
+  const handleSubmit = () => {
+    // startTransition 함수에서 비동기 핸들링
+    startTransition(async () => {
+      const error = await updateName(name);
+      if (error) {
+        setError(error);
+        return;
+      }
+      redirect("/path");
+    });
+  };
+  // ...이하 생략
 }
 ```
-
 
 ### useActionState
 
@@ -44,40 +44,40 @@ function updateNameWithUseTransition({}) {
 라이브러리를 사용하지 않고, 쉽게 `form`을 관리하는 점에서 보면 좋을 것 같습니다.
 
 ```tsx
-function ChangeNameWithUseActionState({ name, setName }) {  
-	const [error, submitAction, isPending] = useActionState(  
-		async (previousState, formData) => {  
-			const error = await updateName(formData.get("name"));  
-			if (error) {  
-				return error;  
-			}  
-			redirect("/path");  
-			return null;  
-		},  
+function ChangeNameWithUseActionState({ name, setName }) {
+	const [error, submitAction, isPending] = useActionState(
+		async (previousState, formData) => {
+			const error = await updateName(formData.get("name"));
+			if (error) {
+				return error;
+			}
+			redirect("/path");
+			return null;
+		},
 		null,
-	);  
-	return (  
-		<form action={submitAction}>  
-			<input type="text" name="name" />  
-			<button type="submit" disabled={isPending}>Update</button>  
-			{error && <p>{error}</p>}  
-		</form>  
+	);
+	return (
+		<form action={submitAction}>
+			<input type="text" name="name" />
+			<button type="submit" disabled={isPending}>Update</button>
+			{error && <p>{error}</p>}
+		</form>
 	);  `
 }
 ```
 
 [`useActionState`](https://react.dev/reference/react/useActionState)에서 상세히 확인할 수 있습니다.
 
-###  useFormStatus
+### useFormStatus
 
-컴포넌트 깊숙이 전달해야하는 `form` 상태를 관리하기 위해  `useFormStatus`도 추가되었습니다.
+컴포넌트 깊숙이 전달해야하는 `form` 상태를 관리하기 위해 `useFormStatus`도 추가되었습니다.
 
 ```tsx
-import {useFormStatus} from 'react-dom';  
+import { useFormStatus } from "react-dom";
 
-function DesignButton() {  
-	const {pending} = useFormStatus();  
-	return <button type="submit" disabled={pending} />  
+function DesignButton() {
+  const { pending } = useFormStatus();
+  return <button type="submit" disabled={pending} />;
 }
 ```
 
@@ -94,21 +94,21 @@ function DesignButton() {
 특이한 점은, `use`는 조건부 렌더링에서도 호출 가능합니다.
 
 ```tsx
-import {use} from 'react';  
+import { use } from "react";
 
-function Comments({commentsPromise}) {  
-	// `use`로 promise를 전달합니다.
-	const comments = use(commentsPromise);  
-	return comments.map(comment => <p key={comment.id}>{comment}</p>);  
-}  
+function Comments({ commentsPromise }) {
+  // `use`로 promise를 전달합니다.
+  const comments = use(commentsPromise);
+  return comments.map((comment) => <p key={comment.id}>{comment}</p>);
+}
 
-function Page({commentsPromise}) {  
-	// Comments가 suspend 되는 동안 Loading 컴포넌트가 출력됩니다.
-	return (  
-		<Suspense fallback={<div>Loading...</div>}>  
-			<Comments commentsPromise={commentsPromise} />  
-		</Suspense>  
-	)  
+function Page({ commentsPromise }) {
+  // Comments가 suspend 되는 동안 Loading 컴포넌트가 출력됩니다.
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Comments commentsPromise={commentsPromise} />
+    </Suspense>
+  );
 }
 ```
 
@@ -116,7 +116,7 @@ function Page({commentsPromise}) {
 
 ---
 
-## 2.  React Server Component & Server Action
+## 2. React Server Component & Server Action
 
 `서버 컴포넌트`와 `서버 액션`에 대한 내용도 추가되었습니다.
 
@@ -125,17 +125,17 @@ function Page({commentsPromise}) {
 `서버 컴포넌트`는 `"use server"` 로 `서버 액션`을 정의할 수 있습니다:
 
 ```tsx
-// Server Component  
+// Server Component
 
-import Button from './Button';  
+import Button from "./Button";
 
-function EmptyNote () {  
-	async function createNoteAction() {
-		// 서버 액션  
-		'use server';  
-		await db.notes.create();  
-	}  
-	return <Button onClick={createNoteAction}/>;  
+function EmptyNote() {
+  async function createNoteAction() {
+    // 서버 액션
+    "use server";
+    await db.notes.create();
+  }
+  return <Button onClick={createNoteAction} />;
 }
 ```
 
@@ -152,13 +152,12 @@ function EmptyNote () {
 향후에는 `forwardRef`는 삭제될 예정입니다.
 
 ```tsx
-function MyInput({placeholder, ref}) {  
-	return <input placeholder={placeholder} ref={ref} />  
-}  
-//...  
-<MyInput ref={ref} />
+function MyInput({ placeholder, ref }) {
+  return <input placeholder={placeholder} ref={ref} />;
+}
+//...
+<MyInput ref={ref} />;
 ```
-
 
 ### Hydration Error 개선
 
@@ -166,27 +165,19 @@ function MyInput({placeholder, ref}) {
 
 기존에는 어디에서 오류가 발생한지 직접 찾아야했지만, 이제는 오류가 발생한 컴포넌트를 보여줍니다.
 
-
-
 ### `<Context>` as a provider
 
 `<Context>`를 Provider로 사용할 수 있습니다.
 
- 향후 버전에서는`<Context.Provider>`는 `deprecated`될 예정입니다.
+향후 버전에서는`<Context.Provider>`는 `deprecated`될 예정입니다.
 
 ```tsx
-const ThemeContext = createContext('');
+const ThemeContext = createContext("");
 
-function App({children}) {  
-	return (  
-		<ThemeContext value="dark">  
-			{children}  
-		</ThemeContext>  
-	);  
+function App({ children }) {
+  return <ThemeContext value="dark">{children}</ThemeContext>;
 }
 ```
-
-
 
 ### Document Metadata 지원
 
@@ -197,22 +188,19 @@ function App({children}) {
 CSR, SSR, Server Component 모두 지원합니다.
 
 ```tsx
-function BlogPost({post}) {  
-	return (  
-		<article>  
-			<h1>{post.title}</h1>  
-			<title>{post.title}</title>  
-			<meta name="author" content="Josh" />  
-			<link rel="author" href="https://twitter.com/joshcstory/" />  
-			<meta name="keywords" content={post.keywords} />  
-			<p>  
-			Eee equals em-see-squared...  
-			</p>  
-		</article>  
-	);  
+function BlogPost({ post }) {
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <title>{post.title}</title>
+      <meta name="author" content="Josh" />
+      <link rel="author" href="https://twitter.com/joshcstory/" />
+      <meta name="keywords" content={post.keywords} />
+      <p>Eee equals em-see-squared...</p>
+    </article>
+  );
 }
 ```
-
 
 ---
 

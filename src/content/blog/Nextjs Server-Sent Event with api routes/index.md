@@ -4,8 +4,7 @@ summary: nextjs에서 api routes로 SSE 연결
 date: 07 01 2024
 draft: false
 tags:
-  - nextjs
-  - sse
+  - Next.js
 ---
 
 이번 회사 프로젝트에서 `nextjs`에서 `openai`와 같은 `stream api`를 연동을 하게 되었습니다.
@@ -46,19 +45,19 @@ api폴더에 `stream.ts`를 생성하고 아래와 같이 작성합니다.
 
 ```ts
 // /api/stream.ts
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Readable } from 'stream';
+import { NextApiRequest, NextApiResponse } from "next";
+import { Readable } from "stream";
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-  const Authorization = req.headers.authorization ?? '';
+  const Authorization = req.headers.authorization ?? "";
   const params = req.query;
 
   // 스트리밍 응답을 위한 헤더 설정
   res.writeHead(200, {
-    Connection: 'keep-alive',
-    'Content-Encoding': 'none',
-    'Cache-Control': 'no-cache, no-transform',
-    'Content-Type': 'text/event-stream',
+    Connection: "keep-alive",
+    "Content-Encoding": "none",
+    "Cache-Control": "no-cache, no-transform",
+    "Content-Type": "text/event-stream",
   });
 
   // axios로 API 요청
@@ -66,16 +65,16 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     `{process.env.NEXT_API_URL}/...`,
     { ...params },
     {
-      headers: { Authorization, Accept: 'text/event-stream' },
-      responseType: 'stream',
-    }
+      headers: { Authorization, Accept: "text/event-stream" },
+      responseType: "stream",
+    },
   );
 
   // API 응답 스트림에서 데이터 수신
-  response.data.on('data', (chunk: Buffer) => {
+  response.data.on("data", (chunk: Buffer) => {
     const data = chunk.toString();
     // 데이터가 [DONE]일 경우 스트림 종료
-    if (data === 'data:[DONE]') {
+    if (data === "data:[DONE]") {
       res.end();
     } else {
       res.write(chunk);
@@ -83,7 +82,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
   });
 
   // 클라이언트 요청이 닫힐 경우 stream 종료
-  req.on('close', () => {
+  req.on("close", () => {
     res.end();
   });
 };
@@ -99,14 +98,20 @@ api를 만들때와 마찬가지로, "[DONE]" 메세지를 받으면 `eventSourc
 
 ```ts
 // /lib/event-souce.ts
-import { Event as ErrorEvent, EventSourcePolyfill, EventSourcePolyfillInit, MessageEvent } from 'event-source-polyfill';
+import {
+  Event as ErrorEvent,
+  EventSourcePolyfill,
+  EventSourcePolyfillInit,
+  MessageEvent,
+} from "event-source-polyfill";
 
 type EventSourceParams = {
   url: string;
   options?: EventSourcePolyfillInit;
 };
 
-export const getEventSource = ({ url, options }: EventSourceParams) => new EventSourcePolyfill(url, options);
+export const getEventSource = ({ url, options }: EventSourceParams) =>
+  new EventSourcePolyfill(url, options);
 
 export const connectEventSource = ({
   url,
@@ -122,13 +127,13 @@ export const connectEventSource = ({
       onConnectOpen();
     };
     eventSource.onmessage = (event: MessageEvent) => {
-      if (event.data === '[DONE]') {
+      if (event.data === "[DONE]") {
         eventSource.close();
         onConnectClosed();
         resolve(event.data);
       } else if (event.data) {
         const result = JSON.parse(event.data);
-        const message = result?.value ?? '';
+        const message = result?.value ?? "";
         onReceivedMessage(message);
         resolve(message);
       }

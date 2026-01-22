@@ -5,8 +5,7 @@ date: "05 01 2024"
 draft: false
 image: "https://tailwindcss.com/_next/static/media/card.a1cd9cff.jpg"
 tags:
-  - React
-  - tailwindcss
+  - CSS
 ---
 
 ![](https://tailwindcss.com/_next/static/media/card.a1cd9cff.jpg)

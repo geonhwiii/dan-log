@@ -7,7 +7,6 @@ image: 'https://playfulprogramming.com/generated/what-is-reconciliation-and-the-
 tags:
   - 번역
   - React
-  - Reconciliation
 ---
 
 ![](https://playfulprogramming.com/generated/what-is-reconciliation-and-the-vdom.twitter-preview.jpg)

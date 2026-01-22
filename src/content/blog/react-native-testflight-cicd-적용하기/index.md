@@ -5,11 +5,6 @@ date: '05 27 2025'
 draft: false
 tags:
   - React Native
-  - Expo
-  - testflight
-  - CI/CD
-  - Bitrise
-  - Fastlane
 ---
 
 React Native (Expo) 프로젝트에서 iOS TestFlight 배포를 자동화하는 CI/CD 파이프라인을 구축해보겠습니다.

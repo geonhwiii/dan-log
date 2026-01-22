@@ -5,8 +5,7 @@ date: '04 12 2024'
 draft: false
 tags:
   - React
-  - clsx
-  - tailwindcss
+  - CSS
 ---
 
 ## 1. 유틸함수 cn

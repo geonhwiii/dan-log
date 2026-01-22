@@ -1,12 +1,11 @@
 ---
-title: '[번역] Common mistakes with the Next.js App Router and how to fix them (1)'
-summary: 'Next.js 앱 라우터의 일반적인 실수 및 해결 방법 (1)'
-date: '01 20 2024'
+title: "[번역] Common mistakes with the Next.js App Router and how to fix them (1)"
+summary: "Next.js 앱 라우터의 일반적인 실수 및 해결 방법 (1)"
+date: "01 20 2024"
 draft: false
 tags:
   - 번역
   - Next.js
-  - App Router
 ---
 
 > 원문 : https://vercel.com/blog/common-mistakes-with-the-next-js-app-router-and-how-to-fix-them
@@ -23,7 +22,7 @@ tags:
 ```tsx
 // app/page.tsx
 export default async function Page() {
-  let res = await fetch('http://localhost:3000/api/data');
+  let res = await fetch("http://localhost:3000/api/data");
   let data = await res.json();
   return <h1>{JSON.stringify(data)}</h1>;
 }
@@ -34,7 +33,7 @@ export default async function Page() {
 ```ts
 // app/api/data/route.ts
 export async function GET(request: Request) {
-  return Response.json({ data: 'Next.js' });
+  return Response.json({ data: "Next.js" });
 }
 ```
 
@@ -51,7 +50,7 @@ export default async function Page() {
   // 비동기 함수를 직접 호출
   let data = await getData(); // { data: 'Next.js' }
   // 또는 외부 API를 직접 호출
-  let data = await fetch('https://api.vercel.app/blog');
+  let data = await fetch("https://api.vercel.app/blog");
   // ...
 }
 ```
@@ -65,7 +64,7 @@ export default async function Page() {
 ```ts
 // app/api/data/route.ts
 export async function GET(request: Request) {
-  return Response.json({ data: 'Next.js' });
+  return Response.json({ data: "Next.js" });
 }
 ```
 
@@ -78,7 +77,7 @@ export async function GET(request: Request) {
 ```ts
 // app/api/data/route.ts
 export async function GET(request: Request) {
-  let res = await fetch('https://api.vercel.app/blog');
+  let res = await fetch("https://api.vercel.app/blog");
   let data = await res.json();
   return Response.json(data);
 }
@@ -92,9 +91,9 @@ export async function GET(request: Request) {
 
 ```tsx
 // app/user-form.tsx
-'use client';
+"use client";
 
-import { save } from './actions';
+import { save } from "./actions";
 
 export function UserForm() {
   return (
@@ -110,9 +109,9 @@ export function UserForm() {
 
 ```tsx
 // app/user-form.tsx
-'use client';
+"use client";
 
-import { save } from './actions';
+import { save } from "./actions";
 
 export function UserForm({ username }) {
   async function onSave(event) {
@@ -131,7 +130,7 @@ export function UserForm({ username }) {
 ```tsx
 // app/page.tsx
 async function BlogPosts() {
-  let data = await fetch('https://api.vercel.app/blog');
+  let data = await fetch("https://api.vercel.app/blog");
   let posts = await data.json();
   return (
     <ul>
@@ -156,10 +155,10 @@ export default function Page() {
 
 ```tsx
 // app/page.tsx
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
 async function BlogPosts() {
-  let data = await fetch('https://api.vercel.app/blog');
+  let data = await fetch("https://api.vercel.app/blog");
   let posts = await data.json();
   return (
     <ul>
@@ -185,11 +184,11 @@ export default function Page() {
 향후 부분 렌더링을 사용하면 어떤 컴포넌트를 미리 렌더링하고 어떤 컴포넌트를 온디맨드로 실행할지 정의하는 등 이 패턴이 더욱 보편화될 것입니다.
 
 ```tsx
-import { unstable_noStore as noStore } from 'next/cache';
+import { unstable_noStore as noStore } from "next/cache";
 
 async function BlogPosts() {
   noStore(); // This component should run dynamically
-  let data = await fetch('https://api.vercel.app/blog');
+  let data = await fetch("https://api.vercel.app/blog");
   let posts = await data.json();
   return (
     <ul>
@@ -233,13 +232,17 @@ export default function Page({
 
 ```tsx
 // app/theme-provider.tsx
-'use client';
+"use client";
 
-import { createContext } from 'react';
+import { createContext } from "react";
 
 export const ThemeContext = createContext({});
 
-export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+export default function ThemeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <ThemeContext.Provider value="dark">{children}</ThemeContext.Provider>;
 }
 ```
@@ -248,9 +251,13 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
 ```tsx
 // app/layout.tsx
-import ThemeProvider from './theme-provider';
+import ThemeProvider from "./theme-provider";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html>
       <body>

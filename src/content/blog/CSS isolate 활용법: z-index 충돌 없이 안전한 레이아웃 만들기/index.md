@@ -4,8 +4,7 @@ summary: 'css isolation을 활용해서 z-index 충돌 없이 안전한 레이�
 date: '03 12 2025'
 draft: false
 tags:
-  - isolation
-  - z-index
+  - CSS
 ---
 
 ## 1. isolation

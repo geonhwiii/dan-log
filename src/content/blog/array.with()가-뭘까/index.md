@@ -4,8 +4,7 @@ summary: 'javascript array.with()의 정의와 사용 예시'
 date: '12 20 2023'
 draft: false
 tags:
-  - Javascript
-  - Array.with()
+  - JavaScript
 ---
 
 > MDN : [Array.prototype.with()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/with)

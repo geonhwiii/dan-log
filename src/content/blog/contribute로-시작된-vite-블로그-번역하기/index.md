@@ -5,8 +5,7 @@ image: "https://i.imgur.com/3Q5LwBo.png"
 date: "07 02 2025"
 draft: false
 tags:
-  - 번역
-  - contribute
+  - Journal
 ---
 
 ## 1. 사건의 시작...

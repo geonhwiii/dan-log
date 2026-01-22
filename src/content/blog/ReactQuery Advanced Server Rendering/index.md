@@ -5,8 +5,7 @@ date: '02 18 2024'
 draft: false
 tags:
   - 번역
-  - React Query
-  - Server Rendering
+  - React
 ---
 
 > 원문 : https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr

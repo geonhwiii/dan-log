@@ -1,13 +1,12 @@
 ---
-title: '[번역] Zustand and React Context'
-summary: 'Zustand와 React 컨텍스트'
-date: '04 21 2024'
+title: "[번역] Zustand and React Context"
+summary: "Zustand와 React 컨텍스트"
+date: "04 21 2024"
 draft: false
-image: 'https://tkdodo.eu/blog/static/f18038b8566526e3d3dfcf7c3b807b2a/bbe0c/zustand-context.jpg'
+image: "https://tkdodo.eu/blog/static/f18038b8566526e3d3dfcf7c3b807b2a/bbe0c/zustand-context.jpg"
 tags:
   - 번역
-  - zustand
-  - React Context
+  - React
 ---
 
 ![](https://tkdodo.eu/blog/static/f18038b8566526e3d3dfcf7c3b807b2a/bbe0c/zustand-context.jpg)
@@ -84,7 +83,7 @@ const App = ({ initialBears }) => {
 
 ```tsx
 // zustand-and-react-context
-import { createStore, useStore } from 'zustand';
+import { createStore, useStore } from "zustand";
 
 const BearStoreContext = React.createContext(null);
 
@@ -93,13 +92,18 @@ const BearStoreProvider = ({ children, initialBears }) => {
     createStore((set) => ({
       bears: initialBears,
       actions: {
-        increasePopulation: (by) => set((state) => ({ bears: state.bears + by })),
+        increasePopulation: (by) =>
+          set((state) => ({ bears: state.bears + by })),
         removeAllBears: () => set({ bears: 0 }),
       },
-    }))
+    })),
   );
 
-  return <BearStoreContext.Provider value={store}>{children}</BearStoreContext.Provider>;
+  return (
+    <BearStoreContext.Provider value={store}>
+      {children}
+    </BearStoreContext.Provider>
+  );
 };
 ```
 
@@ -116,7 +120,7 @@ const BearStoreProvider = ({ children, initialBears }) => {
 const useBearStore = (selector) => {
   const store = React.useContext(BearStoreContext);
   if (!store) {
-    throw new Error('Missing BearStoreProvider');
+    throw new Error("Missing BearStoreProvider");
   }
   return useStore(store, selector);
 };

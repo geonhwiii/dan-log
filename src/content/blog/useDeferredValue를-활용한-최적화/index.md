@@ -3,7 +3,7 @@ title: useDeferredValue를 활용한 최적화
 summary: React의 useDeferredValue를 사용해서 최적화하는 방법을 알아보자
 date: 10 08 2025
 draft: false
-tags: 
+tags:
   - React
 ---
 
@@ -16,7 +16,7 @@ React앱을 개발하다보면 초기 16.8에 나왔던 훅을 제외하고는 �
 ## 1. useDeferredValue
 
 ```ts
-const deferredValue = useDeferredValue(value)
+const deferredValue = useDeferredValue(value);
 ```
 
 `useDeferredValue`는 **값의 업데이트를 지연**시켜 UI의 반응성을 향상시킵니다:
@@ -34,18 +34,18 @@ const deferredValue = useDeferredValue(value)
 ### 기본 사용법
 
 ```tsx
-import { useState, useDeferredValue } from 'react';
+import { useState, useDeferredValue } from "react";
 
 function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
 
   // query : 연기하려는 값
   // deferredQuery : 해당 값의 지연된 버전
-  
+
   return (
     <>
-      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <input value={query} onChange={(e) => setQuery(e.target.value)} />
       <List query={deferredQuery} />
     </>
   );
@@ -53,6 +53,7 @@ function SearchPage() {
 ```
 
 **동작 과정:**
+
 1. 사용자가 입력 → `query` 상태 업데이트
 2. React가 리렌더링하면서 `deferredQuery`는 이전 값을 반환
 3. 백그라운드에서 새로운 `deferredQuery` 값으로 리렌더링 시도
@@ -64,12 +65,14 @@ function SearchPage() {
 
 ## 2. 동작 원리
 
-`useDeferredValue`는 값의 업데이트를 지연시켜 UI의 반응성을 향상시킵니다. 
+`useDeferredValue`는 값의 업데이트를 지연시켜 UI의 반응성을 향상시킵니다.
 
 ### 초기 렌더링
+
 - 초기 렌더링에서는 제공된 값과 동일한 값을 반환합니다.
 
 ### 업데이트 시
+
 - React는 먼저 이전 값으로 리렌더링을 수행합니다 (빠른 업데이트)
 - 그 다음 백그라운드에서 새로운 값으로 리렌더링을 시도합니다 (지연된 업데이트)
 
@@ -80,17 +83,17 @@ function SearchPage() {
 가장 일반적인 사용 사례는 검색 기능입니다:
 
 ```tsx
-import { useState, useDeferredValue, Suspense } from 'react';
+import { useState, useDeferredValue, Suspense } from "react";
 
 function SearchPage() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
-  
+
   return (
     <>
-      <input 
-        value={query} 
-        onChange={e => setQuery(e.target.value)} 
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
         placeholder="검색어를 입력하세요"
       />
       <Suspense fallback={<div>검색 중...</div>}>
@@ -103,10 +106,10 @@ function SearchPage() {
 function SearchResults({ query }) {
   // 검색 API 호출 또는 필터링 로직
   const results = useSearchResults(query);
-  
+
   return (
     <ul>
-      {results.map(result => (
+      {results.map((result) => (
         <li key={result.id}>{result.title}</li>
       ))}
     </ul>
@@ -114,7 +117,7 @@ function SearchResults({ query }) {
 }
 ```
 
-이렇게 하면 입력 필드는 `query` 상태를 사용하고, 검색 결과는 지연된 `deferredQuery`를 사용합니다. 
+이렇게 하면 입력 필드는 `query` 상태를 사용하고, 검색 결과는 지연된 `deferredQuery`를 사용합니다.
 
 새로운 검색 결과가 로드되는 동안 이전 결과를 계속 표시할 수 있습니다.
 
@@ -123,6 +126,7 @@ function SearchResults({ query }) {
 ## 4. debouncing, throttling과의 차이점
 
 ### 기존 방식
+
 - **Debouncing**: 타이핑을 멈출 때까지(예: 1초 동안) 기다렸다가 목록을 업데이트하는 것을 의미합니다.
 - **Throttling**: 가끔씩(예: 최대 1초에 한 번) 목록을 업데이트하는 것을 의미합니다.
 
@@ -144,27 +148,27 @@ function SearchResults({ query }) {
 
 `useDeferredValue`는 API 요청을 덜 보내거나 중복 요청을 막아주지 않습니다.
 
-단지 UI 업데이트를 지연시킬 뿐입니다. 
+단지 UI 업데이트를 지연시킬 뿐입니다.
 
 따라서 `debounce`와 함께 사용하거나, `React Query`의 캐싱 기능과 조합하여 사용하는 것이 더 효과적입니다.
 
 다음은 검색 컴포넌트에서 세 가지를 조합한 예시입니다:
 
 ```tsx
-import { useState, useEffect, Suspense, useDeferredValue } from 'react';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { ErrorBoundary } from 'react-error-boundary';
+import { useState, useEffect, Suspense, useDeferredValue } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
 function SearchCombobox({ onSelect }) {
-  const [inputValue, setInputValue] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  
+  const [inputValue, setInputValue] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
   // 1. debounce로 API 요청 횟수 줄이기
   const debouncedQuery = useDebounce(searchQuery, 500);
-  
+
   // 2. useDeferredValue로 UI 업데이트 지연
   const deferredQuery = useDeferredValue(debouncedQuery);
-  
+
   // 3. 현재 입력값과 지연된 값이 다르면 로딩 상태
   const isStale = inputValue !== deferredQuery;
 
@@ -181,15 +185,12 @@ function SearchCombobox({ onSelect }) {
         value={inputValue}
         onChange={handleInputChange}
       />
-      
+
       {deferredQuery.length >= 2 && (
         <ErrorBoundary fallback={<div>에러가 발생했습니다</div>}>
           <Suspense fallback={<div>검색 중...</div>}>
-            <div className={isStale ? 'opacity-50' : ''}>
-              <SearchResults 
-                query={deferredQuery} 
-                onSelect={onSelect}
-              />
+            <div className={isStale ? "opacity-50" : ""}>
+              <SearchResults query={deferredQuery} onSelect={onSelect} />
             </div>
           </Suspense>
         </ErrorBoundary>
@@ -201,7 +202,7 @@ function SearchCombobox({ onSelect }) {
 function SearchResults({ query, onSelect }) {
   // React Query가 자동으로 중복 요청 제거 및 캐싱 처리
   const { data } = useSuspenseQuery({
-    queryKey: ['search', query],
+    queryKey: ["search", query],
     queryFn: () => fetchSearchResults(query),
   });
 

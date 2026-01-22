@@ -4,7 +4,7 @@ summary: "직접 구현하며 이해하는 Virtual DOM의 원리와 실제 코�
 date: "07 17 2025"
 draft: false
 tags:
-  - VirtualDOM
+  - Journal
 ---
 
 직접 `가상 DOM(Virtual DOM)` 시스템을 구현하며 느낀 점과, 실제로 동작하는 구조를 정리해봅니다.
@@ -38,7 +38,7 @@ export function createVNode(type, props, ...children) {
         child === undefined ||
         child === false ||
         child === true
-      )
+      ),
   );
   return { type, props, children: filteredChildren };
 }
@@ -80,7 +80,7 @@ export function normalizeVNode(vNode) {
               child !== null &&
               child !== undefined &&
               child !== false &&
-              child !== true
+              child !== true,
           )
       : [];
     if (!Array.isArray(vNode.children) && vNode.children != null) {
@@ -122,12 +122,12 @@ export function createElement(vNode) {
   if (typeof vNode === "object" && vNode !== null && "type" in vNode) {
     if (typeof vNode.type === "function")
       throw new Error(
-        "컴포넌트는 반드시 normalizeVNode로 정규화 후 createElement로 변환해야 합니다."
+        "컴포넌트는 반드시 normalizeVNode로 정규화 후 createElement로 변환해야 합니다.",
       );
     const $el = document.createElement(vNode.type);
     updateAttributes($el, vNode.props);
     (vNode.children || []).forEach((child) =>
-      $el.appendChild(createElement(child))
+      $el.appendChild(createElement(child)),
     );
     return $el;
   }
@@ -288,7 +288,7 @@ export function setupEventListeners(root) {
           target = target.parentElement;
         }
       },
-      false
+      false,
     );
   });
 }

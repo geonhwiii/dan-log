@@ -5,8 +5,7 @@ date: '01 18 2025'
 draft: false
 tags:
   - 번역
-  - React
-  - microfrontends
+  - Architecture
 ---
 
 > 원문 : https://vercel.com/blog/how-vercel-adopted-microfrontends

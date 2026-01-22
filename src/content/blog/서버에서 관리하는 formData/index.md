@@ -1,12 +1,10 @@
 ---
-title: '서버에서 관리하는 formData'
-summary: '서버에서 관리하는 formData (feat. react-hook-form)'
-date: '11 10 2024'
+title: "서버에서 관리하는 formData"
+summary: "서버에서 관리하는 formData (feat. react-hook-form)"
+date: "11 10 2024"
 draft: false
 tags:
   - React
-  - react-hook-form
-  - zod
 ---
 
 ## 1. react-hook-form
@@ -33,8 +31,7 @@ export function ReactHookFormTemplate(children: Children) {
 }
 ```
 
-
-여기서 `defaultValues`는 `useForm`이 실행될 때 설정되며, 이후에 변경되는 값은 `setValue`로 변경해야합니다. 즉, `API`로 받아온 `Data`를 기본값으로 사용하려면  렌더링 이전에 보장된 `Data`가 전달되어야 합니다.
+여기서 `defaultValues`는 `useForm`이 실행될 때 설정되며, 이후에 변경되는 값은 `setValue`로 변경해야합니다. 즉, `API`로 받아온 `Data`를 기본값으로 사용하려면 렌더링 이전에 보장된 `Data`가 전달되어야 합니다.
 
 따라서, `ServerSideRendering`을 통해 `Hydration`으로 구현하거나, `Suspense`를 통해 데이터를 보장하는 방법이 있습니다.
 
@@ -55,13 +52,11 @@ export function ReactHookFormTemplate() {
 	const method = useForm({
 		defaultValues: data.content // 성공한 data를 defaultValues에 넣음
 	});
-	
+
 	...
 }
 
 ```
-
-
 
 ## 2. 서버에서 formData 다루기
 
@@ -105,13 +100,13 @@ export enum TEMPLATE_FORM_QUESTION {
 
 ```tsx
 type QuestionResult = {
-    // 질문
-	question: Record<string, object>,
-	// 임시저장된 응답
-	answer: Record<string, string>,
-	// 질문의 각 validation을 담당
-   validation: Record<string, object>[],
-}
+  // 질문
+  question: Record<string, object>;
+  // 임시저장된 응답
+  answer: Record<string, string>;
+  // 질문의 각 validation을 담당
+  validation: Record<string, object>[];
+};
 ```
 
 위와 같이 응답을 설계하고, `useForm`에 그대로 사용합니다.
@@ -149,7 +144,7 @@ export const useCreateValidationSchema = (
 	return schema;
 };
 
-  
+
 // ts-pattern을 이용해서 type에 따라 validation schema를 설정합니다
 // type, message, nullable도 서버에서 받은 응답으로 처리합니다.
 const createValidationSchema = ({
@@ -173,7 +168,7 @@ function QuestionComponent({ question }: Props) {
 	const { control, formState: { errors } } = useFormContext();
 	const result = createQuestionToMap(question); // object -> Map
 	const items = Object.entries(result); // Map -> List
-	
+
 	return (
 		<div>
 			{items.map(({ id, question, subLabel, options }) => (

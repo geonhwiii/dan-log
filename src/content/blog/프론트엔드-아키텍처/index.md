@@ -4,7 +4,7 @@ summary: "Feature-Sliced Design을 활용한 확장 가능한 프론트엔드 �
 date: "08 23 2025"
 draft: false
 tags:
-  - react
+  - React
 ---
 
 최근 프론트엔드 개발을 하다보면, 많은 개발자들이 공통적으로 겪는 고민이 있습니다.

@@ -6,7 +6,6 @@ draft: false
 image: 'https://i.imgur.com/MhDG4uR.png'
 tags:
   - React
-  - shadcn-ui
 ---
 
 ![](https://i.imgur.com/MhDG4uR.png)
