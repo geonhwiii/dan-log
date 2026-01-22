@@ -1,11 +1,32 @@
 ---
-title: 'react-query v5의 useQuery에서 onSuccess를 깔끔하게 처리하는 방법'
-summary: 'tanstack/react-query v5에서 onSuccess/onError 등의 콜백을 깔끔하게 처리하는 방법이 무엇인지 알아봅니다.'
-date: '03 16 2025'
+title: "react-query v5의 useQuery에서 onSuccess를 깔끔하게 처리하는 방법"
+summary: "tanstack/react-query v5에서 onSuccess/onError 등의 콜백을 깔끔하게 처리하는 방법이 무엇인지 알아봅니다."
+date: "03 16 2025"
 draft: false
+image: https://github.com/tanstack/query/raw/main/media/repo-header.png
 tags:
   - React
   - reqct-query
+---
+
+![](https://github.com/tanstack/query/raw/main/media/repo-header.png)
+
+혹시 이런 식으로 사용하고 싶어서 검색하고 오셨나요?
+
+```tsx
+useQuery({
+  queryKey: ["user"],
+  queryFn: fetchUser,
+  onSuccess: (data) => {
+    reset(data); // 폼 초기값 설정
+  },
+});
+```
+
+`react-query v5`에서는 `onSuccess`, `onError` 콜백이 사라졌습니다.
+
+왜 그런지, 그리고 어떻게 대체할 수 있는지 알아보겠습니다.
+
 ---
 
 ## 1. 왜 v5에서 useQuery의 onSuccess가 없어졌을까?
@@ -18,13 +39,65 @@ tags:
 
 별도의 컴포넌트에서 두 번 호출하는 경우, api는 1번만 호출되지만 `onSuccess`는 두 번 호출됩니다.
 
+```tsx
+// ComponentA.tsx
+function ComponentA() {
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+    onSuccess: () => console.log("ComponentA onSuccess"), // 호출됨
+  });
+  return <div>{data?.name}</div>;
+}
+
+// ComponentB.tsx
+function ComponentB() {
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+    onSuccess: () => console.log("ComponentB onSuccess"), // 이것도 호출됨
+  });
+  return <div>{data?.email}</div>;
+}
+
+// App.tsx
+function App() {
+  return (
+    <>
+      <ComponentA />
+      <ComponentB />
+    </>
+  );
+}
+
+// 결과:
+// fetchUser API 호출: 1번 (캐시 공유)
+// onSuccess 호출: 2번 (각 컴포넌트마다 실행)
+```
+
 이는 `onError`, `onSettled`와 같은 콜백도 동일하게 발생합니다.
 
 ### 2. 비즈니스 로직을 React의 라이프사이클과 분리하기 위해
 
 `onSuccess`, `onError` 같은 콜백을 사용하면 비즈니스 로직이 `useQuery` 내부에 묶이게 됩니다.
 
-`React Query`는 “데이터 패칭 라이브러리”일 뿐이므로, 상태 관리나 UI 업데이트 같은 작업을 React의 다른 적절한 위치에서 처리하는 것을 권장합니다.
+```tsx
+// ❌ 비즈니스 로직이 useQuery에 묶여있음
+function UserProfile() {
+  const { data } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+    onSuccess: (user) => {
+      // 전역 상태 업데이트
+      setGlobalUser(user);
+    },
+  });
+
+  return <div>{data?.name}</div>;
+}
+```
+
+`React Query`는 "데이터 패칭 라이브러리"일 뿐이므로, 상태 관리나 UI 업데이트 같은 작업을 React의 다른 적절한 위치에서 처리하는 것을 권장합니다.
 
 Dominic이라는 개발자의 개발 철학을 엿볼수 있는 부분입니다.
 
@@ -50,25 +123,26 @@ useEffect(() => {
   if (query.data) {
     console.log("[onSuccess] :", query.data);
   }
-}, [query.data]); 
+}, [query.data]);
 ```
+
 `onError`도 아래와 같은 방식으로 `query.error`를 확인하면 됩니다.
 
 ```tsx
 // onError를 useEffect로 대체
 export function useTodos() {
   const query = useQuery({
-    queryKey: ['todos', 'list'],
+    queryKey: ["todos", "list"],
     queryFn: fetchTodos,
-  })
+  });
 
   React.useEffect(() => {
     if (query.error) {
       console.error("[onError] :", query.error);
     }
-  }, [query.error])
+  }, [query.error]);
 
-  return query
+  return query;
 }
 ```
 
@@ -81,8 +155,8 @@ export function useTodos() {
 아래는 `useQueryEffects` 훅의 구현입니다.
 
 ```tsx
-import { useEffect, useRef } from 'react';
-import type { UseQueryResult } from '@tanstack/react-query';
+import { useEffect, useRef } from "react";
+import type { UseQueryResult } from "@tanstack/react-query";
 
 type QueryEffectsOptions<TData, TError> = {
   onSuccess?: (data: TData) => void;
@@ -125,13 +199,25 @@ export function useQueryEffects<TData, TError>(
     }
 
     // 완료 상태(성공 또는 에러) 확인 및 콜백 실행 (새로운 완료 상태일 때만)
-    if ((isSuccess || isError) && onSettled && !(prevState.isSuccess || prevState.isError)) {
+    if (
+      (isSuccess || isError) &&
+      onSettled &&
+      !(prevState.isSuccess || prevState.isError)
+    ) {
       onSettled(data, error);
     }
 
     // 현재 상태 저장
     prevStateRef.current = { isSuccess, isError, data, error };
-  }, [query.isSuccess, query.isError, query.data, query.error, onSuccess, onError, onSettled]);
+  }, [
+    query.isSuccess,
+    query.isError,
+    query.data,
+    query.error,
+    onSuccess,
+    onError,
+    onSettled,
+  ]);
 
   return query;
 }
@@ -157,3 +243,74 @@ useQueryEffects(query, {
   },
 });
 ```
+
+---
+
+## 4. 다른 대안: Suspense와 useSuspenseQuery
+
+위와 같이 `useQueryEffects` 훅을 구현하여 `onSuccess`를 대체할 수 있습니다.
+
+하지만 개인적으로는 React Query가 **서버 상태를 보여주는 것**에 집중하고, 클라이언트 상태와 분리되는 게 맞다고 생각합니다.
+
+`useEffect`로 무언가 행동을 취하는 것보다, 가능하다면 **컴포넌트를 통해 선언적으로** 핸들링하는 방향이 더 React스럽습니다.
+
+```tsx
+// ❌ useEffect로 폼 초기값 동기화
+function EditProfile() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+  });
+
+  const { register, reset } = useForm();
+
+  useEffect(() => {
+    if (data) {
+      reset(data); // 데이터가 오면 폼 초기화
+    }
+  }, [data, reset]);
+
+  if (isLoading) return <Loading />;
+
+  return (
+    <form>
+      <input {...register("name")} />
+      <input {...register("email")} />
+    </form>
+  );
+}
+```
+
+```tsx
+// ✅ Suspense + useSuspenseQuery로 선언적 처리
+function EditProfilePage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <EditProfile />
+    </Suspense>
+  );
+}
+
+function EditProfile() {
+  const { data } = useSuspenseQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+  });
+
+  // data는 항상 존재함이 보장됨
+  const { register } = useForm({
+    defaultValues: data,
+  });
+
+  return (
+    <form>
+      <input {...register("name")} />
+      <input {...register("email")} />
+    </form>
+  );
+}
+```
+
+`useSuspenseQuery`를 사용하면 데이터가 준비된 상태에서 컴포넌트가 렌더링되므로, `useEffect` 없이 `defaultValues`에 바로 넣어줄 수 있습니다.
+
+서버 상태는 React Query가 관리하고, UI는 컴포넌트가 선언적으로 표현하는 방식이 더 깔끔하다고 생각합니다.
