@@ -1,12 +1,11 @@
 import { defineCollection, z } from 'astro:content';
 
-const work = defineCollection({
+const profile = defineCollection({
 	type: 'content',
 	schema: z.object({
-		company: z.string(),
-		role: z.string(),
-		dateStart: z.coerce.date(),
-		dateEnd: z.union([z.coerce.date(), z.string()]),
+		title: z.string(),
+		description: z.string().optional(),
+		order: z.number().optional(),
 	}),
 });
 
@@ -35,4 +34,4 @@ const store = defineCollection({
 	}),
 });
 
-export const collections = { work, blog, store };
+export const collections = { profile, blog, store };

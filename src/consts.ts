@@ -7,10 +7,10 @@ export const SITE: Site = {
 	AUTHOR: 'Dan',
 };
 
-// Work Page
-export const WORK: Page = {
-	TITLE: '프로필',
-	DESCRIPTION: '프로필 및 경력',
+// Profile Page
+export const PROFILE: Page = {
+	TITLE: '프로필 | 정건휘',
+	DESCRIPTION: '프론트엔드 개발자 Dan 입니다.'
 };
 
 // Blog Page
@@ -47,7 +47,7 @@ export const LINKS: Links = [
 	},
 	{
 		TEXT: '프로필',
-		HREF: '/work',
+		HREF: '/profile',
 	},
 ];
 

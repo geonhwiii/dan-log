@@ -16,4 +16,4 @@
 
 - [홈](https://danlog.vercel.app/)
 - [포스트](https://danlog.vercel.app/blog/)
-- [프로필](https://danlog.vercel.app/work/)
+- [프로필](https://danlog.vercel.app/profile/)
