@@ -9,6 +9,16 @@ const profile = defineCollection({
 	}),
 });
 
+const book = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		image: z.string().optional(),
+		order: z.number().optional(),
+	}),
+});
+
 const blog = defineCollection({
 	type: 'content',
 	schema: z.object({
@@ -34,4 +44,4 @@ const store = defineCollection({
 	}),
 });
 
-export const collections = { profile, blog, store };
+export const collections = { profile, blog, store, book };
