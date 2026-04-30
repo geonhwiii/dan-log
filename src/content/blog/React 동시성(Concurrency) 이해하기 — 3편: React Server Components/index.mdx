@@ -1,0 +1,458 @@
+---
+title: 'React 동시성(Concurrency) 이해하기 — 3편: React Server Components'
+summary: '2편에 이어 React Server Components가 어떻게 동작하는지, 그리고 우리는 언제 RSC를 도입해야 하는지 알아봅니다.'
+date: '04 30 2026'
+draft: false
+tags:
+  - React
+---
+
+2편에서 Streaming SSR과 Selective Hydration이 `<Suspense>`와 함께 어떻게 동작하는지 살펴봤습니다.
+
+이번 편에서는 [**React Server Components(RSC)**](https://ko.react.dev/reference/rsc/server-components)를 다룹니다.
+
+## 1. RSC란
+
+React 공식 문서는 RSC를 이렇게 정의합니다.
+
+> 서버 컴포넌트는 번들링 전에 클라이언트 앱이나 SSR(Server Side Rendering) 서버와는 분리된 환경에서 미리 렌더링되는 새로운 유형의 컴포넌트입니다.
+
+여기서 핵심은 두 가지입니다.
+
+1. **번들링 전에** 렌더링된다 — 즉, 클라이언트 JS 번들에 컴포넌트 코드 자체가 포함되지 않습니다.
+2. **분리된 환경**에서 실행된다 — SSR 서버와도 다른, RSC 전용 환경입니다.
+
+```
+[3가지 환경 구분]
+
+  빌드/요청 시점            SSR 시점              클라이언트
+┌─────────────┐      ┌─────────────┐      ┌────────────┐
+│     RSC     │  →   │     SSR     │  →   │  Hydration │
+│ Environment │      │ Environment │      │            │
+└─────────────┘      └─────────────┘      └────────────┘
+      ↓                    ↓                    ↓
+  DB/파일 직접           RSC Payload +      Client Component
+   접근 가능           Client Component       만 hydrate
+                        → HTML 생성
+```
+
+이 흐름은 [Next.js 공식 문서](https://nextjs.org/docs/app/getting-started/server-and-client-components#how-do-server-and-client-components-work-in-nextjs)에 명시되어 있습니다.
+
+> **On the server**
+>
+> - Server Components are rendered into a special data format called the React Server Component Payload (RSC Payload).
+> - Client Components and the RSC Payload are used to prerender HTML.
+>
+> **On the client (first load)**
+>
+> 1. HTML is used to immediately show a fast non-interactive preview of the route to the user.
+> 2. RSC Payload is used to reconcile the Client and Server Component trees.
+> 3. JavaScript is used to hydrate Client Components and make the application interactive.
+
+정리하면, SSR은 "JSX → HTML"을 만드는 과정이고, RSC는 그 이전 단계입니다.
+
+RSC는 자기만의 출력 포맷을 가지고 있는데, 이걸 **RSC Payload**라고 부릅니다.
+
+---
+
+## 2. RSC Payload
+
+RSC가 만들어내는 결과물은 HTML이 아닙니다. **RSC Payload**라는 직렬화된 표현입니다.
+
+```
+[RSC Payload의 구성]
+
+① Server Component 렌더 결과
+   └─ JSX가 평가된 결과 (텍스트, props, 자식 등)
+
+② Client Component placeholder
+   └─ "여기에 <Counter>가 들어가야 함, JS는 /chunks/counter.js"
+   └─ 컴포넌트 자체가 아니라 "참조"만 들어감
+
+③ Server → Client로 전달되는 props
+   └─ 직렬화 가능한 값만 (함수 ❌, Date ✅, Promise ✅)
+```
+
+브라우저는 이 Payload를 받아서 두 가지 일을 합니다.
+
+1. SSR이 만든 HTML을 그대로 보여주고 (2편에서 다룬 내용)
+2. Payload로 컴포넌트 트리를 **재구성**하여 hydration 시 일치 여부를 확인
+
+---
+
+## 3. Server Component와 Client Component
+
+### Server Component (기본값)
+
+Next.js의 App Router에서는 **모든 컴포넌트가 기본적으로 Server Component**입니다.
+
+```tsx
+// Server Component
+async function Note({ id }: { id: string }) {
+  const note = await db.notes.get(id); // DB 직접 접근
+  return (
+    <div>
+      <h2>{note.title}</h2>
+      <p>{note.body}</p>
+    </div>
+  );
+}
+```
+
+Server Component의 특징은 다음과 같습니다.
+
+- **JS 번들에 포함되지 않음** — 코드 자체가 클라이언트로 전송되지 않음
+- **`async`/`await` 사용 가능** — 컴포넌트 내부에서 직접 `await`
+- **DB·파일·환경변수 직접 접근** — API Route 없이도 데이터 레이어 접근 가능
+- **`useState`, `useEffect`, `onClick` 사용 불가** — 브라우저 환경이 아니므로
+
+### Client Component
+
+상호작용이 필요한 부분은 [`'use client'`](https://ko.react.dev/reference/rsc/use-client) 지시어로 명시합니다.
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+
+export default function LikeButton({ likes }: { likes: number }) {
+  const [count, setCount] = useState(likes);
+  return <button onClick={() => setCount(count + 1)}>{count} likes</button>;
+}
+```
+
+2편에서 다뤘듯이 `'use client'`는 CSR이 아닙니다. **번들러에게 "여기가 서버-클라이언트 경계"임을 알려주는 지시어**입니다. 이 컴포넌트도 SSR 단계에서 HTML로 렌더링됩니다.
+
+> ⚠️ **흔한 오해**: Server Component를 선언하는 지시어로 `'use server'`가 있다고 생각하기 쉽지만, **Server Component를 위한 지시어는 없습니다.** `'use server'`는 Server Function(Server Action)을 위한 지시어입니다.
+
+---
+
+## 4. RSC가 동작하는 전체 흐름
+
+App Router에서 페이지가 요청됐을 때 일어나는 일을 처음부터 따라가 보겠습니다.
+
+```tsx
+// app/post/[id]/page.tsx — Server Component
+import LikeButton from './LikeButton';
+import { getPost } from '@/lib/data';
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const post = await getPost(params.id);
+
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+      <LikeButton likes={post.likes} />
+    </article>
+  );
+}
+```
+
+```tsx
+// app/post/[id]/LikeButton.tsx — Client Component
+'use client';
+
+import { useState } from 'react';
+
+export default function LikeButton({ likes }: { likes: number }) {
+  const [count, setCount] = useState(likes);
+  return <button onClick={() => setCount(count + 1)}>{count} likes</button>;
+}
+```
+
+이 페이지가 요청됐을 때의 흐름은 이렇습니다.
+
+```
+[App Router + RSC 흐름]
+
+브라우저  GET /post/123
+    ↓
+서버  RSC 렌더링 시작
+      ├─ Page (Server Component)
+      │   └─ await getPost(123)  ← DB 직접 호출
+      │
+      ├─ <h1>, <p>는 그대로 평가
+      └─ <LikeButton>은 placeholder + likes prop으로 직렬화
+    ↓
+서버  RSC Payload 생성
+      └─ "Page 트리 = [h1, p, ClientRef('LikeButton', {likes: 42})]"
+    ↓
+서버  RSC Payload + Client Component를 SSR로 합쳐 HTML 생성
+      └─ Suspense boundary 단위로 chunk 스트리밍 (2편 내용)
+    ↓
+브라우저  HTML 즉시 표시 (non-interactive)
+    ↓
+브라우저  Client Component JS 번들 로드
+          └─ LikeButton.js만 로드 (Page.tsx, getPost는 안 옴)
+    ↓
+브라우저  RSC Payload로 트리 재구성 + hydration
+          └─ Server Component 부분: HTML 그대로 인정
+          └─ Client Component 부분: hydrate
+    ↓
+인터랙션 가능
+```
+
+여기서 주목할 점은, **`Page` 컴포넌트의 코드와 `getPost` 함수, DB 클라이언트는 클라이언트로 단 한 줄도 전송되지 않는다는 것**입니다.
+
+서버에서 평가된 결과(JSX 트리)만 RSC Payload 형태로 내려옵니다.
+
+---
+
+## 5. Server / Client / SSR의 관계 정리
+
+```
+[3가지 개념 비교]
+
+                  Server Component   Client Component        SSR
+                  ─────────────────  ─────────────────  ─────────────
+실행 시점              서버 (요청 시)       서버 + 브라우저      서버 (요청 시)
+JS 번들 포함              ❌                 ✅              (해당 없음)
+useState 사용            ❌                 ✅              (해당 없음)
+DB 직접 접근              ✅                 ❌              (해당 없음)
+출력                 RSC Payload           JSX                HTML
+```
+
+핵심 포인트:
+
+- **Client Component도 SSR 됩니다.** `'use client'`라고 해서 서버에서 안 그리는 게 아닙니다. 초기 HTML에 포함되고, 그 위에서 hydration 됩니다.
+- **Server Component는 SSR과 다릅니다.** SSR은 "JSX → HTML" 단계이고, RSC는 그 이전의 "JSX 트리 평가" 단계입니다. RSC의 출력(Payload) + Client Component를 합쳐서 SSR이 HTML을 만듭니다.
+- **Server Component에는 hydration이 없습니다.** HTML이 그대로 최종 결과이기 때문입니다.
+
+---
+
+## 6. 컴포넌트 합성 패턴
+
+RSC의 가장 큰 제약은 **Server Component가 Client Component를 import할 수는 있지만, 반대는 불가능하다**는 점입니다.
+
+```tsx
+// ✅ 가능: Server Component → Client Component
+// page.tsx (Server)
+import LikeButton from './LikeButton'; // Client
+
+// ❌ 불가능: Client Component → Server Component (직접 import)
+// LikeButton.tsx ('use client')
+import ServerOnlyThing from './ServerOnlyThing'; // 불가
+```
+
+이유는 단순합니다. Client Component는 클라이언트 번들에 포함되는데, Server Component를 import하면 서버 전용 코드(DB 클라이언트, API 키 등)까지 번들에 끌려 들어가기 때문입니다.
+
+대신, **`children` prop으로 넘기는 패턴**은 가능합니다.
+
+```tsx
+// Modal.tsx — Client Component
+'use client';
+
+export default function Modal({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return open ? <div className="modal">{children}</div> : null;
+}
+```
+
+```tsx
+// page.tsx — Server Component
+import Modal from './Modal';
+import Cart from './Cart'; // Server Component
+
+export default function Page() {
+  return (
+    <Modal>
+      <Cart />
+    </Modal>
+  );
+}
+```
+
+이 패턴이 동작하는 이유는, `<Cart />`가 **부모 Server Component(`Page`)에서 이미 렌더링되어 RSC Payload의 일부로 들어가기 때문**입니다. Client Component인 `Modal`은 그 결과를 prop으로 받을 뿐, `Cart`의 코드를 import하지 않습니다.
+
+```
+[children 패턴이 동작하는 이유]
+
+Page (Server)
+  ├─ <Cart /> 평가 → Server Component, RSC Payload에 포함
+  └─ <Modal>  → Client Component placeholder
+       └─ children prop = 위에서 평가된 <Cart /> 결과
+
+브라우저:
+  Modal JS만 다운로드
+  Cart 결과는 RSC Payload에서 꺼내서 children 자리에 삽입
+```
+
+---
+
+## 7. Context Provider는 어떻게?
+
+`React.createContext`는 Server Component에서 사용할 수 없습니다. 그렇다면 전역 테마 같은 건 어떻게 다룰까요?
+
+답은 **Provider를 Client Component로 만들고, Server Component인 layout이 그것을 children으로 감싸는 것**입니다.
+
+```tsx
+// theme-provider.tsx — Client Component
+'use client';
+
+import { createContext } from 'react';
+
+export const ThemeContext = createContext({});
+
+export default function ThemeProvider({ children }: { children: React.ReactNode }) {
+  return <ThemeContext.Provider value="dark">{children}</ThemeContext.Provider>;
+}
+```
+
+```tsx
+// app/layout.tsx — Server Component
+import ThemeProvider from './theme-provider';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+> Provider는 **트리에서 가능한 한 깊은 곳에 배치**하는 게 좋습니다. `<html>` 전체를 감쌀 필요는 없고, `{children}`만 감싸면 됩니다. 그래야 정적인 부분을 Next.js가 더 잘 최적화할 수 있습니다.
+
+---
+
+## 8. props는 직렬화 가능해야 한다
+
+Server Component에서 Client Component로 props를 넘길 때, 그 값은 **RSC Payload에 직렬화되어 들어갑니다**. 따라서 직렬화 불가능한 값은 넘길 수 없습니다.
+
+```tsx
+// ❌ 불가: 함수는 직렬화 불가
+<ClientCounter onIncrement={() => console.log('hi')} />
+
+// ✅ 가능: 원시값, 객체, 배열, Date, Promise 등
+<ClientCounter initialCount={42} createdAt={new Date()} />
+```
+
+함수를 넘기고 싶다면 **Server Function**(`'use server'`로 선언된 함수)을 사용해야 합니다. 이건 별도 주제라 여기서는 넘어가겠습니다.
+
+흥미로운 점은 **Promise도 넘길 수 있다는 것**입니다.
+
+```tsx
+// Server Component
+import { Suspense } from 'react';
+
+async function Page({ id }: { id: string }) {
+  const note = await db.notes.get(id); // 중요한 데이터는 await
+
+  // 덜 중요한 데이터는 await 없이 Promise만 생성
+  const commentsPromise = db.comments.get(note.id);
+
+  return (
+    <div>
+      {note.body}
+      <Suspense fallback={<p>Loading Comments...</p>}>
+        <Comments commentsPromise={commentsPromise} />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+```tsx
+// Client Component
+'use client';
+import { use } from 'react';
+
+function Comments({ commentsPromise }: { commentsPromise: Promise<Comment[]> }) {
+  const comments = use(commentsPromise); // 클라이언트에서 resolve
+  return comments.map((c) => <p key={c.id}>{c.text}</p>);
+}
+```
+
+서버에서 시작된 Promise를 클라이언트에서 [`use`](https://ko.react.dev/reference/react/use) API로 resolve합니다. 페이지 본문은 막지 않으면서 댓글은 준비되는 대로 표시되는 패턴입니다. 2편에서 다룬 Streaming SSR + Suspense의 자연스러운 확장이라고 보면 됩니다.
+
+---
+
+## 9. 그래서, RSC를 꼭 써야 할까?
+
+여기까지 RSC가 어떻게 동작하는지를 봤습니다. 이제 한 발짝 떨어져서 생각해 볼 차례입니다.
+
+최근 [TanStack Start](https://tanstack.com/start)도 RSC를 정식으로 지원하기 시작하면서, "우리도 RSC로 가야 하나?"라는 질문이 자주 들립니다. 결론부터 말하면 **모든 사이트에 RSC가 필요한 것은 아닙니다.**
+
+RSC는 다음과 같은 페인 포인트를 정조준하는 도구입니다.
+
+```
+[RSC가 잘 푸는 문제]
+
+① 무거운 라이브러리를 클라이언트로 보내고 싶지 않다
+   예: marked, sanitize-html, syntax highlighter
+   → Server Component에서 렌더링하면 번들에 포함 안 됨
+
+② API Route를 만들고 싶지 않다
+   예: 단순히 DB 조회 결과를 보여주는 페이지
+   → 컴포넌트 안에서 직접 await db.query()
+
+③ 클라이언트-서버 워터폴을 없애고 싶다
+   예: Note 데이터 fetch → render → Author fetch → render
+   → 서버에서 한 번에 처리, 클라이언트로는 결과만
+
+④ Granular Loading: 인터랙티브한 부분의 JS만 내려보내고 싶다
+   예: 100개 위젯 중 5개만 'use client'
+   → 나머지 95개의 코드는 클라이언트로 안 감
+```
+
+반대로, RSC가 큰 이득을 주지 못하는 경우도 분명합니다.
+
+```
+[RSC가 큰 이득이 없는 경우]
+
+· 정적 마케팅 페이지 (이미 SSG로 충분)
+· 인증 후 들어가는 대시보드 (어차피 거의 다 'use client')
+· 실시간 협업 앱 (서버 렌더링보다 WebSocket이 핵심)
+· 이미 가벼운 SPA (번들 크기가 문제가 아닌 경우)
+```
+
+기술 선택의 기준은 항상 같습니다. **"지금 우리가 풀어야 할 문제가, 이 도구가 잘 푸는 문제와 맞는가?"** 유행이 아니라 페인 포인트로 결정해야 합니다.
+
+> Next.js의 App Router 외에도 **TanStack Start**, **Waku**, **Redwood** 등이 RSC 지원을 본격화하고 있습니다. 생태계는 분명히 RSC 방향으로 움직이고 있지만, 그게 곧 "지금 당장 마이그레이션해야 한다"는 뜻은 아닙니다.
+
+---
+
+## 마치며
+
+```
+[3편 핵심 요약]
+
+RSC = 번들링 전, SSR과도 분리된 환경에서 미리 렌더링되는 컴포넌트
+       └─ 출력은 HTML이 아닌 RSC Payload (직렬화된 트리)
+
+Server Component  →  기본값, JS 번들 X, async/await 가능, useState 불가
+Client Component  →  'use client', JS 번들 O, SSR도 됨, hydration 됨
+SSR               →  RSC Payload + Client Component → HTML
+
+핵심 제약
+  · Client → Server import 불가 (children prop은 OK)
+  · Client에 넘기는 props는 직렬화 가능해야 함
+  · Context Provider는 Client Component로 만들어 layout에서 children으로 감싸기
+
+Server Component를 위한 지시어는 없다
+  · 'use client' = 클라이언트 경계
+  · 'use server' = Server Function (Server Component 아님)
+
+언제 RSC를 도입할까
+  · 무거운 라이브러리를 서버에 두고 싶을 때
+  · API Route 없이 데이터 레이어 접근하고 싶을 때
+  · 클라이언트-서버 워터폴을 없애고 싶을 때
+  · Granular Loading으로 번들을 더 잘게 쪼개고 싶을 때
+```
+
+1편의 동시성, 2편의 Streaming SSR과 Selective Hydration, 그리고 3편의 RSC까지 — 이 셋은 모두 [`<Suspense>`](https://ko.react.dev/reference/react/Suspense)와 Concurrent Mode 위에서 맞물려 돌아가는 하나의 그림입니다.
+
+RSC는 더 이상 실험적 기능이 아니지만, 그렇다고 모든 프로젝트의 정답도 아닙니다. **도구함에서 RSC를 꺼내야 할 순간이 왔는지**를 판단하는 게 우리가 할 일입니다.
+
+---
+
+## 참고
+
+- [Server Components — React 공식 문서](https://ko.react.dev/reference/rsc/server-components)
+- [Server and Client Components — Next.js 공식 문서](https://nextjs.org/docs/app/getting-started/server-and-client-components)
+- ['use client' — React 공식 문서](https://ko.react.dev/reference/rsc/use-client)
+- [Directives — React 공식 문서](https://ko.react.dev/reference/rsc/directives)
+- [TanStack Start](https://tanstack.com/start)
