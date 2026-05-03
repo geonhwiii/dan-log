@@ -10,7 +10,7 @@ export const SITE: Site = {
 // Profile Page
 export const PROFILE: Page = {
 	TITLE: '프로필 | 정건휘',
-	DESCRIPTION: '프론트엔드 개발자 Dan 입니다.'
+	DESCRIPTION: '프론트엔드 개발자 Dan 입니다.',
 };
 
 // Blog Page
