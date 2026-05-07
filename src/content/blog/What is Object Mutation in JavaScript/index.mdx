@@ -1,0 +1,417 @@
+---
+title: "[번역] What is Object Mutation in JavaScript?"
+summary: '객체를 다루다 보면 "mutation(변경)"이라는 용어를 듣게 됩니다. 그것은 무엇이고, 어떻게 동작할까요? let과 const는 실제로 어떻게 다를까요? 이 글에서 자세히 알아봅니다:'
+date: "05 07 2026"
+draft: false
+image: "https://fly.storage.tigris.dev/hoof-storage/post-images/object-mutation.link-preview.png"
+tags:
+  - 번역
+  - React
+---
+
+import { Video } from "@components/react/Video";
+
+![](https://fly.storage.tigris.dev/hoof-storage/post-images/object-mutation.link-preview.png)
+
+> 원문 : https://playfulprogramming.com/posts/object-mutation
+
+최근, 저희는 [Playful Programming의 커뮤니티 블로그](https://playfulprogramming.com/)를 [정적 사이트 생성기 프레임워크인 Astro](https://astro.build/)를 사용하도록 다시 작성했습니다. 이 사이트의 인기 기능 중 하나는 다크 모드 토글로, 다크 모드 순수주의자들이 (저 같은) 라이트 모드 일반인들을 비웃을 수 있게 해줍니다.
+
+<Video
+  src="https://playfulprogramming.com/content/crutchcorn/posts/object-mutation/theme_toggle.mp4"
+  client:visible
+/>
+
+> 농담은 그만두고, 사이트에 라이트 모드를 지원하고 그것을 기본 설정으로 만드세요 - [중요한 접근성 문제입니다](https://www.vice.com/en/article/ywyqxw/apple-dark-mode-eye-strain-battery-life).
+
+마이그레이션 과정에서, 다크 모드 토글을 트리거하는 코드를 작성했습니다:
+
+```ts
+// ...
+const initialTheme = document.documentElement.className;
+toggleButtonIcon(initialTheme);
+themeToggleBtn.addEventListener("click", () => {
+  const currentTheme = document.documentElement.className;
+  document.documentElement.className =
+    currentTheme === "light" ? "dark" : "light";
+  const newTheme = document.documentElement.className;
+  toggleButtonIcon(newTheme);
+});
+```
+
+이 코드를 작성하면서 이런 생각이 들었습니다:
+
+> `document.documentElement.className`이 너무 많이 반복되네. `className`을 단일 변수로 통합하면 어떨까?
+
+```ts
+// ...
+let theme = document.documentElement.className;
+toggleButtonIcon(theme);
+themeToggleBtn.addEventListener("click", () => {
+  theme = theme === "light" ? "dark" : "light";
+  toggleButtonIcon(theme);
+});
+```
+
+좋아요! 코드가 훨씬 깔끔해 보입니다. 이제 테스트를 해봅시다...
+
+<Video
+  src="https://playfulprogramming.com/content/crutchcorn/posts/object-mutation/no_theme_toggle.mp4"
+  client:visible
+/>
+
+어라? 이제 토글이 동작하지 않습니다! 😱
+
+> 왜 코드가 망가졌을까요? 이렇게 단순한 리팩토링을 했을 뿐인데?!
+
+이번 코드 마이그레이션은 "객체 변경(object mutation)"의 근본적인 특성 때문에 테마 전환 기능을 망가뜨렸습니다.
+
+> "객체 변경(object mutation)"이 뭔가요?
+
+그것에 대해 이야기해 봅시다. 그 과정에서 다음 내용들을 다룰 것입니다:
+
+- [메모리 주소가 메모리 상(in-memory)에 어떻게 저장되는지](#변수가-메모리-주소에-어떻게-할당되는가)
+- [`let`과 `const`의 차이점 - (예상하지 못한 차이를 포함하여)](#let-vs-const)
+- [메모리 변경(mutation)을 수행하는 방법](#변수-변경variable-mutation)
+- [우리 코드를 고치는 방법](#왜-이것이-우리-코드에-영향을-미쳤을까)
+
+### 변수가 메모리 주소에 어떻게 할당되는가
+
+객체 변경(object mutation)을 이해하려면, 먼저 JavaScript가 변수 생성을 어떻게 처리하는지 개념적으로 파악해야 합니다.
+
+제 블로그 글 중 하나인 ["Functions are values"에서 변수가 메모리에 어떻게 저장되는지 이야기합니다](https://playfulprogramming.com/posts/javascript-functions-are-values). 그 글에서, JavaScript 변수를 생성할 때 메모리에 어떻게 새로운 공간이 만들어지는지 구체적으로 설명합니다.
+
+두 개의 변수를 초기화하고 싶다고 가정해 봅시다:
+
+```ts
+var helloMessage = "HELLO";
+var byeMessage = "SEEYA";
+```
+
+이 코드를 실행하면, 이 값들을 저장하기 위해 두 개의 메모리 "블록"이 [컴퓨터의 단기 기억 장치인 RAM](https://playfulprogramming.com/posts/how-computers-speak#ram)에 생성됩니다. 이는 다음과 같이 시각화할 수 있습니다:
+
+![](https://res.cloudinary.com/dssjarn7f/image/fetch/w_896,f_avif,q_auto/https%3A%2F%2Fplayfulprogramming.com%2Fcontent%2Fcrutchcorn%2Fposts%2Fobject-mutation%2Fmemory_chart.png)
+
+이 메모리 블록들은 각 변수 이름(`helloMessage`와 `byeMessage`)을 사용하여 코드에서 참조될 수 있습니다. 다만, 이 메모리 블록에 대해 몇 가지 알아두어야 할 점이 있습니다:
+
+1. 크기를 가집니다.
+
+   각 메모리 블록은 일정량의 시스템 메모리를 소비합니다. 이는 매우 작은 양의 데이터(여기서처럼 짧은 문자열을 저장하는 경우)일 수도 있고, 매우 큰 양의 데이터(영화 비디오 파일을 메모리에 보관하는 경우 등)일 수도 있습니다.
+
+2. 조회 주소(lookup address)를 가집니다.
+
+   매우 일반적으로, 이 조회 주소는 단순히 변수가 시작되는 메모리 위치를 의미합니다. 이 조회 주소는 "메모리 주소(memory address)"라고 불리기도 하며, `0`부터 위로 올라가는 비트 수로 표현될 수 있습니다.
+
+3. 이 메모리 주소들은 재사용될 수 있습니다. 명시적으로 지시받으면, 컴퓨터는 기존 메모리 블록의 값을 변경할 수 있습니다.
+
+4. 이 메모리 주소/블록은 더 이상 필요하지 않을 때 해제될 수도 있습니다. 일부 언어에서는 이를 수동으로 처리하고, 다른 언어에서는 (대부분) 자동으로 처리합니다.
+
+5. 한 번 해제되면, 이 메모리 주소/블록은 재사용될 수 있습니다.
+
+#### 변수 재할당하기
+
+`helloMessage` 변수를 `'HEYYO'`로 재할당하고 싶다고 가정해 봅시다:
+
+```ts
+var helloMessage = "HELLO";
+var byeMessage = "SEEYA";
+helloMessage = "HEYYO";
+```
+
+이 코드 샘플의 처음 두 줄은 다음을 수행합니다:
+
+1. `helloMessage` 변수를 생성합니다.
+   - 이는 메모리 블록(예: `0x7de35306`)을 만듭니다.
+   - 문자열 `"HELLO"`를 구성하는 문자들이 이 메모리 블록에 배치됩니다.
+
+2. `byeMessage` 변수를 생성합니다.
+   - 이 또한 메모리 블록(`0x7de35307`)을 만듭니다.
+   - 그 블록에는 문자열 `"SEEYA"`가 들어 있습니다.
+
+이 두 명령어가 실행된 후, `helloMessage` 변수를 `HEYYO`로 재할당하는 부분이 나옵니다. 기존의 `helloMessage` 메모리 블록이 새 문자열을 반영하도록 변경된다고 추측하는 것이 합리적으로 보일 수 있지만, 실제로는 그렇지 않습니다.
+
+대신, `helloMessage`의 재할당은 새로운 메모리 블록을 만들고, 메모리 스택의 끝에 추가하며, 이전 메모리 블록을 제거합니다.
+
+<Video
+  src="https://playfulprogramming.com/content/crutchcorn/posts/object-mutation/let-reassign-variable.mp4"
+  client:visible
+/>
+
+이 작업이 끝나면, `helloMessage` 변수는 같은 변수 이름을 가졌음에도 불구하고 완전히 새로운 메모리 주소를 가리킵니다.
+
+이는 처음에는 직관에 어긋나 보일 수 있지만, 메모리 주소가 크기를 가진다는 사실을 기억하면 이해할 수 있습니다.
+
+> 이것이 우리에게 무엇을 의미할까요?
+
+위 차트에서 메모리가 어떻게 정렬되어 있는지 생각해 보세요. 머신의 메모리를 최대한 활용하려면, 데이터가 RAM 안에 나란히 위치해야 합니다. 즉, 메모리 주소 `10`에서 시작하여 `13` 바이트를 차지하는 메모리 주소가 있다면, 그다음 메모리 주소는 `23`에서 시작해야 합니다.
+
+한 메모리 블록의 길이를 변경하면, 다른 블록들을 이동시키거나 위치를 재배치해야 할 수 있습니다. 이는 컴퓨터에게 매우 비싼 연산이 될 수 있습니다.
+
+두 문자열의 길이가 같기 때문에, 이론적으로는 단순히 `HELLO` 메모리 블록을 `HEYYO`로 재할당할 수 있습니다. 하지만 문자열의 길이는 다양할 수 있기 때문에, 항상 그런 것은 아닙니다.
+
+`HELLO`와 `HEYYO`는 같은 길이이지만, 다음과 같이 시도하면 어떻게 될까요?
+
+```ts
+var helloMessage = "HELLO";
+helloMessage = "THIS IS A LONG HELLO";
+```
+
+이 예제에서는 이전과 같은 값 길이를 갖지 않기 때문에 어쨌든 새 메모리 블록을 생성해야 합니다.
+
+> 그런데 왜 컴퓨터는 이전 길이와 같은지 먼저 확인하고, 메모리 블록을 재사용할지 새로 만들지 결정하지 않을까요?
+
+음, 앞서 언급했듯이, 컴퓨터는 본질적으로 `helloMessage`의 크기가 무엇인지 알지 못합니다. 결국, 변수는 단순히 메모리 주소를 가리킬 뿐입니다. 메모리 블록의 길이를 얻으려면, 값을 읽고 그 길이를 컴퓨터의 나머지 부분에 반환해야 합니다.
+
+따라서, 기존 블록을 재사용하려면 다음을 수행해야 합니다:
+
+1. 기존 `helloMessage` 메모리 블록의 값을 읽는다.
+2. 해당 메모리 블록의 길이를 계산한다.
+3. 새 값의 길이와 비교한다.
+4. 길이가 같다면, 기존 블록을 재사용한다.
+5. 그렇지 않다면, 새 블록을 만들고 이전 것을 정리한다.
+
+각 실행에는 시간이 걸린다는 것을 기억하세요. 개별적으로는 비용이 적게 들지만, 매우 자주 실행되면 아주 작은 시간들도 누적될 수 있습니다.
+
+이 5개 항목 목록을 "매번 새 블록 생성" 구현과 비교해 봅시다:
+
+1. 새 메모리 블록을 만들고 이전 것을 정리한다.
+
+훨씬 짧은 목록이죠? 이는 컴퓨터가 다른 구현보다 이 방식을 더 빠르게 실행할 수 있다는 것을 의미합니다.
+
+### `let` vs `const`
+
+JavaScript 생태계에서 시간을 좀 보냈다면, 변수를 할당하는 몇 가지 다른 방법이 있다는 것을 알 것입니다. 그중에는 `let`과 `const` 키워드가 있습니다. 둘 다 완벽히 유효한 변수 선언입니다:
+
+```ts
+const number = 1;
+let otherNumber = 2;
+```
+
+그렇다면 이 두 변수 타입의 차이점은 무엇일까요?
+
+자, `const`가 `constant`(상수)를 의미한다고 추측할 수 있는데, 맞습니다! 다음을 실행하면 쉽게 확인할 수 있습니다:
+
+```ts
+const val = 1;
+val = 2;
+```
+
+다음과 같은 에러가 발생합니다:
+
+> Uncaught TypeError: invalid assignment to const 'val'
+
+이는 `let`의 동작 방식과 다릅니다. `let`은 변수의 값을 마음껏 재할당할 수 있게 해줍니다:
+
+```ts
+let val = 1;
+// 이것은 유효합니다.
+val = 2;
+val = 3;
+```
+
+`const`의 이러한 동작을 본 후, `const` 안의 데이터는 변경할 수 없다고 생각할 수 있지만, (놀랍게도) 그것은 틀렸습니다. 다음 코드는 객체를 생성한 다음, 변수가 `const`임에도 불구하고 속성 중 하나의 값을 재할당합니다:
+
+```ts
+const obj = { val: 1 };
+// 이게 유효한가요?! 😱
+obj.val = 2;
+```
+
+왜 그럴까요? `const`는 변수의 재할당을 막아야 하지 않나요?!
+
+`obj.val`의 값을 변경할 수 있는 이유는 `obj` 변수를 재할당하는 것이 아니라 변경(mutating)하고 있기 때문입니다.
+
+### 변수 변경(Variable Mutation)
+
+> 변경(mutation)이 무엇인가요?
+
+변경(mutation)은 메모리 참조를 바꾸는 대신, 변수의 값을 제자리에서 교체하는 행위입니다.
+
+> 네...? 😵‍💫
+
+자, 이렇게 상상해 보세요:
+
+메모리 주소가 `0x8f031e0a`인 "name"이라는 문자열 변수가 있습니다.
+
+```ts
+let name = "Corbin"; // 0x8f031e0a
+```
+
+이 변수를 "Crutchley"로 재할당하면, 앞서 설명한 것처럼 메모리 주소가 변경됩니다:
+
+```ts
+name = "Crutchley"; // 0x8f031e0b으로 변경됨
+```
+
+하지만 만약, 그 대신 JavaScript에게 기존 메모리 블록 안의 값을 바꾸도록 지시할 수 있다면 어떨까요?
+
+```ts
+// 이 코드는 동작하지 않습니다 - 가상의 JavaScript 문법이 어떻게 보일 수 있는지를 보여주기 위한 데모입니다
+const name = "Corbin"; // 0x8f031e0a
+*name = "Crutchley"; // 여전히 0x8f031e0a
+```
+
+JavaScript는 이론적으로 변수의 메모리 주소를 노출하기 위해 다음과 같은 문법을 사용할 수도 있습니다:
+
+```ts
+// 이 코드는 동작하지 않습니다 - 가상의 JavaScript 문법이 어떻게 보일 수 있는지를 보여주기 위한 데모입니다
+const name = "Corbin"; // const 문자열 변수, 새 메모리 블록을 생성하지만 어떤 주소에 생성될까요?
+// 출력: `0x8f031e0a`
+console.log(&name); // & 접두사로 `name`이 할당된 메모리 주소를 보여줄 수 있습니다!
+```
+
+> [Rust](https://doc.rust-lang.org/std/primitive.pointer.html)나 C++ 같은 일부 언어는 이 기능을 가지고 있으며, "포인터(pointer)"라고 불립니다. 새 값으로 새 메모리 블록을 만드는 대신 메모리 블록의 값 자체를 변경할 수 있게 해줍니다.
+
+이것이 본질적으로 이전 섹션의 `const obj` 변경에서 일어나는 일입니다. `obj`를 위해 새 메모리 공간을 만드는 대신, `obj`에 이미 할당된 기존 메모리 블록을 재사용하면서 그 안의 값들만 변경하는 것입니다.
+
+```ts
+// 이는 `obj`를 배치할 메모리 블록을 생성합니다
+const obj = { a: 123 };
+// 이는 "obj"의 동일한 메모리 블록을 유지하면서, "a"의 값을 제자리에서 변경합니다*
+obj.a = 345;
+```
+
+그런데 이 섹션에서 사용한 예제에는 한 가지 작은 문제가 있습니다. 문자열은 변경(mutate)할 수 없습니다.
+
+```ts
+const name = "Corbin";
+// 이는 동작하지 않으며, 에러를 발생시킵니다
+name = "Crutchley";
+```
+
+#### 왜 문자열은 변경(mutate)할 수 없을까?
+
+다음 코드를 실행할 때 JavaScript 엔진 내부에서 어떤 일이 일어나는지 생각해 보세요:
+
+```ts
+const name = "Corbin";
+```
+
+이 코드에서 우리는 6글자 길이의 변수를 생성합니다. 이 문자들은 메모리 주소(예: `0x8f031e0a`)에 할당됩니다. 컴퓨터는 가능한 한 많은 메모리를 보존하고 싶어하기 때문에, `name`의 메모리 블록 `0x8f031e0a`에 6글자만 저장할 수 있을 만큼만 메모리 주소를 만듭니다.
+
+> 기억하세요. JavaScript에서 문자열을 단일 값으로 생각하는 경향이 있지만, 저장될 때 모든 문자열이 같은 크기를 갖는 것은 아닙니다!
+
+> 6글자 길이의 문자열은 900,000글자 길이의 문자열보다 훨씬 적은 공간을 차지합니다.
+
+이제 9글자 길이의 문자열 "Crutchley"를 같은 메모리 블록에 할당해 봅시다:
+
+![](https://res.cloudinary.com/dssjarn7f/image/fetch/w_896,f_avif,q_auto/https%3A%2F%2Fplayfulprogramming.com%2Fcontent%2Fcrutchcorn%2Fposts%2Fobject-mutation%2Ftoo_large.png)
+
+이런! 여기서 우리가 저장하려는 새 값이 현재 메모리 공간에 들어가기에는 너무 크다는 것을 확인할 수 있습니다!
+
+이것이 객체처럼 문자열을 변경(mutate)할 수 없는 핵심 이유입니다. 기존 메모리 블록을 재사용하려면, 새 값이 기존 메모리 블록과 같은 크기인지 확인해야 하는데, 문자열은 객체처럼 이 사실을 보장할 수 없습니다.
+
+이 규칙은 모든 [JavaScript 원시 타입(primitive)](https://playfulprogramming.com/posts/object-mutation/#let-vs-const:~:text=Oh%20no!%20Here,primitives%20as%20well.)에도 동일하게 적용됩니다.
+
+#### 객체 변경(Object Mutation)
+
+> 잠깐, 메모리 블록의 크기를 빠르게 변경할 수 없다면, 어떻게 객체는 변경할 수 있나요?
+
+음, JavaScript의 객체는 일반적으로\* 속성 이름과 그에 연결된 변수의 메모리 주소의 매핑 형태로 저장됩니다.
+
+다음과 같은 `user` 객체가 있다고 상상해 봅시다:
+
+```ts
+{
+    firstName: "CORBIN",
+    lastName: "CRUTCHLEY"
+}
+```
+
+이 객체는 내부적으로 다음과 같은 모습일 수 있습니다:
+
+![](https://res.cloudinary.com/dssjarn7f/image/fetch/w_896,f_avif,q_auto/https%3A%2F%2Fplayfulprogramming.com%2Fcontent%2Fcrutchcorn%2Fposts%2Fobject-mutation%2Fobject_variable_mutation.png)
+
+이는 `user.firstName`을 변경할 때, 실제로는 새로운 "숨겨진" 변수를 생성한 다음, 그 새 변수의 메모리 주소를 객체의 `firstName` 속성에 할당하는 것을 의미합니다:
+
+```ts
+// 이는 내부적으로 새 변수를 생성합니다
+// 그런 다음 새 변수의 버전을 `user` 필드에 할당합니다
+user.firstName = "Cornbin";
+```
+
+이렇게 함으로써, 다른 메모리 크기를 가진 새 변수를 만들면서도 객체 멤버의 위치를 참조적으로 안정되게 유지할 수 있습니다.
+
+> 여기에는 많은 단순화가 포함되어 있으며, 속성을 동적으로 추가하거나 제거할 때는 이보다 더 복잡해집니다. 더 깊이 들어가는 것의 문제는 빠르게 복잡해진다는 점입니다.
+> 더 자세히 배우고 싶다면, V8(Chrome과 Node.js의 JS 엔진)의 내부에 대한 [이 심층 자료](<https://playfulprogramming.com/posts/object-mutation/#let-vs-const:~:text=this%20deep%20dive%20in%20V8%27s%20(Chrome%20and%20Node.js%27s%20JS%20engine)%20internals.>)를 확인해 보는 것을 추천합니다.
+
+#### 배열도 객체입니다!
+
+객체 변경의 동일한 규칙이 배열에도 적용된다는 점은 강조할 만합니다! 결국, [JavaScript에서 배열은 `Object` 타입을 감싸는 래퍼](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)입니다. 배열에 `typeof`를 실행하여 이를 확인할 수 있습니다:
+
+```ts
+typeof []; // "object"
+```
+
+이는 `const` 변수에서도 배열을 변경하는 `push` 같은 연산을 실행할 수 있다는 것을 의미합니다:
+
+```ts
+const arr = [];
+// 이는 유효합니다
+arr.push(1);
+arr.push(2);
+arr.push(3);
+// 그러나 이것은 유효하지 않습니다
+const otherArr = [];
+otherArr = [1, 2, 3];
+```
+
+### 왜 이것이 우리 코드에 영향을 미쳤을까?
+
+이 글에서 제기한 원래 문제로 돌아가 봅시다. 우리가 다음 코드에서:
+
+```ts
+// ...
+const initialTheme = document.documentElement.className;
+toggleButtonIcon(initialTheme);
+themeToggleBtn.addEventListener("click", () => {
+  const currentTheme = document.documentElement.className;
+  document.documentElement.className =
+    currentTheme === "light" ? "dark" : "light";
+  const newTheme = document.documentElement.className;
+  toggleButtonIcon(newTheme);
+});
+```
+
+다음과 같이 변경했을 때:
+
+```ts
+// ...
+let theme = document.documentElement.className;
+toggleButtonIcon(theme);
+themeToggleBtn.addEventListener("click", () => {
+  theme = theme === "light" ? "dark" : "light";
+  toggleButtonIcon(theme);
+});
+```
+
+테마 토글 선택자가 망가졌습니다. 왜일까요? 이는 객체 변경(object mutation)과 관련이 있습니다.
+
+원래 코드가 다음을 수행했을 때:
+
+```ts
+document.documentElement.className =
+  currentTheme === "light" ? "dark" : "light";
+```
+
+우리는 `document.documentElement` 객체 맵에 `className`의 변수 위치를 변경하라고 명시적으로 지시하고 있었습니다.
+
+그러나 이를 다음과 같이 변경했을 때:
+
+```ts
+let theme = document.documentElement.className;
+// ...
+theme = theme === "light" ? "dark" : "light";
+```
+
+우리는 `theme`이라는 새 변수를 만들고 새 값을 기반으로 `theme`의 위치를 변경하고 있습니다. `className`은 문자열이며, [JavaScript 원시 타입(primitive)이지 객체가 아니기 때문에](https://developer.mozilla.org/en-US/docs/Glossary/Primitive), `document.documentElement`을 변경(mutate)하지 않으며 따라서 `HTML` 태그의 클래스도 변경되지 않습니다.
+
+이를 해결하려면, `document.documentElement`을 다시 변경(mutate)하도록 코드를 되돌려야 합니다.
+
+### 결론
+
+JavaScript의 `let`, `const`, 그리고 객체 변경(object mutation)이 어떻게 동작하는지에 대한 통찰을 주는 글이었기를 바랍니다.
+
+이 글이 도움이 되었다면, [React, Angular, Vue를 한 번에 가르치는 (무료!) 곧 출간될 제 책 "The Framework Field Guide"](https://framework.guide/)에도 관심이 있으실지 모릅니다.
+
+어쨌든, 이 글이 즐거우셨기를 바라며 다음에 또 만나요!
