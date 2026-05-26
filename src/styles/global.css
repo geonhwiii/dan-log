@@ -5,6 +5,9 @@
 :root {
   --font-pretendard: "Pretendard", sans-serif;
   --font-departure: "DepartureMono-Regular";
+  --color-background-light: white;
+  --color-background: var(--color-background-light);
+  --color-header-background-scrolled: rgb(255 255 255 / 0.75);
 }
 
 @layer base {
@@ -62,20 +65,21 @@
 html {
   overflow-y: scroll;
   color-scheme: light;
-  background-color: white;
+  background-color: var(--color-background);
   font-family: "Pretendard", sans-serif;
 }
 
 html.dark {
   color-scheme: dark;
-  background-color: black;
+  --color-background: black;
+  --color-header-background-scrolled: rgb(0 0 0 / 0.5);
 }
 
 html,
 body {
   @apply h-full w-full antialiased;
-  @apply bg-white dark:bg-black;
   @apply text-black/75 dark:text-white/75;
+  background-color: var(--color-background);
 }
 
 body {
@@ -83,7 +87,8 @@ body {
 }
 
 main {
-  @apply flex flex-col flex-1 bg-white dark:bg-black;
+  @apply flex flex-col flex-1;
+  background-color: var(--color-background);
 }
 
 header {
@@ -96,9 +101,9 @@ header:not(.scrolled) {
 }
 
 header.scrolled {
-  @apply bg-white/75 dark:bg-black/50;
   @apply border-black/10 dark:border-white/25;
   @apply backdrop-blur-sm saturate-200;
+  background-color: var(--color-header-background-scrolled);
 }
 
 article {
@@ -178,13 +183,19 @@ html.dark .grid-background {
 }
 
 .bg-dots {
-  background: linear-gradient(90deg,#f9fafb 15px,transparent 1%) 50%,linear-gradient(#f9fafb 15px,transparent 1%) 50%,rgba(0,0,0,.24);
-  background-size: 16px 16px
+  background:
+    linear-gradient(90deg, var(--color-background) 15px, transparent 1%) 50%,
+    linear-gradient(var(--color-background) 15px, transparent 1%) 50%,
+    rgba(0, 0, 0, 0.24);
+  background-size: 16px 16px;
 }
 
 html.dark .bg-dots {
-  background:linear-gradient(90deg,#050505 15px,transparent 1%) 50%,linear-gradient(#050505 15px,transparent 1%) 50%,rgba(255,255,255,.16);
-  background-size: 16px 16px
+  background:
+    linear-gradient(90deg, var(--color-background) 15px, transparent 1%) 50%,
+    linear-gradient(var(--color-background) 15px, transparent 1%) 50%,
+    rgba(255, 255, 255, 0.16);
+  background-size: 16px 16px;
 }
 
 /** Light theme particles on home page */
