@@ -125,7 +125,7 @@ code {
   counter-increment: step 0;
 }
 
-code .line::before {
+code [data-line]::before {
   content: counter(step);
   counter-increment: step;
   width: 1rem;
@@ -135,30 +135,65 @@ code .line::before {
   color: hsla(0, 0%, 53%, 1);
 }
 
+/* code block title */
+figcaption[data-rehype-pretty-code-title] {
+  font-family: "JetBrainsMono-Regular";
+  font-size: 0.75rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgb(226, 232, 240);
+  border-bottom: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: rgb(246, 248, 250);
+  color: rgb(87, 96, 106);
+}
+
+html.dark figcaption[data-rehype-pretty-code-title] {
+  border-color: hsla(0, 0%, 18%, 1);
+  background-color: hsla(0, 0%, 10%, 1);
+  color: hsla(0, 0%, 65%, 1);
+}
+
+figure[data-rehype-pretty-code-figure]:has(figcaption) pre[data-theme] {
+  border-radius: 0 0 0.375rem 0.375rem;
+}
+
+span[data-highlighted-line] {
+  background-color: rgba(99, 102, 241, 0.08);
+  border-left: 2px solid rgb(99, 102, 241);
+  padding-left: calc(1rem - 2px);
+  margin-left: -1rem;
+  padding-right: 1rem;
+  margin-right: -1rem;
+  display: inline-block;
+  width: calc(100% + 2rem);
+}
+
+html.dark span[data-highlighted-line] {
+  background-color: rgba(99, 102, 241, 0.15);
+}
+
 /* light & dark code theme */
-.astro-code {
+pre[data-theme] {
   color: var(--shiki-light) !important;
   background-color: var(--shiki-light-bg) !important;
   border: 1px solid rgb(226, 232, 240) !important;
-  /* Optional, if you also want font styles */
   font-style: var(--shiki-light-font-style) !important;
   font-weight: var(--shiki-light-font-weight) !important;
   text-decoration: var(--shiki-light-text-decoration) !important;
-  /* grid background */
   background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
   background-repeat: repeat !important;
 }
 
-html.dark .astro-code {
+html.dark pre[data-theme] {
   border: 1px solid hsla(0, 0%, 18%, 1) !important;
+  background-color: var(--shiki-dark-bg) !important;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='8' height='8' fill='none' stroke='rgba(255,255,255,0.2)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e") !important;
   background-repeat: repeat !important;
 }
-html.dark .astro-code,
-html.dark .astro-code span {
+
+html.dark pre[data-theme],
+html.dark pre[data-theme] span {
   color: var(--shiki-dark) !important;
-  /* background-color: var(--shiki-dark-bg) !important; */
-  /* Optional, if you also want font styles */
   font-style: var(--shiki-dark-font-style) !important;
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;

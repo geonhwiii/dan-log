@@ -4,6 +4,14 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
+import rehypePrettyCode from 'rehype-pretty-code';
+
+const rehypePrettyCodeOptions = {
+	theme: {
+		light: 'github-light',
+		dark: 'aurora-x',
+	},
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,11 +29,7 @@ export default defineConfig({
 		tailwind({ applyBaseStyles: false }),
 	],
 	markdown: {
-		shikiConfig: {
-			themes: {
-				light: 'github-light',
-				dark: 'aurora-x',
-			},
-		},
+		syntaxHighlight: false,
+		rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
 	},
 });
