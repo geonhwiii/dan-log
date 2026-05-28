@@ -25,6 +25,12 @@ export const SEARCH: Page = {
 	DESCRIPTION: '단로그의 글 목록 검색',
 };
 
+// Career Page
+export const CAREER: Page = {
+	TITLE: '경력 | 정건휘',
+	DESCRIPTION: '프론트엔드 개발자 정건휘의 경력 소개입니다.',
+};
+
 // Store Page
 export const STORE: Page = {
 	TITLE: '스토어',

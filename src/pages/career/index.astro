@@ -1,0 +1,191 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import TopLayout from "@layouts/TopLayout.astro";
+import BottomLayout from "@layouts/BottomLayout.astro";
+import { CAREER } from "@consts";
+import { Rain } from "@components/react/Rain";
+import { BottomShadow } from "@components/react/BottomShadow";
+
+const experiences = [
+  {
+    company: "스펙터",
+    role: "프론트엔드 개발자",
+    period: "2023.03 — 재직중",
+    tech: ["Next.js", "Vite", "React Query", "Zustand", "Tailwind CSS", "react-hook-form", "zod"],
+    projects: [
+      {
+        name: "평판 조회 웹 서비스",
+        description: "공정한 채용시장을 만들기 위한 레퍼런스 체크 기반 평판 조회 플랫폼",
+        items: [
+          "Django 기반 웹 서비스를 Next.js로 리뉴얼 — 백엔드·프론트엔드 역할 분리로 개발 생산성 및 채용 용이성 향상",
+          "pnpm + Turborepo 기반 모노레포를 직접 제안·설계, 서비스 간 코드 중복 및 모듈 분리 문제 해결. 비슷한 UI의 신규 서비스를 패키지 재사용으로 2주 만에 개발 및 배포",
+          "next-i18next 도입으로 SSR 환경에서도 안정적으로 동작하는 국제화(i18n) 구현",
+          "Form Schema를 서버에서 관리하도록 설계, 배포 없이 질문 추가·수정 가능한 다단계 평판 Form 시스템 구현. 질문 수정 소요 시간 7일 → 1일로 단축",
+          "Multi-Zone 도입으로 기존 서비스 영향 없이 동일 도메인을 유지하며 신규 서비스 독립 개발",
+        ],
+      },
+      {
+        name: "지원자 통합 검증 서비스",
+        description: "이력서·JD·평판·면접 분석 결과를 통합해 지원자를 종합 분석하는 B2B 플랫폼",
+        items: [
+          "Web Worker로 타이머를 메인 스레드와 분리, 백그라운드 탭 전환 시 발생하던 면접 녹음 시간 부정확 문제 해결",
+          "Route URL, Search Params, 폼 입력 등 애플리케이션 전반의 사용자 입력을 zod 스키마로 통합 관리. 잘못된 dynamic URL 접근을 일관되게 차단",
+          "Base UI 기반 Headless 컴포넌트를 활용한 일관성 있고 확장 가능한 디자인 시스템 구현",
+        ],
+      },
+      {
+        name: "AI 음성 면접 서비스",
+        description: "STT 기반 답변을 바탕으로 꼬리질문을 생성하는 AI 음성 면접 서비스",
+        items: [
+          "1개월 내 AI 음성 면접 서비스 단독 설계·개발 및 출시. 모노레포 디자인 시스템 재사용으로 개발 리소스 최소화",
+          "Vercel AI의 Provider를 활용해 OpenAI, Gemini 등 모델을 유연하게 교체 가능한 구조 설계. Stream Output 스키마를 직접 설계해 AI 응답 안정적 파싱 및 다음 질문 전환 흐름 제어",
+          "STT·TTS를 별도 API 엔드포인트 없이 Server Action으로 직접 처리, 백엔드 리소스 절감",
+        ],
+      },
+      {
+        name: "React Native 개발 환경 0→1 구축",
+        description: "앱 개발 경험 없는 웹 개발자들이 React Native 개발을 맡게 된 상황",
+        items: [
+          "Expo Router 기반 File-based routing과 nativewind 도입, 웹 개발자의 RN 러닝커브를 줄이기 위해 웹과 동일한 개발 구조로 구현",
+          "Fastlane + Bitrise 기반 CI/CD 환경 초기부터 직접 구성, 빌드·배포 전 과정 자동화",
+          "Fastfile Syntax Highlighter 패키지를 직접 개발·배포하여 팀원들의 Fastfile 작성 가독성 개선",
+        ],
+      },
+      {
+        name: "레거시 백오피스 전체 마이그레이션",
+        description: "FE 1인 체제에서 유지보수 및 추가 개발이 어려운 상황",
+        items: [
+          "자발적으로 문제를 발견하고 AI 에이전트 기반 자동 변환 파이프라인을 구축, 마이그레이션 규칙을 정의하고 skills·subagent를 직접 설계하여 전체 작업 수행",
+          "dev 서버 시작 시간 80% 감소, 빌드 및 배포 시간 6분 → 2분으로 단축",
+          "API 및 디자인시스템 문서화로 백엔드 개발자도 프론트엔드 기능 추가가 가능한 구조 완성",
+        ],
+      },
+    ],
+  },
+  {
+    company: "아티스츠카드",
+    role: "프론트엔드 개발자",
+    period: "2019.11 — 2022.12",
+    tech: ["React", "TypeScript", "GraphQL", "Apollo", "styled-components", "Redux"],
+    projects: [
+      {
+        name: "K-POP 버티컬 커머스 서비스",
+        description: "아이돌 음반·굿즈·포토카드 판매 및 유저 간 직거래를 지원하는 커머스 플랫폼",
+        items: [
+          "React 초기 환경 구성 및 Apollo Client, GraphQL Generator 도입. 서버 상태 분리 및 클라이언트 타입 자동 생성으로 타입 안전성 확보",
+          "재고 소진 문제 해결을 위한 럭키드로우·랜덤팩 이벤트와 Seller 서비스를 직접 기획·개발, 특정 시간대 한정 판매 전략으로 판매율 90% 달성",
+        ],
+      },
+      {
+        name: "온라인 콘서트 스트리밍 서비스",
+        description: "코로나로 위축된 공연 시장을 온라인으로 전환하기 위한 콘서트 스트리밍 플랫폼",
+        items: [
+          "Mux + hls.js 기반으로 세 개의 카메라를 동시 송출, 시청자가 다각도 시점을 직접 선택 가능한 멀티캠 스트리밍 구현",
+          "OBS 키 연동 및 스트림 상태 제어 기능을 포함한 스트리밍 어드민 개발, 외부 담당자가 독립적으로 운영 가능한 구조로 운영 효율화",
+          "채팅·좋아요·유저 밴 기능을 포함한 실시간 채팅 서비스 개발",
+        ],
+      },
+    ],
+  },
+];
+
+const education = [
+  {
+    name: "Toss Frontend Accelerator 5기",
+    period: "2026.01 — 2026.02",
+    description: "프론트엔드 전문가 코칭을 통한 설계 사고 및 모듈화에 대한 교육. 모듈화 원칙, 리팩토링과 전문가 패턴 학습을 반복하며 페어코딩 및 녹화 복기로 코딩 패턴 개선.",
+  },
+];
+
+const certificates = [
+  {
+    name: "정보처리기사",
+    date: "2018.11.16",
+    issuer: "한국산업인력공단",
+  },
+];
+---
+
+<PageLayout title={CAREER.TITLE} description={CAREER.DESCRIPTION}>
+  <Rain />
+  <TopLayout>
+    <div class="animate page-heading text-2xl font-bold">{"경력"}</div>
+  </TopLayout>
+  <BottomLayout>
+
+    <!-- 경력 -->
+    {experiences.map((exp) => (
+      <div class="animate mb-14">
+        <div class="flex flex-col gap-1 mb-5">
+          <div class="flex items-baseline justify-between gap-4">
+            <span class="text-base font-semibold text-black dark:text-white">{exp.company}</span>
+            <span class="text-xs text-black/40 dark:text-white/40 shrink-0">{exp.period}</span>
+          </div>
+          <span class="text-sm text-black/60 dark:text-white/60">{exp.role}</span>
+          <div class="flex flex-wrap gap-1.5 mt-2">
+            {exp.tech.map((t) => (
+              <span class="text-xs px-2 py-0.5 rounded-full border border-black/10 dark:border-white/10 text-black/50 dark:text-white/50">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div class="space-y-8 pl-3 border-l border-black/10 dark:border-white/10">
+          {exp.projects.map((project) => (
+            <div>
+              <p class="text-sm font-medium text-black/80 dark:text-white/80 mb-1">{project.name}</p>
+              <p class="text-xs text-black/40 dark:text-white/40 mb-3">{project.description}</p>
+              <ul class="space-y-2">
+                {project.items.map((item) => (
+                  <li class="flex items-start gap-2 text-xs text-black/60 dark:text-white/60 leading-relaxed">
+                    <span class="mt-1.5 w-1 h-1 rounded-full bg-black/20 dark:bg-white/20 shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <!-- 교육 -->
+    <div class="animate mb-10">
+      <p class="text-xs uppercase tracking-widest text-black/40 dark:text-white/40 mb-4">
+        교육
+      </p>
+      <div class="space-y-4">
+        {education.map((edu) => (
+          <div class="pl-3 border-l border-black/10 dark:border-white/10">
+            <div class="flex items-baseline justify-between gap-4 mb-1">
+              <span class="text-sm font-medium text-black/80 dark:text-white/80">{edu.name}</span>
+              <span class="text-xs text-black/40 dark:text-white/40 shrink-0">{edu.period}</span>
+            </div>
+            <p class="text-xs text-black/50 dark:text-white/50 leading-relaxed">{edu.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 자격증 -->
+    <div class="animate mb-10">
+      <p class="text-xs uppercase tracking-widest text-black/40 dark:text-white/40 mb-4">
+        자격증
+      </p>
+      <div class="space-y-2 pl-3 border-l border-black/10 dark:border-white/10">
+        {certificates.map((cert) => (
+          <div class="flex items-baseline justify-between gap-4">
+            <div>
+              <span class="text-sm text-black/80 dark:text-white/80">{cert.name}</span>
+              <span class="text-xs text-black/40 dark:text-white/40 ml-2">{cert.issuer}</span>
+            </div>
+            <span class="text-xs text-black/40 dark:text-white/40 shrink-0">{cert.date}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </BottomLayout>
+  <BottomShadow />
+</PageLayout>
