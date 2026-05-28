@@ -9,7 +9,7 @@ tags:
 ---
 
 > 이 글은 동일한 코드를 7개 번들러/빌드 도구로 각각 빌드해보는 실습 프로젝트를 바탕으로 작성했습니다.  
-> Github Project 참고: [bundler-example](https://github.com/geonhwiii/bundler-example)
+> Github Project 참고: [bundler-example](https://github.com/geonhwiii/2026-bundler-example.git)
 
 ---
 
