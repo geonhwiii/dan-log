@@ -173,13 +173,17 @@ html.dark span[data-highlighted-line] {
 }
 
 /* light & dark code theme */
-pre[data-theme] {
+pre[data-theme],
+pre[data-theme] span {
   color: var(--shiki-light) !important;
-  background-color: var(--shiki-light-bg) !important;
-  border: 1px solid rgb(226, 232, 240) !important;
   font-style: var(--shiki-light-font-style) !important;
   font-weight: var(--shiki-light-font-weight) !important;
   text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+pre[data-theme] {
+  background-color: var(--shiki-light-bg) !important;
+  border: 1px solid rgb(226, 232, 240) !important;
   background-image: url("data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%20width='8'%20height='8'%20fill='none'%20stroke='rgb(0%200%200%20/%200.1)'%3e%3cpath%20d='M0%20.5H31.5V32'/%3e%3c/svg%3e");
   background-repeat: repeat !important;
 }
